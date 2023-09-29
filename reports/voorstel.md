@@ -12,4 +12,7 @@ Hier kan je voor een game een review na laten. De score ingeven is verplicht maa
 
 ## Games
 Bij het laden zal de volledige lijst met games getoond worden. Er zal de optie zijn om de reviews die gemaakt zijn te bekijken en lezen. De optie om de game aan je library toe te voegen zal ook beschikbaar zijn waar dan de console zal gevraagd worden voor het effectief toevoegen.
-De average review score van de game zal ook zichtbaar zijn. Waardoor het ook kan dienen als een scouting voor het aankopen van een nieuwe game.
+De average review score van de game zal zichtbaar zijn alsook de lijst van consoles waar de game beschikbaar op is. Waardoor het ook kan dienen als een scouting voor het aankopen van een nieuwe game.
+
+## Admin
+De admin zal als hoogste account dienen die tenslote de optie heeft om nieuwe games toe te voegen of games te updaten bv. als deze vrij komt op een nieuwe console.
