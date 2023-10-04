@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Pri.GameLibrary.Infrastructure.Data;
+
 namespace Pri.GameLibrary.Api
 {
     public class Program
@@ -7,6 +10,10 @@ namespace Pri.GameLibrary.Api
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddDbContext<ApplicationDbContext>(
+               options => options
+               .UseSqlServer(builder.Configuration
+               .GetConnectionString("ApplicationDb")));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
