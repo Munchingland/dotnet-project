@@ -16,3 +16,7 @@ De average review score van de game zal zichtbaar zijn alsook de lijst van conso
 
 ## Admin
 De admin zal als hoogste account dienen die tenslote de optie heeft om nieuwe games toe te voegen of games te updaten bv. als deze vrij komt op een nieuwe console.
+
+## ERD
+![image](https://github.com/howest-gp-pri/st-2324-1-d-ee-JarnoHowest/assets/113974132/acfb3dc1-1027-4987-b4d1-f88d4cbf706b)
+
