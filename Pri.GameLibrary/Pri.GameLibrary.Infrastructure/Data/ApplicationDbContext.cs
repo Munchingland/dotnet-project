@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Pri.GameLibrary.Core.Entities;
+using Pri.GameLibrary.Infrastructure.Data.Seeding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,7 @@ namespace Pri.GameLibrary.Infrastructure.Data
         {
             builder.Entity<GameUser>().HasKey(t => new { t.UserId, t.GameId });
 
+            Seeder.Seed(builder);
             base.OnModelCreating(builder);
         }
     }
