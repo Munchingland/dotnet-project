@@ -1,6 +1,6 @@
 ﻿namespace Pri.GameLibrary.Core.Entities
 {
-    public class Console : BaseEntity
+    public class Platform : BaseEntity
     {
         public string Name { get; set; }
         public IEnumerable<Game> Games { get; set; }
