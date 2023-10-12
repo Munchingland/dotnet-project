@@ -8,6 +8,6 @@ namespace Pri.GameLibrary.Core.Interfaces.Services
 {
     public interface IReviewService
     {
-        public double GetAverageScore(int id);
+        public Task<double> GetAverageScoreAsync(int id);
     }
 }
