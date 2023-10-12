@@ -106,9 +106,22 @@ namespace Pri.GameLibrary.Core.Services
             };
         }
 
-        public Task<ResultModel<Game>> GetByIdAsync(int id)
+        public async Task<ResultModel<Game>> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var game = await _gameRepository.GetByIdAsync(id);
+            if(game == null)
+            {
+                return new ResultModel<Game>
+                {
+                    IsSuccess = false,
+                    Errors = new List<string> { "Game not found" }
+                };
+            }
+            return new ResultModel<Game>
+            {
+                IsSuccess = true,
+                Items = new List<Game> { game }
+            };
         }
 
         public Task<ResultModel<Game>> SearchByNameAsync(string search)
