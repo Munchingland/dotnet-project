@@ -219,13 +219,13 @@ namespace Pri.GameLibrary.Infrastructure.Data.Seeding
                 new GameUser
                 {
                     GameId = 7,
-                    ReviewId = 4,
+                    ReviewId = 2,
                     UserId = 1
                 },
                 new GameUser
                 {
                     GameId = 10,
-                    ReviewId = 4,
+                    ReviewId = 3,
                     UserId = 2
                 },
                 new GameUser
