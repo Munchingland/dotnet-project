@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Pri.GameLibrary.Core.Entities;
 using Pri.GameLibrary.Core.Interfaces.Repositories;
 using Pri.GameLibrary.Infrastructure.Data;
@@ -12,13 +13,15 @@ namespace Pri.GameLibrary.Infrastructure.Repositories
 {
     public class ReviewRepository : BaseRepository<Review>, IReviewRepository
     {
+        private readonly ApplicationDbContext _context;
         public ReviewRepository(ApplicationDbContext applicationDbContext, ILogger<BaseRepository<Review>> logger) : base(applicationDbContext, logger)
         {
+            _context = applicationDbContext;
         }
 
-        public Task<IEnumerable<Review>> GetByGame(int id)
+        public async Task<IEnumerable<Review>> GetByGame(int id)
         {
-            throw new NotImplementedException();
+            return await _context.GamesUsers.Include(r=>r.Review).Where(r=>r.GameId == id).Select(r=>r.Review).ToListAsync();
         }
     }
 }
