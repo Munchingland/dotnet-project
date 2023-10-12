@@ -9,7 +9,6 @@ namespace Pri.GameLibrary.Core.Interfaces.Repositories
 {
     public interface IBaseRepository<T> where T: BaseEntity
     {
-        //CRUD
         Task<T> GetByIdAsync(int id);
         Task<IEnumerable<T>> GetAllAsync();
         Task<bool> CreateAsync(T toCreate);

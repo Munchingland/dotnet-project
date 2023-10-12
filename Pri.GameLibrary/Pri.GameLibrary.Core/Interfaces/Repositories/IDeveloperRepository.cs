@@ -9,5 +9,6 @@ namespace Pri.GameLibrary.Core.Interfaces.Repositories
 {
     public interface IDeveloperRepository : IBaseRepository<Developer>
     {
+
     }
 }
