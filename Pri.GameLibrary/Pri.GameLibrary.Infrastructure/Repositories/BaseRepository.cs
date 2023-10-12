@@ -39,17 +39,17 @@ namespace Pri.GameLibrary.Infrastructure.Repositories
             return await SaveChangesAsync();
         }
 
-        public IQueryable<T> GetAll()
+        public virtual IQueryable<T> GetAll()
         {
             return _table.AsQueryable();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _table.ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public virtual async Task<T> GetByIdAsync(int id)
         {
             return await _table.FirstOrDefaultAsync
                (d => d.Id == id);

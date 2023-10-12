@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Pri.GameLibrary.Core.Entities;
 using Pri.GameLibrary.Core.Interfaces.Repositories;
 using Pri.GameLibrary.Infrastructure.Data;
@@ -24,6 +25,18 @@ namespace Pri.GameLibrary.Infrastructure.Repositories
         public Task<IEnumerable<Game>> GetByDeveloper(int id)
         {
             throw new NotImplementedException();
+        }
+        public override IQueryable<Game> GetAll()
+        {
+            return _table.Include(g => g.Developer).Include(g => g.Platforms).AsQueryable();
+        }
+        public override async Task<IEnumerable<Game>> GetAllAsync()
+        {
+            return await _table.Include(g => g.Developer).Include(g => g.Platforms).ToListAsync();
+        }
+        public override async Task<Game> GetByIdAsync(int id)
+        {
+            return await _table.Include(g=>g.Platforms).Include(g=>g.Developer).FirstOrDefaultAsync(g=>g.Id == id);
         }
     }
 }
