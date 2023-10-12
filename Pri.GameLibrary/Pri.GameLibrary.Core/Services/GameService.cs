@@ -135,9 +135,54 @@ namespace Pri.GameLibrary.Core.Services
             };
         }
 
-        public Task<ResultModel<Game>> UpdateAsync(int id, string name, int developerId, IEnumerable<int> platformIds)
+        public async Task<ResultModel<Game>> UpdateAsync(GameUpdateModel gameUpdateModel)
         {
-            throw new NotImplementedException();
+            if(!await _developerRepository.GetAll().AnyAsync(d=>d.Id == gameUpdateModel.Id))
+            {
+
+                return new ResultModel<Game>
+                {
+                    IsSuccess = false,
+                    Errors = new List<string>() { "Unkown Developer" }
+                };
+            }
+            var platforms = _platformRepository.GetAll().Count(p=> gameUpdateModel.PlatformIds.Contains(p.Id));
+            if(platforms != gameUpdateModel.PlatformIds.Count())
+            {
+                return new ResultModel<Game>
+                {
+                    IsSuccess = false,
+                    Errors = new List<string> { "Unknown platform" }
+                };
+            }
+            var toUpdate = await _gameRepository.GetByIdAsync(gameUpdateModel.Id);
+            if (!toUpdate.Name.ToUpper().Equals(gameUpdateModel.Name.ToUpper())
+                &&
+                await _gameRepository.GetAll().AnyAsync(g=> g.Name.ToUpper().Equals(gameUpdateModel.Name.ToUpper())))
+            {
+                return new ResultModel<Game>
+                {
+                    IsSuccess = false,
+                    Errors = new List<string> { "Name exists!" }
+                };
+            }
+            toUpdate.Name = gameUpdateModel.Name;
+            toUpdate.Created = gameUpdateModel.ReleaseDate;
+            toUpdate.Updated = gameUpdateModel.LastUpdate;
+            toUpdate.DeveloperId = gameUpdateModel.DeveloperId;
+            toUpdate.Platforms = await _platformRepository.GetAll().Where(p => gameUpdateModel.PlatformIds.Contains(p.Id)).ToListAsync();
+            if(await _gameRepository.UpdateAsync(toUpdate))
+            {
+                return new ResultModel<Game>
+                {
+                    IsSuccess = true,
+                };
+            }
+            return new ResultModel<Game>
+            {
+                IsSuccess = false,
+                Errors = new List<string> { "Something went wrong, please try again later..." }
+            };
         }
     }
 }
