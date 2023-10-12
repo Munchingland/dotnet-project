@@ -124,9 +124,15 @@ namespace Pri.GameLibrary.Core.Services
             };
         }
 
-        public Task<ResultModel<Game>> SearchByNameAsync(string search)
+        public async Task<ResultModel<Game>> SearchByNameAsync(string search)
         {
-            throw new NotImplementedException();
+            var games = _gameRepository.GetAll();
+            var searchResult = await games.Where(g=>g.Name.ToUpper().Contains(search.ToUpper())).ToListAsync();
+            return new ResultModel<Game>
+            {
+                IsSuccess = true,
+                Items = searchResult
+            };
         }
 
         public Task<ResultModel<Game>> UpdateAsync(int id, string name, int developerId, IEnumerable<int> platformIds)
