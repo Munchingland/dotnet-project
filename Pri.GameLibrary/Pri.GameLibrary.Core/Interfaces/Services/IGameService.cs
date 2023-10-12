@@ -13,8 +13,8 @@ namespace Pri.GameLibrary.Core.Interfaces.Services
     {
         Task<ResultModel<Game>> GetAllAsync();
         Task<ResultModel<Game>> GetByIdAsync(int id);
-        Task<ResultModel<Game>> CreateAsync();
-        Task<ResultModel<Game>> UpdateAsync(int id);
+        Task<ResultModel<Game>> CreateAsync(string name, int developerId,IEnumerable<int> platformIds);
+        Task<ResultModel<Game>> UpdateAsync(int id, string name, int developerId, IEnumerable<int> platformIds);
         Task<ResultModel<Game>> SearchByNameAsync(string search);
         Task<bool> ExistsAsync(int id);
         Task<ResultModel<Game>> DeleteAsync(int id);
