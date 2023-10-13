@@ -11,13 +11,12 @@ using System.Threading.Tasks;
 
 namespace Pri.GameLibrary.Core.Services
 {
-    public class DeveloperService : IDeveloperService
+    public class DeveloperService : BaseService<IDeveloperRepository, Developer>, IDeveloperService 
     {
         private readonly IDeveloperRepository _developerRepository;
 
-        public DeveloperService( IDeveloperRepository developerRepository)
+        public DeveloperService(IDeveloperRepository repo) : base(repo)
         {
-            _developerRepository = developerRepository;
         }
 
         public async Task<ResultModel<Developer>> CreateAsync(string name, DateTime creationDate)
@@ -46,56 +45,6 @@ namespace Pri.GameLibrary.Core.Services
             return new ResultModel<Developer>
             {
                 IsSuccess = true
-            };
-        }
-
-        public async Task<ResultModel<Developer>> DeleteAsync(int id)
-        {
-            var toDelete = await _developerRepository.GetByIdAsync(id);
-            if(! await _developerRepository.DeleteAsync(toDelete))
-            {
-                return new ResultModel<Developer>
-                {
-                    IsSuccess = false,
-                    Errors = new List<string>() { "Unknown error, please try again later..." }
-                };
-            }
-            return new ResultModel<Developer>
-            { 
-                IsSuccess = false 
-            };
-        }
-
-        public async Task<bool> ExistsAsync(int id)
-        {
-            return await _developerRepository.GetAll().AnyAsync(d=>d.Id == id);
-        }
-
-        public async Task<ResultModel<Developer>> GetAllAsync()
-        {
-            var developers = await _developerRepository.GetAllAsync();
-            return new ResultModel<Developer>
-            {
-                IsSuccess = true,
-                Items = developers
-            };
-        }
-
-        public async Task<ResultModel<Developer>> GetByIdAsync(int id)
-        {
-            var developer = await _developerRepository.GetByIdAsync(id);
-            if(developer == null) 
-            {
-                return new ResultModel<Developer>
-                {
-                    IsSuccess = false,
-                    Errors = new List<string> { "Developer not found" }
-                };
-            }
-            return new ResultModel<Developer>
-            {
-                IsSuccess = true,
-                Items = new List<Developer> { developer }
             };
         }
 

@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace Pri.GameLibrary.Core.Services
 {
-    public class PlatformService : IPlatformService
+    public class PlatformService : BaseService<IPlatformRepository, Platform>, IPlatformService
     {
         private readonly IPlatformRepository _platformRepository;
 
-        public PlatformService(IPlatformRepository platformRepository)
+        public PlatformService(IPlatformRepository repo): base(repo)
         {
-            _platformRepository = platformRepository;
+            _platformRepository = repo;
         }
 
         public async Task<ResultModel<Platform>> CreateAsync(string name, DateTime creationDate)
@@ -46,56 +46,6 @@ namespace Pri.GameLibrary.Core.Services
             return new ResultModel<Platform>
             {
                 IsSuccess = true
-            };
-        }
-
-        public async Task<ResultModel<Platform>> DeleteAsync(int id)
-        {
-            var toDelete = await _platformRepository.GetByIdAsync(id);
-            if (!await _platformRepository.DeleteAsync(toDelete))
-            {
-                return new ResultModel<Platform> 
-                { 
-                    IsSuccess = false,
-                    Errors = new List<string>() { "Unknown error, please try again later..." }
-                };
-            }
-            return new ResultModel<Platform>
-            {
-                IsSuccess = false
-            };
-        }
-
-        public async Task<bool> ExistsAsync(int id)
-        {
-            return await _platformRepository.GetAll().AnyAsync(d => d.Id == id);
-        }
-
-        public async Task<ResultModel<Platform>> GetAllAsync()
-        {
-            var platforms = await _platformRepository.GetAllAsync();
-            return new ResultModel<Platform>
-            {
-                IsSuccess = true,
-                Items = platforms
-            };
-        }
-
-        public async Task<ResultModel<Platform>> GetByIdAsync(int id)
-        {
-            var platform = await _platformRepository.GetByIdAsync(id);
-            if (platform == null)
-            {
-                return new ResultModel<Platform>
-                {
-                    IsSuccess = false,
-                    Errors = new List<string> { "Platform not found" }
-                };
-            }
-            return new ResultModel<Platform>
-            {
-                IsSuccess = true,
-                Items = new List<Platform> { platform }
             };
         }
 
