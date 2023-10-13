@@ -18,6 +18,7 @@ namespace Pri.GameLibrary.Core.Interfaces.Services
         Task<ResultModel<Game>> SearchByNameAsync(string search);
         Task<bool> ExistsAsync(int id);
         Task<ResultModel<Game>> DeleteAsync(int id);
+        Task<ResultModel<Game>> GetByUserAsync(int id);
 
     }
 }

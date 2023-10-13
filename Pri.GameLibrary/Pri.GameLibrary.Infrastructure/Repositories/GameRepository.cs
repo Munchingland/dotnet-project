@@ -13,16 +13,17 @@ namespace Pri.GameLibrary.Infrastructure.Repositories
 {
     public class GameRepository : BaseRepository<Game>, IGameRepository
     {
+        private readonly ApplicationDbContext _applicationDbContext;
         public GameRepository(ApplicationDbContext applicationDbContext, ILogger<BaseRepository<Game>> logger) : base(applicationDbContext, logger)
         {
         }
 
-        public Task<IEnumerable<Game>> GetByConsole(int id)
+        public Task<IEnumerable<Game>> GetByConsoleAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Game>> GetByDeveloper(int id)
+        public Task<IEnumerable<Game>> GetByDeveloperAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -37,6 +38,11 @@ namespace Pri.GameLibrary.Infrastructure.Repositories
         public override async Task<Game> GetByIdAsync(int id)
         {
             return await _table.Include(g=>g.Platforms).Include(g=>g.Developer).FirstOrDefaultAsync(g=>g.Id == id);
+        }
+        //Maybe be better in a user Repo but waiting on identity for this
+        public async Task<IEnumerable<Game>> GetByUserAsync(int id)
+        {
+            return await _applicationDbContext.GamesUsers.Include(gu=>gu.Game).Where(gu=>gu.UserId == id).Select(g=>g.Game).ToListAsync();
         }
     }
 }
