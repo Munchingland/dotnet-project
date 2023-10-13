@@ -7,6 +7,7 @@ using Pri.GameLibrary.Core.Entities;
 using Pri.GameLibrary.Core.Interfaces.Services;
 using System.Xml.Linq;
 using System;
+using Pri.GameLibrary.Api.DTOs.Request;
 
 namespace Pri.GameLibrary.Api.Controllers
 {
@@ -88,6 +89,20 @@ namespace Pri.GameLibrary.Api.Controllers
                 })
             };
             return Ok(searchByNameDto);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create(GamesCreateDto gamesCreateDto)
+        {
+            var result = await _gameService.CreateAsync(gamesCreateDto.Name, gamesCreateDto.DeveloperId, gamesCreateDto.PlatformIds, gamesCreateDto.ReleaseDate);
+            if (!result.IsSuccess)
+            {
+                foreach(var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error);
+                }
+                return BadRequest(ModelState.Values);
+            }
+            return Ok("Created");
         }
     }
 }
