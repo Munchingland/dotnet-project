@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Pri.GameLibrary.Core.Interfaces.Repositories;
+using Pri.GameLibrary.Core.Interfaces.Services;
+using Pri.GameLibrary.Core.Services;
 using Pri.GameLibrary.Infrastructure.Data;
+using Pri.GameLibrary.Infrastructure.Repositories;
 
 namespace Pri.GameLibrary.Api
 {
@@ -14,6 +18,13 @@ namespace Pri.GameLibrary.Api
                options => options
                .UseSqlServer(builder.Configuration
                .GetConnectionString("ApplicationDb")));
+
+            builder.Services.AddTransient<IGameService, GameService>();
+            builder.Services.AddTransient<IGameRepository, GameRepository>();
+            builder.Services.AddTransient<IReviewRepository, ReviewRepository>();
+            builder.Services.AddTransient<IReviewService, ReviewService>();
+            builder.Services.AddTransient<IDeveloperRepository, DeveloperRepository>();
+            builder.Services.AddTransient<IPlatformRepository, PlatformRepository>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
