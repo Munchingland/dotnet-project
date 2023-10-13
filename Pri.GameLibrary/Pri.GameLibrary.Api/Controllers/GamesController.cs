@@ -7,5 +7,19 @@ namespace Pri.GameLibrary.Api.Controllers
     [ApiController]
     public class GamesController : ControllerBase
     {
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var result = await _gameService.GetByIdAsync(id);
+            if (!result.IsSuccess)
+            {
+                return NotFound(result.Errors);
+            }
+            var gamesGetByIdDto = new GamesGetByIdDto();
+            gamesGetByIdDto.MapToDto(result.Items.First());
+            gamesGetByIdDto.AverageReview = await _reviewService.GetAverageScoreAsync(id);
+
+            return Ok(gamesGetByIdDto);
+        }
     }
 }

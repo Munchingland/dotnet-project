@@ -4,9 +4,9 @@ namespace Pri.GameLibrary.Api.DTOs.Response
 {
     public class GamesGetByIdDto :BaseDto
     {
-        public int AverageReview { get; set; }
+        public double AverageReview { get; set; }
         public BaseDto Developer { get; set; }
-        public ICollection<BaseDto> Platforms { get; set; }
-        public DateTime ReleaseDate { get; set; }
+        public IEnumerable<BaseDto> Platforms { get; set; }
+        public string ReleaseDate { get; set; }
     }
 }
