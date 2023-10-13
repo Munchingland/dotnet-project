@@ -49,34 +49,94 @@ namespace Pri.GameLibrary.Core.Services
             };
         }
 
-        public Task<ResultModel<Game>> DeleteAsync(int id)
+        public async Task<ResultModel<Developer>> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var toDelete = await _developerRepository.GetByIdAsync(id);
+            if(! await _developerRepository.DeleteAsync(toDelete))
+            {
+                return new ResultModel<Developer>
+                {
+                    IsSuccess = false,
+                    Errors = new List<string>() { "Unknown error, please try again later..." }
+                };
+            }
+            return new ResultModel<Developer>
+            { 
+                IsSuccess = false 
+            };
         }
 
-        public Task<bool> ExistsAsync(int id)
+        public async Task<bool> ExistsAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _developerRepository.GetAll().AnyAsync(d=>d.Id == id);
         }
 
-        public Task<ResultModel<Developer>> GetAllAsync()
+        public async Task<ResultModel<Developer>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var developers = await _developerRepository.GetAllAsync();
+            return new ResultModel<Developer>
+            {
+                IsSuccess = true,
+                Items = developers
+            };
         }
 
-        public Task<ResultModel<Developer>> GetByIdAsync(int id)
+        public async Task<ResultModel<Developer>> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var developer = await _developerRepository.GetByIdAsync(id);
+            if(developer == null) 
+            {
+                return new ResultModel<Developer>
+                {
+                    IsSuccess = false,
+                    Errors = new List<string> { "Developer not found" }
+                };
+            }
+            return new ResultModel<Developer>
+            {
+                IsSuccess = true,
+                Items = new List<Developer> { developer }
+            };
         }
 
-        public Task<ResultModel<Developer>> SearchByNameAsync(string name)
+        public async Task<ResultModel<Developer>> SearchByNameAsync(string name)
         {
-            throw new NotImplementedException();
+            var developers = _developerRepository.GetAll();
+            var searchResult = await developers.Where(d=>d.Name.ToUpper() == name.ToUpper()).ToListAsync();
+            return new ResultModel<Developer>
+            {
+                IsSuccess = true,
+                Items = searchResult
+            };
         }
 
-        public Task<ResultModel<Developer>> UpdateAsync(int id, string name, DateTime creationDate)
+        public async Task<ResultModel<Developer>> UpdateAsync(int id, string name, DateTime creationDate)
         {
-            throw new NotImplementedException();
+            var toUpdate = await _developerRepository.GetByIdAsync(id);
+            if(!toUpdate.Name.ToUpper().Equals(name.ToUpper())
+                &&
+                await _developerRepository.GetAll().AnyAsync(d => d.Name.ToUpper().Equals(name.ToUpper())))
+            {
+                return new ResultModel<Developer>
+                {
+                    IsSuccess = false,
+                    Errors = new List<string> { "Name exists!" }
+                };
+            }
+            toUpdate.Created = creationDate;
+            toUpdate.Name = name;
+            if(await _developerRepository.UpdateAsync(toUpdate))
+            {
+                return new ResultModel<Developer>
+                { 
+                    IsSuccess = true, 
+                };
+            }
+            return new ResultModel<Developer>
+            {
+                IsSuccess = false,
+                Errors = new List<string> { "Something went wrong, please try again later..." }
+            };
         }
     }
 }
