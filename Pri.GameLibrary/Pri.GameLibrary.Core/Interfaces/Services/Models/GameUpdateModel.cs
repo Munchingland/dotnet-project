@@ -12,7 +12,6 @@ namespace Pri.GameLibrary.Core.Interfaces.Services.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public int DeveloperId { get; set; }
-        public DateTime? LastUpdate { get; set; }
         public DateTime ReleaseDate { get; set; }
     }
 }

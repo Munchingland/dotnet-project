@@ -178,7 +178,6 @@ namespace Pri.GameLibrary.Core.Services
             }
             toUpdate.Name = gameUpdateModel.Name;
             toUpdate.Created = gameUpdateModel.ReleaseDate;
-            toUpdate.Updated = gameUpdateModel.LastUpdate;
             toUpdate.DeveloperId = gameUpdateModel.DeveloperId;
             toUpdate.Platforms = await _platformRepository.GetAll().Where(p => gameUpdateModel.PlatformIds.Contains(p.Id)).ToListAsync();
             if(await _gameRepository.UpdateAsync(toUpdate))

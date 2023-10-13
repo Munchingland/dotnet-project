@@ -73,7 +73,6 @@ namespace Pri.GameLibrary.Infrastructure.Repositories
         {
             var entity = await GetByIdAsync(toUpdate.Id);
             entity = toUpdate;
-            entity.Updated = DateTime.Now;
             return await SaveChangesAsync();
         }
     }

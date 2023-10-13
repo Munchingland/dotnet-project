@@ -8,6 +8,7 @@ using Pri.GameLibrary.Core.Interfaces.Services;
 using System.Xml.Linq;
 using System;
 using Pri.GameLibrary.Api.DTOs.Request;
+using Pri.GameLibrary.Core.Interfaces.Services.Models;
 
 namespace Pri.GameLibrary.Api.Controllers
 {
@@ -103,6 +104,46 @@ namespace Pri.GameLibrary.Api.Controllers
                 return BadRequest(ModelState.Values);
             }
             return Ok("Created");
+        }
+        [HttpPut]
+        public async Task<IActionResult> Update(GamesUpdateDto gamesUpdateDto)
+        {
+            if(!await _gameService.ExistsAsync(gamesUpdateDto.Id))
+            {
+                return NotFound();
+            }
+            var gameUpdateModel = new GameUpdateModel
+            {
+                DeveloperId = gamesUpdateDto.DeveloperId,
+                Id = gamesUpdateDto.Id,
+                ReleaseDate = gamesUpdateDto.ReleaseDate,
+                Name = gamesUpdateDto.Name,
+                PlatformIds = gamesUpdateDto.PlatformIds,
+            };
+            var result = await _gameService.UpdateAsync(gameUpdateModel);
+            if (!result.IsSuccess)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error);
+                }
+                return BadRequest(ModelState.Values);
+            }
+            return Ok("updated");
+        }
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if(!await _gameService.ExistsAsync(id))
+            {
+                return NotFound();
+            }
+            var result = await _gameService.DeleteAsync(id);
+            if(!result.IsSuccess)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok("Deleted");
         }
     }
 }

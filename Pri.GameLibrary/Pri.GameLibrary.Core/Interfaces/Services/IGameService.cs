@@ -19,6 +19,5 @@ namespace Pri.GameLibrary.Core.Interfaces.Services
         Task<bool> ExistsAsync(int id);
         Task<ResultModel<Game>> DeleteAsync(int id);
         Task<ResultModel<Game>> GetByUserAsync(int id);
-
     }
 }
