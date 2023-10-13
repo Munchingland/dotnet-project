@@ -1,5 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Pri.GameLibrary.Api.DTOs;
+using Pri.GameLibrary.Api.DTOs.Response;
+using Pri.GameLibrary.Api.Extensions;
+using Pri.GameLibrary.Core.Entities;
+using Pri.GameLibrary.Core.Interfaces.Services;
 
 namespace Pri.GameLibrary.Api.Controllers
 {
@@ -7,6 +12,40 @@ namespace Pri.GameLibrary.Api.Controllers
     [ApiController]
     public class GamesController : ControllerBase
     {
+        private readonly IGameService _gameService;
+        private readonly IReviewService _reviewService;
+
+        public GamesController(IGameService gameService, IReviewService reviewService)
+        {
+            _gameService = gameService;
+            _reviewService = reviewService;
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _gameService.GetAllAsync();
+            var gamesGetAllDto = new GamesGetAllDto();
+            gamesGetAllDto.Games = result.Items
+                .Select(g => new GamesGetByIdDto
+                {
+                    Name = g.Name,
+                    
+                    Developer = new BaseDto
+                    {
+                        Id = g.Developer.Id,
+                        Name = g.Developer.Name,
+                    },
+                    ReleaseDate = g.Created.Date.ToShortDateString(),
+                    Platforms = g.Platforms.Select(p => new BaseDto
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                    }),
+                    Id = g.Id,
+                    AverageReview = _reviewService.GetAverageScoreAsync(g.Id).Result
+                });
+            return Ok(gamesGetAllDto);
+        }
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
