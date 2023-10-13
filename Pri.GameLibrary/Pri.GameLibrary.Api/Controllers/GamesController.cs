@@ -5,6 +5,8 @@ using Pri.GameLibrary.Api.DTOs.Response;
 using Pri.GameLibrary.Api.Extensions;
 using Pri.GameLibrary.Core.Entities;
 using Pri.GameLibrary.Core.Interfaces.Services;
+using System.Xml.Linq;
+using System;
 
 namespace Pri.GameLibrary.Api.Controllers
 {
@@ -59,6 +61,33 @@ namespace Pri.GameLibrary.Api.Controllers
             gamesGetByIdDto.AverageReview = await _reviewService.GetAverageScoreAsync(id);
 
             return Ok(gamesGetByIdDto);
+        }
+        [HttpGet("{name}")]
+        public async Task<IActionResult> SearchByName(string name)
+        {
+            var result = await _gameService.SearchByNameAsync(name);
+            var searchByNameDto = new GamesSearchByNameDto
+            {
+                Games = result.Items.Select(g => new GamesGetByIdDto
+                {
+                    Name = g.Name,
+
+                    Developer = new BaseDto
+                    {
+                        Id = g.Developer.Id,
+                        Name = g.Developer.Name,
+                    },
+                    ReleaseDate = g.Created.Date.ToShortDateString(),
+                    Platforms = g.Platforms.Select(p => new BaseDto
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                    }),
+                    Id = g.Id,
+                    AverageReview = _reviewService.GetAverageScoreAsync(g.Id).Result
+                })
+            };
+            return Ok(searchByNameDto);
         }
     }
 }
