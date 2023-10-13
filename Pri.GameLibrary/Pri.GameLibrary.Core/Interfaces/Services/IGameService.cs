@@ -9,15 +9,11 @@ using System.Threading.Tasks;
 
 namespace Pri.GameLibrary.Core.Interfaces.Services
 {
-    public interface IGameService
+    public interface IGameService : IBaseService<Game>
     {
-        Task<ResultModel<Game>> GetAllAsync();
-        Task<ResultModel<Game>> GetByIdAsync(int id);
         Task<ResultModel<Game>> CreateAsync(string name, int developerId, IEnumerable<int> platformIds, DateTime releaseDate);
         Task<ResultModel<Game>> UpdateAsync(GameUpdateModel gameUpdateModel);
-        Task<ResultModel<Game>> SearchByNameAsync(string search);
-        Task<bool> ExistsAsync(int id);
-        Task<ResultModel<Game>> DeleteAsync(int id);
+        Task<ResultModel<Game>> SearchByNameAsync(string name);
         Task<ResultModel<Game>> GetByUserAsync(int id);
     }
 }

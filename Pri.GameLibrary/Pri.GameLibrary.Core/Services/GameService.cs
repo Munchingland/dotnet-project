@@ -11,17 +11,16 @@ using System.Threading.Tasks;
 
 namespace Pri.GameLibrary.Core.Services
 {
-    public class GameService : IGameService
+    public class GameService : BaseService<IGameRepository, Game>, IGameService
     {
-        private readonly IGameRepository _gameRepository;
         private readonly IPlatformRepository _platformRepository;
         private readonly IDeveloperRepository _developerRepository;
-
-        public GameService(IPlatformRepository platformRepository, IDeveloperRepository developerRepository, IGameRepository gameRepository)
+        private readonly IGameRepository _gameRepository;
+        public GameService(IPlatformRepository platformRepository, IDeveloperRepository developerRepository,IGameRepository repo):  base(repo)
         {
             _platformRepository = platformRepository;
             _developerRepository = developerRepository;
-            _gameRepository = gameRepository;
+            _gameRepository = repo;
         }
 
         public async Task<ResultModel<Game>> CreateAsync(string name, int developerId, IEnumerable<int> platformIds, DateTime releaseDate)
@@ -72,56 +71,6 @@ namespace Pri.GameLibrary.Core.Services
                 IsSuccess = true
             };
 
-        }
-
-        public async Task<ResultModel<Game>> DeleteAsync(int id)
-        {
-            var toDelete = await _gameRepository.GetByIdAsync(id);
-            if(!await _gameRepository.DeleteAsync(toDelete))
-            {
-                return new ResultModel<Game>
-                {
-                    IsSuccess = false,
-                    Errors = new List<string>() { "Unknown error, please try again later..." }
-                };
-            }
-            return new ResultModel<Game>
-            {
-                IsSuccess = true
-            };
-        }
-
-        public async Task<bool> ExistsAsync(int id)
-        {
-            return await _gameRepository.GetAll().AnyAsync(g=>g.Id == id);
-        }
-
-        public async Task<ResultModel<Game>> GetAllAsync()
-        {
-            var games = await _gameRepository.GetAllAsync();
-            return new ResultModel<Game>
-            {
-                IsSuccess = true,
-                Items = games
-            };
-        }
-
-        public async Task<ResultModel<Game>> GetByIdAsync(int id)
-        {
-            var game = await _gameRepository.GetByIdAsync(id);
-            if(game == null)
-            {
-                return new ResultModel<Game>
-                {
-                    IsSuccess = false,
-                    Errors = new List<string> { "Game not found" }
-                };
-            }
-            return new ResultModel<Game>
-            {
-                IsSuccess = true,
-                Items = new List<Game> { game }
-            };
         }
 
         public async Task<ResultModel<Game>> GetByUserAsync(int id)
