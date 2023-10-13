@@ -16,7 +16,7 @@ namespace Pri.GameLibrary.Core.Services
         private readonly IPlatformRepository _platformRepository;
         private readonly IDeveloperRepository _developerRepository;
         private readonly IGameRepository _gameRepository;
-        public GameService(IPlatformRepository platformRepository, IDeveloperRepository developerRepository, IGameRepository repo):  base(repo)
+        public GameService(IPlatformRepository platformRepository, IDeveloperRepository developerRepository,IGameRepository repo):  base(repo)
         {
             _platformRepository = platformRepository;
             _developerRepository = developerRepository;

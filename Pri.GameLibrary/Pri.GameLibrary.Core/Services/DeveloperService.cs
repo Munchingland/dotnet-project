@@ -17,6 +17,7 @@ namespace Pri.GameLibrary.Core.Services
 
         public DeveloperService(IDeveloperRepository repo) : base(repo)
         {
+            _developerRepository = repo;
         }
 
         public async Task<ResultModel<Developer>> CreateAsync(string name, DateTime creationDate)

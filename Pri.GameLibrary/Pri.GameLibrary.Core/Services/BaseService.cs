@@ -44,7 +44,8 @@ namespace Pri.GameLibrary.Core.Services
 
         public async Task<bool> ExistsAsync(int id)
         {
-            return await _repo.GetAll().AnyAsync(i=>i.Id == id);
+            var result = _repo.GetAll();
+            return await result.AnyAsync(i=>i.Id == id);
         }
 
         public async Task<ResultModel<TTwo>> GetAllAsync()

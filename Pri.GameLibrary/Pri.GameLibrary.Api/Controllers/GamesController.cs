@@ -134,7 +134,8 @@ namespace Pri.GameLibrary.Api.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            if(!await _gameService.ExistsAsync(id))
+            var exists = await _gameService.ExistsAsync(id);
+            if (!await _gameService.ExistsAsync(id))
             {
                 return NotFound();
             }
