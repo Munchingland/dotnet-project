@@ -4,6 +4,7 @@ using Pri.GameLibrary.Api.DTOs.Response;
 using Pri.GameLibrary.Api.DTOs;
 using Pri.GameLibrary.Core.Interfaces.Services.Models;
 using Pri.GameLibrary.Core.Interfaces.Services;
+using Pri.GameLibrary.Api.Extensions;
 
 namespace Pri.GameLibrary.Api.Controllers
 {
@@ -24,14 +25,22 @@ namespace Pri.GameLibrary.Api.Controllers
         {
             var result = await _developerService.GetAllAsync();
             var developersGetAllDto = new DevelopersGetAllDto();
-            developersGetAllDto.Developers = result.Items.Select(d => new DevelopersBaseDto
-            {
-                AmountOfGames = d.Games.Count(),
-                Id = d.Id,
-                Name = d.Name,
-            });
+            developersGetAllDto.MapToDto(result);
             return Ok(developersGetAllDto);
         }
-        
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var result = await _developerService.GetByIdAsync(id);
+            if (!result.IsSuccess)
+            {
+                return NotFound(result.Errors);
+            }
+            var developersGetById = new DevelopersGetByIdDto();
+            developersGetById.MapToDto(result.Items.First(), result.Items.First().Games.Count);
+
+            return Ok();
+        }
+       
     }
 }

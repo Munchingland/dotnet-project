@@ -3,6 +3,7 @@ using Pri.GameLibrary.Api.DTOs.Response;
 using Pri.GameLibrary.Core.Entities;
 using Pri.GameLibrary.Api.DTOs;
 using Pri.GameLibrary.Core.Interfaces.Services;
+using Pri.GameLibrary.Core.Interfaces.Services.Models;
 
 namespace Pri.GameLibrary.Api.Extensions
 {
@@ -24,6 +25,21 @@ namespace Pri.GameLibrary.Api.Extensions
                     Name = p.Name,
                 });
             gamesGetByIdDto.Name = game.Name;
+        }
+        public static void MapToDto(this DevelopersBaseDto dto, Developer developer, int amountOfGames)
+        {
+            dto.Id = developer.Id;
+            dto.Name = developer.Name;
+            dto.AmountOfGames = amountOfGames;
+        }
+        public static void MapToDto(this DevelopersGetAllDto dto, ResultModel<Developer> result)
+        {
+            dto.Developers = result.Items.Select(d => new DevelopersBaseDto
+             {
+                AmountOfGames = d.Games.Count,
+                Id = d.Id,
+                Name = d.Name,
+             });
         }
     }
 }
