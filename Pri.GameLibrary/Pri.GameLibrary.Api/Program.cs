@@ -19,13 +19,14 @@ namespace Pri.GameLibrary.Api
                .UseSqlServer(builder.Configuration
                .GetConnectionString("ApplicationDb")));
 
-            builder.Services.AddTransient<IGameService, GameService>();
             builder.Services.AddTransient<IGameRepository, GameRepository>();
             builder.Services.AddTransient<IReviewRepository, ReviewRepository>();
-            builder.Services.AddTransient<IReviewService, ReviewService>();
             builder.Services.AddTransient<IDeveloperRepository, DeveloperRepository>();
             builder.Services.AddTransient<IPlatformRepository, PlatformRepository>();
-
+            builder.Services.AddTransient<IDeveloperService, DeveloperService>();
+            builder.Services.AddTransient<IReviewService, ReviewService>();
+            builder.Services.AddTransient<IGameService, GameService>();
+            builder.Services.AddTransient<IPlatformService, PlatformService>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
