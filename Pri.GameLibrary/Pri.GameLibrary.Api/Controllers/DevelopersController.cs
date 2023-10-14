@@ -41,6 +41,14 @@ namespace Pri.GameLibrary.Api.Controllers
 
             return Ok();
         }
-       
+        [HttpGet("{name}")]
+        public async Task<IActionResult> SearchByName(string name)
+        {
+            var result = await _developerService.SearchByNameAsync(name);
+            var developersSearchByNameDto = new DevelopersSearchByNameDto();
+            developersSearchByNameDto.MapToDto(result);
+            return Ok(developersSearchByNameDto);
+        }
+        
     }
 }
