@@ -5,6 +5,7 @@ using Pri.GameLibrary.Api.DTOs;
 using Pri.GameLibrary.Core.Interfaces.Services.Models;
 using Pri.GameLibrary.Core.Interfaces.Services;
 using Pri.GameLibrary.Api.Extensions;
+using Pri.GameLibrary.Core.Services;
 
 namespace Pri.GameLibrary.Api.Controllers
 {
@@ -49,6 +50,20 @@ namespace Pri.GameLibrary.Api.Controllers
             developersSearchByNameDto.MapToDto(result);
             return Ok(developersSearchByNameDto);
         }
-        
+        [HttpPost]
+        public async Task<IActionResult> Create(DevelopersCreateDto developersCreateDto)
+        {
+            var result = await _developerService.CreateAsync(developersCreateDto.Name, developersCreateDto.CreationDate);
+            if (!result.IsSuccess)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error);
+                }
+                return BadRequest(ModelState.Values);
+            }
+            return Ok("Created");
+        }
+
     }
 }
