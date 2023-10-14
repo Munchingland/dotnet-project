@@ -64,7 +64,24 @@ namespace Pri.GameLibrary.Api.Controllers
             }
             return Ok("Created");
         }
-        
+        [HttpPut]
+        public async Task<IActionResult> Update(DevelopersUpdateDto developersUpdateDto)
+        {
+            if (!await _developerService.ExistsAsync(developersUpdateDto.Id))
+            {
+                return NotFound();
+            }
+            var result = await _developerService.UpdateAsync(developersUpdateDto.Id, developersUpdateDto.Name, developersUpdateDto.CreationDate);
+            if (!result.IsSuccess)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error);
+                }
+                return BadRequest(ModelState.Values);
+            }
+            return Ok("updated");
+        }
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
