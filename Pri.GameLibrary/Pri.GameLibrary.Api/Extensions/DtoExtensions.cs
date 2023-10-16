@@ -41,5 +41,12 @@ namespace Pri.GameLibrary.Api.Extensions
                 Name = d.Name,
              });
         }
+        public static void MapToDto(this DevelopersGetByIdDto dto, Developer developer, int amountOfGames)
+        {
+            dto.Id = developer.Id;
+            dto.Name = developer.Name;
+            dto.AmountOfGames = amountOfGames;
+            dto.Founded = developer.Created;
+        }
     }
 }

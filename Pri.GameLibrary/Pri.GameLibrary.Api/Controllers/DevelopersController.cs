@@ -40,7 +40,7 @@ namespace Pri.GameLibrary.Api.Controllers
             var developersGetById = new DevelopersGetByIdDto();
             developersGetById.MapToDto(result.Items.First(), result.Items.First().Games.Count);
 
-            return Ok();
+            return Ok(developersGetById);
         }
         [HttpGet("{name}")]
         public async Task<IActionResult> SearchByName(string name)
