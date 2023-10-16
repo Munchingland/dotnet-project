@@ -39,10 +39,11 @@ namespace Pri.GameLibrary.Infrastructure.Repositories
         {
             return await _table.Include(g=>g.Platforms).Include(g=>g.Developer).FirstOrDefaultAsync(g=>g.Id == id);
         }
+
         //Maybe be better in a user Repo but waiting on identity for this
         public async Task<IEnumerable<Game>> GetByUserAsync(int id)
         {
-            return await _applicationDbContext.GamesUsers.Include(gu=>gu.Game).Where(gu=>gu.UserId == id).Select(g=>g.Game).ToListAsync();
+            return await _applicationDbContext.GamesUsers.Include(gu=>gu.Game).ThenInclude(g => g.Developer).Include(g => g.Game).ThenInclude(g=>g.Platforms).Where(gu=>gu.UserId == id).Select(g=>g.Game).ToListAsync();
         }
     }
 }
