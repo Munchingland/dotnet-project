@@ -1,12 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Pri.GameLibrary.Api.DTOs.Response;
+using Pri.GameLibrary.Api.Extensions;
+using Pri.GameLibrary.Core.Interfaces.Services;
 
 namespace Pri.GameLibrary.Api.Controllers
 {
     public class PlatformsController : Controller
     {
-        public IActionResult Index()
+        private readonly IPlatformService _platformService;
+
+        public PlatformsController(IPlatformService platformService)
         {
-            return View();
+            _platformService = platformService;
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _platformService.GetAllAsync();
+            var platformsGetAllDto = new PlatformsGetAllDto();
+            platformsGetAllDto.MapToDo(result);
+            return View(platformsGetAllDto);
         }
     }
 }
