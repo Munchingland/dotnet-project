@@ -48,5 +48,14 @@ namespace Pri.GameLibrary.Api.Extensions
             dto.AmountOfGames = amountOfGames;
             dto.Founded = developer.Created;
         }
+        public static void MapToDo(this PlatformsGetAllDto dto, ResultModel<Platform> result)
+        {
+            dto.Platforms = result.Items.Select(p => new PlatformsBaseDto
+            {
+                AmountOfGames = p.Games.Count,
+                Id = p.Id,
+                Name = p.Name,
+            });
+        }
     }
 }
