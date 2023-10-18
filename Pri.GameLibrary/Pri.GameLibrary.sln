@@ -5,9 +5,11 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pri.GameLibrary.Core", "Pri.GameLibrary.Core\Pri.GameLibrary.Core.csproj", "{882BA244-653D-49F1-9775-6EEFFF98C6E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pri.GameLibrary.Infrastructure", "Pri.GameLibrary.Infrastructure\Pri.GameLibrary.Infrastructure.csproj", "{A8C455B4-3AC5-4931-8A5F-E96E67D8B544}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pri.GameLibrary.Infrastructure", "Pri.GameLibrary.Infrastructure\Pri.GameLibrary.Infrastructure.csproj", "{A8C455B4-3AC5-4931-8A5F-E96E67D8B544}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pri.GameLibrary.Api", "Pri.GameLibrary.Api\Pri.GameLibrary.Api.csproj", "{5EC3F414-D651-424F-A2F1-6B89EA4B0DD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pri.GameLibrary.Api", "Pri.GameLibrary.Api\Pri.GameLibrary.Api.csproj", "{5EC3F414-D651-424F-A2F1-6B89EA4B0DD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pri.GameLibrary.Web", "Pri.GameLibrary.Web\Pri.GameLibrary.Web.csproj", "{AEB47346-5D31-47E8-B78E-A868E9574768}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{5EC3F414-D651-424F-A2F1-6B89EA4B0DD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5EC3F414-D651-424F-A2F1-6B89EA4B0DD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5EC3F414-D651-424F-A2F1-6B89EA4B0DD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEB47346-5D31-47E8-B78E-A868E9574768}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEB47346-5D31-47E8-B78E-A868E9574768}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEB47346-5D31-47E8-B78E-A868E9574768}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEB47346-5D31-47E8-B78E-A868E9574768}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
