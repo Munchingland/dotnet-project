@@ -91,6 +91,37 @@ namespace Pri.GameLibrary.Api.Controllers
             };
             return Ok(searchByNameDto);
         }
+        [HttpGet("platform/{id:int}")]
+        public async Task<IActionResult> GetByPlatformId(int id)
+        {
+            var result = await _gameService.GetByPlatformAsync(id);
+            if (!result.IsSuccess)
+            {
+                return NotFound(result.Errors);
+            }
+            var gamesGetByPlatformIdDto = new GamesGetByPlatformIdDto();
+            gamesGetByPlatformIdDto.Games = result.Items
+                .Select(g => new GamesGetByIdDto
+                {
+                    Name = g.Name,
+
+                    Developer = new BaseDto
+                    {
+                        Id = g.Developer.Id,
+                        Name = g.Developer.Name,
+                    },
+                    ReleaseDate = g.Created.Date.ToShortDateString(),
+                    Platforms = g.Platforms.Select(p => new BaseDto
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                    }),
+                    Id = g.Id,
+                    AverageReview = _reviewService.GetAverageScoreAsync(g.Id).Result
+                });
+
+            return Ok(gamesGetByPlatformIdDto);
+        }
         [HttpGet("developer/{id:int}")]
         public async Task<IActionResult> GetByDeveloperId(int id)
         {
