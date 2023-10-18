@@ -12,7 +12,7 @@ namespace Pri.GameLibrary.Api.Extensions
         public static void MapToDto(this GamesGetByIdDto gamesGetByIdDto, Game game)
         {
             gamesGetByIdDto.Id = game.Id;
-            gamesGetByIdDto.ReleaseDate = game.Created.Date.ToShortDateString();
+            gamesGetByIdDto.ReleaseDate = game.Created.Date;
             gamesGetByIdDto.Developer = new BaseDto
             {
                 Id = game.Developer.Id,

@@ -145,6 +145,7 @@ namespace Pri.GameLibrary.Web.Controllers
                     Text = d.Name,
                     Value = d.Id.ToString()
                 });
+                return View(gamesAddViewModel);
             }
             MultipartFormDataContent multipartFormDataContent = new()
             {
@@ -177,6 +178,22 @@ namespace Pri.GameLibrary.Web.Controllers
                 Value = d.Id.ToString()
             });
             return View(gamesAddViewModel);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Update(int id)
+        {
+            var url = new Uri($"{_baseUrl}/{id}");
+            var result = await _httpClient.GetAsync(url);
+            if (!result.IsSuccessStatusCode)
+            {
+                return NotFound();
+            }
+            //read the content to serialized string
+            var content = await result.Content.ReadAsStringAsync();
+            var gamesUpdateViewModel =
+                JsonConvert.DeserializeObject<GamesUpdateViewModel>(content);
+            return View(gamesUpdateViewModel);
+
         }
     }
 }

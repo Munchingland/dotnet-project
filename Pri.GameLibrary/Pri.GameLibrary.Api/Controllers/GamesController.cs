@@ -39,7 +39,7 @@ namespace Pri.GameLibrary.Api.Controllers
                         Id = g.Developer.Id,
                         Name = g.Developer.Name,
                     },
-                    ReleaseDate = g.Created.Date.ToShortDateString(),
+                    ReleaseDate = g.Created.Date,
                     Platforms = g.Platforms.Select(p => new BaseDto
                     {
                         Id = p.Id,
@@ -79,7 +79,7 @@ namespace Pri.GameLibrary.Api.Controllers
                         Id = g.Developer.Id,
                         Name = g.Developer.Name,
                     },
-                    ReleaseDate = g.Created.Date.ToShortDateString(),
+                    ReleaseDate = g.Created.Date,
                     Platforms = g.Platforms.Select(p => new BaseDto
                     {
                         Id = p.Id,
@@ -110,7 +110,7 @@ namespace Pri.GameLibrary.Api.Controllers
                         Id = g.Developer.Id,
                         Name = g.Developer.Name,
                     },
-                    ReleaseDate = g.Created.Date.ToShortDateString(),
+                    ReleaseDate = g.Created.Date,
                     Platforms = g.Platforms.Select(p => new BaseDto
                     {
                         Id = p.Id,
@@ -141,7 +141,7 @@ namespace Pri.GameLibrary.Api.Controllers
                         Id = g.Developer.Id,
                         Name = g.Developer.Name,
                     },
-                    ReleaseDate = g.Created.Date.ToShortDateString(),
+                    ReleaseDate = g.Created.Date,
                     Platforms = g.Platforms.Select(p => new BaseDto
                     {
                         Id = p.Id,
