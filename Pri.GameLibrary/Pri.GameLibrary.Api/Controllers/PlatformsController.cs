@@ -23,8 +23,9 @@ namespace Pri.GameLibrary.Api.Controllers
             var result = await _platformService.GetAllAsync();
             var platformsGetAllDto = new PlatformsGetAllDto();
             platformsGetAllDto.MapToDo(result);
-            return View(platformsGetAllDto);
+            return Ok(platformsGetAllDto);
         }
+
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
