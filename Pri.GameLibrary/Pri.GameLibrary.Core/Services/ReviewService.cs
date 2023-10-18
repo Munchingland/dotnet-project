@@ -20,7 +20,7 @@ namespace Pri.GameLibrary.Core.Services
         public async Task<double> GetAverageScoreAsync(int id)
         {
             var reviews = await _reviewRepository.GetByGame(id);
-            if(reviews.Count() <= 0)
+            if(reviews.Count() == 0)
             {
                 return 0;
             }
