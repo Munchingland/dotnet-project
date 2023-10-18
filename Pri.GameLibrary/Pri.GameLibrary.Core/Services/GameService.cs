@@ -82,6 +82,15 @@ namespace Pri.GameLibrary.Core.Services
                 Items = games
             };
         }
+        public async Task<ResultModel<Game>> GetByPlatformAsync(int id)
+        {
+            var games = await _gameRepository.GetByPlatformAsync(id);
+            return new ResultModel<Game>
+            {
+                IsSuccess = true,
+                Items = games
+            };
+        }
 
         public async Task<ResultModel<Game>> GetByUserAsync(int id)
         {
