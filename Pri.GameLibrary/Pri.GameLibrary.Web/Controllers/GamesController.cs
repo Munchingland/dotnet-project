@@ -90,11 +90,12 @@ namespace Pri.GameLibrary.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            var platformUrl = new Uri($"{_baseUrl}/Platforms");
+            var url = $"{_configuration.GetSection("ApiUrl:BaseUrl").Value}";
+            var platformUrl = new Uri($"{url}/Platforms");
             var result = await _httpClient.GetAsync(platformUrl);
             var content = await result.Content.ReadAsStringAsync();
             var platforms = JsonConvert.DeserializeObject<BaseItemsViewModel>(content);
-            var developerUrl = new Uri($"{_baseUrl}/Developers");
+            var developerUrl = new Uri($"{url}/Developers");
             result = await _httpClient.GetAsync(developerUrl);
             content = await result.Content.ReadAsStringAsync();
             var developers = JsonConvert.DeserializeObject<BaseItemsViewModel>(content);
@@ -113,6 +114,7 @@ namespace Pri.GameLibrary.Web.Controllers
                     Value = d.Id.ToString()
                 })
             };
+            gamesAddViewModel.ReleaseDate = DateTime.Now;
             return View(gamesAddViewModel);
         }
     }
