@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using Pri.GameLibrary.Web.ViewModels;
+using System.Text;
 
 namespace Pri.GameLibrary.Web.Controllers
 {
@@ -115,6 +116,66 @@ namespace Pri.GameLibrary.Web.Controllers
                 })
             };
             gamesAddViewModel.ReleaseDate = DateTime.Now;
+            return View(gamesAddViewModel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult>Add(GamesAddViewModel gamesAddViewModel)
+        {
+            var url = $"{_configuration.GetSection("ApiUrl:BaseUrl").Value}";
+            var platformUrl = new Uri($"{url}/Platforms");
+            var result = await _httpClient.GetAsync(platformUrl);
+            var content = await result.Content.ReadAsStringAsync();
+            var platforms = JsonConvert.DeserializeObject<BaseItemsViewModel>(content);
+            var developerUrl = new Uri($"{url}/Developers");
+            result = await _httpClient.GetAsync(developerUrl);
+            content = await result.Content.ReadAsStringAsync();
+            var developers = JsonConvert.DeserializeObject<BaseItemsViewModel>(content);
+            if (!ModelState.IsValid)
+            {
+                gamesAddViewModel.Platforms = platforms.Items.Select(p =>
+                new SelectListItem
+                {
+                    Text = p.Name,
+                    Value = p.Id.ToString()
+                });
+                gamesAddViewModel.Developers = developers.Items.Select(d =>
+                new SelectListItem
+                {
+                    Text = d.Name,
+                    Value = d.Id.ToString()
+                });
+            }
+            MultipartFormDataContent multipartFormDataContent = new()
+            {
+                {new StringContent(gamesAddViewModel.Name, Encoding.UTF8), "Name"},
+                {new StringContent(gamesAddViewModel.ReleaseDate.ToString(), Encoding.UTF8), "ReleaseDate" },
+                {new StringContent(gamesAddViewModel.DeveloperId.ToString(), Encoding.UTF8), "DeveloperId" }
+            };
+            foreach (var item in gamesAddViewModel.PlatformIds)
+            {
+                multipartFormDataContent.Add(new StringContent(item.ToString(), Encoding.UTF8), "PlatformIds[]");
+            }
+
+            var postResult = await _httpClient.PostAsync(_baseUrl, multipartFormDataContent);
+            var postContent = await postResult.Content.ReadAsStringAsync();
+            if(postResult.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            ModelState.AddModelError("", "Er ging iets mis, probeer later opnieuw...");
+            gamesAddViewModel.Platforms = platforms.Items.Select(p =>
+               new SelectListItem
+               {
+                   Text = p.Name,
+                   Value = p.Id.ToString()
+               });
+            gamesAddViewModel.Developers = developers.Items.Select(d =>
+            new SelectListItem
+            {
+                Text = d.Name,
+                Value = d.Id.ToString()
+            });
             return View(gamesAddViewModel);
         }
     }
