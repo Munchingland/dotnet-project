@@ -1,0 +1,18 @@
+﻿@model PlatformsGetViewModel
+
+<div class="row">
+    <div class="col-6 mx-auto">
+        <div class="card h-100 w-100 ">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Name</h5>
+                <h6 class="card-subtitle mb-2">Amount of games on this platform : @Model.AmountOfGames</h6>
+                <a asp-action="GetByPlatform" asp-controller="Games" asp-route-id="@Model.Id">See Full list</a>
+                <h6 class="card-subtitle mb-2 text-muted">Release date : @Model.CreateDate</h6>
+                <p></p>
+                <a asp-action="Index"
+                   asp-controller="Games" class="btn btn-primary">Back to Games</a>
+            </div>
+        </div>
+    </div>
+</div>
+
