@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using Pri.GameLibrary.Web.ViewModels;
 
@@ -97,7 +98,22 @@ namespace Pri.GameLibrary.Web.Controllers
             result = await _httpClient.GetAsync(developerUrl);
             content = await result.Content.ReadAsStringAsync();
             var developers = JsonConvert.DeserializeObject<BaseItemsViewModel>(content);
-            return View();
+            var gamesAddViewModel = new GamesAddViewModel
+            {
+                Platforms = platforms.Items.Select(p =>
+                new SelectListItem
+                {
+                    Text = p.Name,
+                    Value = p.Id.ToString()
+                }),
+                Developers = developers.Items.Select(d =>
+                new SelectListItem
+                {
+                    Text = d.Name,
+                    Value = d.Id.ToString()
+                })
+            };
+            return View(gamesAddViewModel);
         }
     }
 }
