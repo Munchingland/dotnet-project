@@ -2,7 +2,7 @@
 {
     public class GamesIndexViewModel
     {
-        public IEnumerable<GamesGetByIdViewModel> Games { get; set; }
+        public IEnumerable<GamesGetByIdViewModel> Items { get; set; }
         public string SearchTerm { get; set; }
     }
 }
