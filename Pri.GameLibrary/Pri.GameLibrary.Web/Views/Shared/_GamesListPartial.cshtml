@@ -27,6 +27,10 @@
                    asp-action="ConfirmDelete"
                    asp-route-id="@game.Id"
                    class="btn btn-danger">Verwijder Game</a>
+                    <a asp-controller="Games"
+                       asp-action="Update"
+                       asp-route-id="@game.Id"
+                       class="btn btn-primary">Update Game</a>
                 </div>
             </div>
         </div>

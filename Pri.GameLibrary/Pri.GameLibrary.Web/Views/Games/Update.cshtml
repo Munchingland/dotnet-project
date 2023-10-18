@@ -1,9 +1,9 @@
-﻿@model GamesAddViewModel
-
+﻿@model GamesUpdateViewModel
 <div class="row">
     <div class="col col-lg-5 mx-auto border border-1 rounded rounded-2">
         <div class="text-danger" asp-validation-summary="ModelOnly"></div>
         <form asp-controller="Games" asp-action="Add" method="post" enctype="multipart/form-data">
+            <input asp-for="Id" />
             <partial name="_GamesFormPartial" model="@Model" />
         </form>
     </div>
