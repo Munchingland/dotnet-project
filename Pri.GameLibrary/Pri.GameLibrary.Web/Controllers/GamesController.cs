@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Pri.GameLibrary.Web.ViewModels;
 
 namespace Pri.GameLibrary.Web.Controllers
 {
@@ -15,9 +17,17 @@ namespace Pri.GameLibrary.Web.Controllers
             _baseUrl = $"{_configuration.GetSection("ApiUrl:BaseUrl").Value}/Drinks";
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var url = new Uri(_baseUrl);
+            var result = await _httpClient.GetAsync(url);
+            if (!result.IsSuccessStatusCode)
+            {
+                return BadRequest("Error");
+            }
+            var content = await result.Content.ReadAsStringAsync();
+            var gamesIndexViewModel = JsonConvert.DeserializeObject<GamesIndexViewModel>(content);
+            return View(gamesIndexViewModel);
         }
     }
 }

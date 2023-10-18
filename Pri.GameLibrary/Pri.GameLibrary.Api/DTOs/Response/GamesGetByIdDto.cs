@@ -1,6 +1,4 @@
-﻿using Pri.GameLibrary.Core.Entities;
-
-namespace Pri.GameLibrary.Api.DTOs.Response
+﻿namespace Pri.GameLibrary.Api.DTOs.Response
 {
     public class GamesGetByIdDto :BaseDto
     {
