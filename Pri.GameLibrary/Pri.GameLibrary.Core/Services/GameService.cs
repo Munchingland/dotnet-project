@@ -16,11 +16,13 @@ namespace Pri.GameLibrary.Core.Services
         private readonly IPlatformRepository _platformRepository;
         private readonly IDeveloperRepository _developerRepository;
         private readonly IGameRepository _gameRepository;
-        public GameService(IPlatformRepository platformRepository, IDeveloperRepository developerRepository,IGameRepository repo):  base(repo)
+        private readonly IDeveloperService _developerService;
+        public GameService(IPlatformRepository platformRepository, IDeveloperRepository developerRepository, IGameRepository repo, IDeveloperService developerService) : base(repo)
         {
             _platformRepository = platformRepository;
             _developerRepository = developerRepository;
             _gameRepository = repo;
+            _developerService = developerService;
         }
 
         public async Task<ResultModel<Game>> CreateAsync(string name, int developerId, IEnumerable<int> platformIds, DateTime releaseDate)
@@ -75,6 +77,14 @@ namespace Pri.GameLibrary.Core.Services
 
         public async Task<ResultModel<Game>> GetByDeveloperAsync(int id)
         {
+            if(!await _developerService.ExistsAsync(id))
+            {
+                return new ResultModel<Game>
+                {
+                    IsSuccess = false,
+                    Errors = new List<string>() { "Unkown Developer" }
+                };
+            }
             var games = await _gameRepository.GetByDeveloperAsync(id);
             return new ResultModel<Game>
             {
