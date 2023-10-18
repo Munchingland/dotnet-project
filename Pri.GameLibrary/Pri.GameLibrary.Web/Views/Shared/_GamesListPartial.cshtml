@@ -12,7 +12,7 @@
                        asp-controller="Developers"
                        asp-action="Get"
                        class="card-text">@game.Developer.Name</a>
-                    <h6 class=" card-text">available on these Platforms</h6>
+                    <h6 class=" card-text">beschikbaar op deze platforms</h6>
                     @foreach (var platform in game.Platforms)
                     {
                         <a asp-action="Get"
@@ -26,7 +26,7 @@
                 <a asp-controller="Games"
                    asp-action="ConfirmDelete"
                    asp-route-id="@ViewBag.Id"
-                   class="btn btn-danger">Delete Game</a>
+                   class="btn btn-danger">Verwijder Game</a>
                 </div>
             </div>
         </div>

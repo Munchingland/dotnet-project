@@ -5,12 +5,12 @@
         <div class="card h-100 w-100 ">
             <div class="card-body">
                 <h5 class="card-title">@Model.Name</h5>
-                <h6 class="card-subtitle mb-2">Amount of games on this platform : @Model.AmountOfGames</h6>
-                <a asp-action="GetByDeveloper" asp-controller="Games" asp-route-platformName="@Model.Name" asp-route-id="@Model.Id">See Full list of games created by studio</a>
-                <h6 class="card-subtitle mb-2 text-muted">Founding date : @Model.Founded</h6>
+                <h6 class="card-subtitle mb-2">Aantal games gemaakt door deze studio : @Model.AmountOfGames</h6>
+                <a asp-action="GetByDeveloper" asp-controller="Games" asp-route-platformName="@Model.Name" asp-route-id="@Model.Id">Zie volle lijst van games gemaakt door deze studio</a>
+                <h6 class="card-subtitle mb-2 text-muted">oprichtingsdatum : @Model.Founded</h6>
                 <p></p>
                 <a asp-action="Index"
-                   asp-controller="Games" class="btn btn-primary">Back to all Games</a>
+                   asp-controller="Games" class="btn btn-primary">terug naar alle games</a>
             </div>
         </div>
     </div>
