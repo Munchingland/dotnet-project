@@ -10,7 +10,7 @@ namespace Pri.GameLibrary.Core.Interfaces.Repositories
     public interface IGameRepository:IBaseRepository<Game>
     {
         Task<IEnumerable<Game>> GetByDeveloperAsync(int id);
-        Task<IEnumerable<Game>> GetByConsoleAsync(int id);
+        Task<IEnumerable<Game>> GetByPlatformAsync(int id);
         Task<IEnumerable<Game>> GetByUserAsync(int id);
     }
 }
