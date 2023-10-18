@@ -23,9 +23,9 @@ namespace Pri.GameLibrary.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Game>> GetByDeveloperAsync(int id)
+        public async Task<IEnumerable<Game>> GetByDeveloperAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _table.Include(g => g.Developer).Include(g => g.Platforms).Where(g => g.Developer.Id == id).ToListAsync();
         }
         public override IQueryable<Game> GetAll()
         {
