@@ -73,6 +73,16 @@ namespace Pri.GameLibrary.Core.Services
 
         }
 
+        public async Task<ResultModel<Game>> GetByDeveloper(int id)
+        {
+            var games = await _gameRepository.GetByDeveloperAsync(id);
+            return new ResultModel<Game>
+            {
+                IsSuccess = true,
+                Items = games
+            };
+        }
+
         public async Task<ResultModel<Game>> GetByUserAsync(int id)
         {
             var games = await _gameRepository.GetByUserAsync(id);
