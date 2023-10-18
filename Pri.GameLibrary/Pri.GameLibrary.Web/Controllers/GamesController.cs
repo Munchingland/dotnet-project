@@ -6,15 +6,16 @@ namespace Pri.GameLibrary.Web.Controllers
 {
     public class GamesController : Controller
     {
-        private readonly string _baseUrl;
+ 
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
+        private readonly string _baseUrl;
 
         public GamesController(IConfiguration configuration)
         {
             _httpClient = new HttpClient();
             _configuration = configuration;
-            _baseUrl = $"{_configuration.GetSection("ApiUrl:BaseUrl").Value}/Drinks";
+            _baseUrl = $"{_configuration.GetSection("ApiUrl:BaseUrl").Value}/Games";
         }
 
         public async Task<IActionResult> Index()
