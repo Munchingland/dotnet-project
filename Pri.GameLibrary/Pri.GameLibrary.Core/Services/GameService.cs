@@ -17,12 +17,15 @@ namespace Pri.GameLibrary.Core.Services
         private readonly IDeveloperRepository _developerRepository;
         private readonly IGameRepository _gameRepository;
         private readonly IDeveloperService _developerService;
-        public GameService(IPlatformRepository platformRepository, IDeveloperRepository developerRepository, IGameRepository repo, IDeveloperService developerService) : base(repo)
+        private readonly IPlatformService _platformService;
+
+        public GameService(IPlatformRepository platformRepository, IDeveloperRepository developerRepository, IGameRepository repo, IDeveloperService developerService, IPlatformService platformService) : base(repo)
         {
             _platformRepository = platformRepository;
             _developerRepository = developerRepository;
             _gameRepository = repo;
             _developerService = developerService;
+            _platformService = platformService;
         }
 
         public async Task<ResultModel<Game>> CreateAsync(string name, int developerId, IEnumerable<int> platformIds, DateTime releaseDate)
@@ -36,8 +39,7 @@ namespace Pri.GameLibrary.Core.Services
                     Errors = new List<string>() { "Unkown Platform" }
                 };
             }
-            var developer = _developerRepository.GetAll();
-            if(!await developer.AnyAsync(d=>d.Id == developerId))
+            if(!await _developerService.ExistsAsync(developerId))
             {
                 return new ResultModel<Game>
                 {
@@ -94,6 +96,14 @@ namespace Pri.GameLibrary.Core.Services
         }
         public async Task<ResultModel<Game>> GetByPlatformAsync(int id)
         {
+            if(!await _platformService.ExistsAsync(id))
+            {
+                return new ResultModel<Game>
+                {
+                    IsSuccess = false,
+                    Errors = new List<string>() { "Unkown Platform" }
+                };
+            }
             var games = await _gameRepository.GetByPlatformAsync(id);
             return new ResultModel<Game>
             {
