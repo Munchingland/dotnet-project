@@ -68,5 +68,23 @@ namespace Pri.GameLibrary.Web.Controllers
             gamesGetByDeveloperViewModel.SearchTerm = platformName;
             return View(gamesGetByDeveloperViewModel);
         }
+        [HttpGet]
+        public IActionResult ConfirmDelete(int id)
+        {
+            ViewBag.Id = id;
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            Uri deleteUri = new Uri($"{_baseUrl}/{id}");
+            var result = await _httpClient.DeleteAsync(deleteUri);
+            if(result.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            return NotFound();
+        }
     }
 }

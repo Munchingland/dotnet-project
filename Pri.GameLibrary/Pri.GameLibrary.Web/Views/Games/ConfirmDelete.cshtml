@@ -1,0 +1,12 @@
+﻿<h1>Confirm</h1>
+<div class="alert alert-primary" role="alert">
+    Are you sure?
+    <a asp-controller="Games"
+       asp-action="Index"
+       class="btn btn-success">No</a>
+    <a asp-controller="Games"
+       asp-action="Delete"
+       asp-route-id="@ViewBag.Id"
+       class="btn btn-danger">Yes</a>
+</div>
+

@@ -8,7 +8,7 @@
                 <div class="card-body">
                     <h5 class="card-title">@game.Name</h5>
                     <h6 class="card-subtitle mb-2 text-muted">@game.AverageReview</h6>
-                    <a asp-route-id="@game.Developer.Id" 
+                    <a asp-route-id="@game.Developer.Id"
                        asp-controller="Developers"
                        asp-action="Get"
                        class="card-text">@game.Developer.Name</a>
@@ -23,6 +23,10 @@
                         </a>
                         <br />
                     }
+                <a asp-controller="Games"
+                   asp-action="ConfirmDelete"
+                   asp-route-id="@ViewBag.Id"
+                   class="btn btn-danger">Delete Game</a>
                 </div>
             </div>
         </div>
