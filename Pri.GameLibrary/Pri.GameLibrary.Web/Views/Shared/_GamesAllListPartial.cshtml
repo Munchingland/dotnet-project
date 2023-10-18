@@ -1,0 +1,33 @@
+﻿@model GamesIndexViewModel
+
+<form method="get">
+    <div class="input-group">
+        <input class="form-control" asp-for="@Model.SearchTerm" />
+        <div class="input-group-append">
+            <button type="submit" asp-action="Search">Search</button>
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    @foreach (var game in Model.Games)
+    {
+        <div class="col col-lg-3 mb-2">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">@game.Name</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">@game.AverageReview</h6>
+                    <p class="card-text">@game.Developer.Name</p>
+                    <h6 class=" card-text">available on these Platforms</h6>
+                    @foreach (var platform in game.Platforms)
+                    {
+                        <p class="card-subtitle mb-2 text-muted">
+                            @platform.Name
+                        </p>
+                    }
+                </div>
+            </div>
+        </div>
+
+    }
+</div>

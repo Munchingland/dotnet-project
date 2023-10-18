@@ -30,9 +30,17 @@ namespace Pri.GameLibrary.Web.Controllers
             var gamesIndexViewModel = JsonConvert.DeserializeObject<GamesIndexViewModel>(content);
             return View(gamesIndexViewModel);
         }
-        public IActionResult Search(string input)
+        public async Task<IActionResult> Search(string searchTerm)
         {
-            return View(input);
+            var url = new Uri($"{_baseUrl}/{searchTerm}");
+            var result = await _httpClient.GetAsync(url);
+            if(!result.IsSuccessStatusCode)
+            {
+                return BadRequest("Error");
+            }
+            var content = await result.Content.ReadAsStringAsync();
+            var gamesSearchViewModel = JsonConvert.DeserializeObject<GamesSearchViewModel>(content);
+            return View(gamesSearchViewModel);
         }
     }
 }
