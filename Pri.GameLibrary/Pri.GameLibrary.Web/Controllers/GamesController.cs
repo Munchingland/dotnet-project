@@ -30,5 +30,9 @@ namespace Pri.GameLibrary.Web.Controllers
             var gamesIndexViewModel = JsonConvert.DeserializeObject<GamesIndexViewModel>(content);
             return View(gamesIndexViewModel);
         }
+        public IActionResult Search(string input)
+        {
+            return View(input);
+        }
     }
 }
