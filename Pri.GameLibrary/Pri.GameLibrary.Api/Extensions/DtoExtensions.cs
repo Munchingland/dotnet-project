@@ -35,7 +35,7 @@ namespace Pri.GameLibrary.Api.Extensions
         }
         public static void MapToDto(this DevelopersGetAllDto dto, ResultModel<Developer> result)
         {
-            dto.Developers = result.Items.Select(d => new DevelopersBaseDto
+            dto.Items = result.Items.Select(d => new DevelopersBaseDto
              {
                 AmountOfGames = d.Games.Count,
                 Id = d.Id,
@@ -52,7 +52,7 @@ namespace Pri.GameLibrary.Api.Extensions
         }
         public static void MapToDo(this PlatformsGetAllDto dto, ResultModel<Platform> result)
         {
-            dto.Platforms = result.Items.Select(p => new PlatformsBaseDto
+            dto.Items = result.Items.Select(p => new PlatformsBaseDto
             {
                 AmountOfGames = p.Games.Count,
                 Id = p.Id,

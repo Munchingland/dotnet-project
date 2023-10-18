@@ -2,6 +2,6 @@
 {
     public class PlatformsGetAllDto
     {
-        public IEnumerable<PlatformsBaseDto> Platforms { get; set; }
+        public IEnumerable<PlatformsBaseDto> Items { get; set; }
     }
 }

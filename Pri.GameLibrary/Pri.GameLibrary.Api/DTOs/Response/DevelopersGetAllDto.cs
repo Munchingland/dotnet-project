@@ -2,6 +2,6 @@
 {
     public class DevelopersGetAllDto
     {
-        public IEnumerable<DevelopersBaseDto> Developers { get; set; }
+        public IEnumerable<DevelopersBaseDto> Items { get; set; }
     }
 }

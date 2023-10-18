@@ -2,6 +2,6 @@
 {
     public class GamesGetAllDto
     {
-        public IEnumerable<GamesGetByIdDto> Games { get; set; }
+        public IEnumerable<GamesGetByIdDto> Items { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace Pri.GameLibrary.Api.Controllers
         {
             var result = await _gameService.GetAllAsync();
             var gamesGetAllDto = new GamesGetAllDto();
-            gamesGetAllDto.Games = result.Items
+            gamesGetAllDto.Items = result.Items
                 .Select(g => new GamesGetByIdDto
                 {
                     Name = g.Name,
@@ -70,7 +70,7 @@ namespace Pri.GameLibrary.Api.Controllers
             var result = await _gameService.SearchByNameAsync(name);
             var searchByNameDto = new GamesSearchByNameDto
             {
-                Games = result.Items.Select(g => new GamesGetByIdDto
+                Items = result.Items.Select(g => new GamesGetByIdDto
                 {
                     Name = g.Name,
 
@@ -100,7 +100,7 @@ namespace Pri.GameLibrary.Api.Controllers
                 return NotFound(result.Errors);
             }
             var gamesGetByPlatformIdDto = new GamesGetByPlatformIdDto();
-            gamesGetByPlatformIdDto.Games = result.Items
+            gamesGetByPlatformIdDto.Items = result.Items
                 .Select(g => new GamesGetByIdDto
                 {
                     Name = g.Name,
@@ -131,7 +131,7 @@ namespace Pri.GameLibrary.Api.Controllers
                 return NotFound(result.Errors);
             }
             var gamesGetByDeveloperIdDto = new GamesGetByDeveloperIdDto();
-            gamesGetByDeveloperIdDto.Games = result.Items
+            gamesGetByDeveloperIdDto.Items = result.Items
                 .Select(g => new GamesGetByIdDto
                 {
                     Name = g.Name,
