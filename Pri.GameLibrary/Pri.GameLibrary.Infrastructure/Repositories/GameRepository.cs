@@ -13,7 +13,6 @@ namespace Pri.GameLibrary.Infrastructure.Repositories
 {
     public class GameRepository : BaseRepository<Game>, IGameRepository
     {
-        private readonly ApplicationDbContext _applicationDbContext;
         public GameRepository(ApplicationDbContext applicationDbContext, ILogger<BaseRepository<Game>> logger) : base(applicationDbContext, logger)
         {
         }

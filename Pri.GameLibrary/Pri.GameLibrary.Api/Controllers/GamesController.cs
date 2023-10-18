@@ -94,17 +94,35 @@ namespace Pri.GameLibrary.Api.Controllers
         [HttpGet("developer/{id:int}")]
         public async Task<IActionResult> GetByDeveloperId(int id)
         {
-            var result = await _gameService.GetByIdAsync(id);
+            var result = await _gameService.GetByDeveloperAsync(id);
             if (!result.IsSuccess)
             {
                 return NotFound(result.Errors);
             }
-            var gamesGetByIdDto = new GamesGetByIdDto();
-            gamesGetByIdDto.MapToDto(result.Items.First());
-            gamesGetByIdDto.AverageReview = await _reviewService.GetAverageScoreAsync(id);
+            var gamesGetByDeveloperIdDto = new GamesGetByDeveloperIdDto();
+            gamesGetByDeveloperIdDto.Games = result.Items
+                .Select(g => new GamesGetByIdDto
+                {
+                    Name = g.Name,
 
-            return Ok(gamesGetByIdDto);
+                    Developer = new BaseDto
+                    {
+                        Id = g.Developer.Id,
+                        Name = g.Developer.Name,
+                    },
+                    ReleaseDate = g.Created.Date.ToShortDateString(),
+                    Platforms = g.Platforms.Select(p => new BaseDto
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                    }),
+                    Id = g.Id,
+                    AverageReview = _reviewService.GetAverageScoreAsync(g.Id).Result
+                });
+
+            return Ok(gamesGetByDeveloperIdDto);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Create(GamesCreateDto gamesCreateDto)
