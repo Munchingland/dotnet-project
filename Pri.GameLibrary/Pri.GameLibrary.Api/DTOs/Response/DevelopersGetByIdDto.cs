@@ -2,6 +2,6 @@
 {
     public class DevelopersGetByIdDto: DevelopersBaseDto
     {
-        public DateTime Founded { get; set; }
+        public string Founded { get; set; }
     }
 }
