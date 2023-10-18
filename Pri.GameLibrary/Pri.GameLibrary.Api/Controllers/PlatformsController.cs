@@ -50,5 +50,19 @@ namespace Pri.GameLibrary.Api.Controllers
             }
             return Ok("Created");
         }
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (!await _platformService.ExistsAsync(id))
+            {
+                return NotFound();
+            }
+            var result = await _platformService.DeleteAsync(id);
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok("Deleted");
+        }
     }
 }
