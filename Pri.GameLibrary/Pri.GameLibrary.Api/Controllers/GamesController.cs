@@ -156,7 +156,7 @@ namespace Pri.GameLibrary.Api.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Create(GamesCreateDto gamesCreateDto)
+        public async Task<IActionResult> Create([FromForm]GamesCreateDto gamesCreateDto)
         {
             var result = await _gameService.CreateAsync(gamesCreateDto.Name, gamesCreateDto.DeveloperId, gamesCreateDto.PlatformIds, gamesCreateDto.ReleaseDate);
             if (!result.IsSuccess)
@@ -195,7 +195,7 @@ namespace Pri.GameLibrary.Api.Controllers
             }
             return Ok("updated");
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             if (!await _gameService.ExistsAsync(id))
