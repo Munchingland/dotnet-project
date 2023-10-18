@@ -2,6 +2,6 @@
 {
     public class DevelopersGetByIdDto: DevelopersBaseDto
     {
-        public string Founded { get; set; }
+        
     }
 }

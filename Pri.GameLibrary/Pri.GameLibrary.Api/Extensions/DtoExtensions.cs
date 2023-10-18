@@ -26,11 +26,12 @@ namespace Pri.GameLibrary.Api.Extensions
                 });
             gamesGetByIdDto.Name = game.Name;
         }
-        public static void MapToDto(this DevelopersBaseDto dto, Developer developer, int amountOfGames)
+        public static void MapToDto(this DevelopersBaseDto dto, Developer developer)
         {
             dto.Id = developer.Id;
             dto.Name = developer.Name;
-            dto.AmountOfGames = amountOfGames;
+            dto.AmountOfGames = developer.Games.Count;
+            dto.Founded = developer.Created.Date.ToShortDateString();
         }
         public static void MapToDto(this DevelopersGetAllDto dto, ResultModel<Developer> result)
         {
@@ -39,6 +40,7 @@ namespace Pri.GameLibrary.Api.Extensions
                 AmountOfGames = d.Games.Count,
                 Id = d.Id,
                 Name = d.Name,
+                Founded = d.Created.Date.ToShortDateString(),
              });
         }
         public static void MapToDto(this DevelopersGetByIdDto dto, Developer developer)

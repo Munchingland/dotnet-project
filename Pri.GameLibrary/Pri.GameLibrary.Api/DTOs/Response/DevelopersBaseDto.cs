@@ -3,5 +3,6 @@
     public class DevelopersBaseDto : BaseDto
     {
         public int AmountOfGames { get; set; }
+        public string Founded { get; set; }
     }
 }
