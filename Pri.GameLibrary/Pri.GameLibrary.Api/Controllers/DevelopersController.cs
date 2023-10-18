@@ -38,7 +38,7 @@ namespace Pri.GameLibrary.Api.Controllers
                 return NotFound(result.Errors);
             }
             var developersGetById = new DevelopersGetByIdDto();
-            developersGetById.MapToDto(result.Items.First(), result.Items.First().Games.Count);
+            developersGetById.MapToDto(result.Items.First());
 
             return Ok(developersGetById);
         }

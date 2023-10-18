@@ -41,12 +41,12 @@ namespace Pri.GameLibrary.Api.Extensions
                 Name = d.Name,
              });
         }
-        public static void MapToDto(this DevelopersGetByIdDto dto, Developer developer, int amountOfGames)
+        public static void MapToDto(this DevelopersGetByIdDto dto, Developer developer)
         {
             dto.Id = developer.Id;
             dto.Name = developer.Name;
-            dto.AmountOfGames = amountOfGames;
-            dto.Founded = developer.Created;
+            dto.AmountOfGames = developer.Games.Count;
+            dto.Founded = developer.Created.ToShortDateString();
         }
         public static void MapToDo(this PlatformsGetAllDto dto, ResultModel<Platform> result)
         {
@@ -56,6 +56,13 @@ namespace Pri.GameLibrary.Api.Extensions
                 Id = p.Id,
                 Name = p.Name,
             });
+        }
+        public static void MapToDto(this PlatformsGetByIdDto dto, Platform platform)
+        {
+            dto.Created = platform.Created.Date.ToShortDateString();
+            dto.Name = platform.Name;
+            dto.AmountOfGames = platform.Games.Count();
+            dto.Id = platform.Id;
         }
     }
 }
