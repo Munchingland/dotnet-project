@@ -86,5 +86,18 @@ namespace Pri.GameLibrary.Web.Controllers
             }
             return NotFound();
         }
+        [HttpGet]
+        public async Task<IActionResult> Add()
+        {
+            var platformUrl = new Uri($"{_baseUrl}/Platforms");
+            var result = await _httpClient.GetAsync(platformUrl);
+            var content = await result.Content.ReadAsStringAsync();
+            var platforms = JsonConvert.DeserializeObject<BaseItemsViewModel>(content);
+            var developerUrl = new Uri($"{_baseUrl}/Developers");
+            result = await _httpClient.GetAsync(developerUrl);
+            content = await result.Content.ReadAsStringAsync();
+            var developers = JsonConvert.DeserializeObject<BaseItemsViewModel>(content);
+            return View();
+        }
     }
 }
