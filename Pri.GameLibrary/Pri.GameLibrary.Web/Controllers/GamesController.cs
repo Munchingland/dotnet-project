@@ -55,5 +55,18 @@ namespace Pri.GameLibrary.Web.Controllers
             gamesGetByPlatformViewModel.SearchTerm = platformName;
             return View(gamesGetByPlatformViewModel);
         }
+        public async Task<IActionResult> GetByDeveloper(int id, string platformName)
+        {
+            var url = new Uri($"{_baseUrl}/developer/{id}");
+            var result = await _httpClient.GetAsync(url);
+            if (!result.IsSuccessStatusCode)
+            {
+                return BadRequest("Error");
+            }
+            var content = await result.Content.ReadAsStringAsync();
+            var gamesGetByDeveloperViewModel = JsonConvert.DeserializeObject<GamesGetByDeveloperViewModel>(content);
+            gamesGetByDeveloperViewModel.SearchTerm = platformName;
+            return View(gamesGetByDeveloperViewModel);
+        }
     }
 }
