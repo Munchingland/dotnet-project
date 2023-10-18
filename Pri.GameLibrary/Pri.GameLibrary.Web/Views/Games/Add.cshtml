@@ -1,0 +1,29 @@
+﻿@model GamesAddViewModel
+
+<div class="row">
+    <div class="col col-lg-5 mx-auto border border-1 rounded rounded-2">
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+        <form asp-controller="Games" asp-action="Add" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control">
+                <span class="text-danger" asp-validation-for="Name"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReleaseDate"></label>
+                <input asp-for="ReleaseDate" class="form-control">
+                <span class="text-danger" asp-validation-for="ReleaseDate"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DeveloperId"></label>
+                <select asp-for="DeveloperId" asp-items="@Model.Developers" class="form-control"></select>
+                <span class="text-danger" asp-validation-for="DeveloperId"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlatformIds"></label>
+                <select asp-for="PlatformIds" asp-items="@Model.Platforms" class="form-control"></select>
+            </div>
+            <button type="submit" class="btn btn-primary mb-1 mt-1">Add</button>
+        </form>
+    </div>
+</div>

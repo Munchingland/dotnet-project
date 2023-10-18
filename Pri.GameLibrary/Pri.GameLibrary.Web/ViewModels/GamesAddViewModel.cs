@@ -5,6 +5,7 @@ namespace Pri.GameLibrary.Web.ViewModels
 {
     public class GamesAddViewModel
     {
+        [Display(Name ="Naam")]
         [Required(ErrorMessage ="Gelieve een game naam in te geven")]
         public string Name { get; set; }
         [Required(ErrorMessage ="Gelieve een developer te selecteren")]
@@ -12,6 +13,8 @@ namespace Pri.GameLibrary.Web.ViewModels
         public IEnumerable<SelectListItem> Developers { get; set; }
         public IEnumerable<int> PlatformIds { get; set; }
         public IEnumerable<SelectListItem> Platforms { get; set; }
+        [DataType(DataType.Date)]
+        [Display(Name = "Publicatiedatum ")]
         public DateTime ReleaseDate { get; set; }
     }
 }
