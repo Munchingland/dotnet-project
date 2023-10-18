@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Pri.GameLibrary.Api.DTOs.Request;
 using Pri.GameLibrary.Api.DTOs.Response;
 using Pri.GameLibrary.Api.Extensions;
 using Pri.GameLibrary.Core.Interfaces.Services;
@@ -34,6 +35,20 @@ namespace Pri.GameLibrary.Api.Controllers
             platformsGetByIdDto.MapToDto(result.Items.First());
 
             return Ok(platformsGetByIdDto);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create(PlatformsCreateDto platformsCreateDto)
+        {
+            var result = await _platformService.CreateAsync(platformsCreateDto.Name, platformsCreateDto.ReleaseDate);
+            if (!result.IsSuccess)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error);
+                }
+                return BadRequest(ModelState.Values);
+            }
+            return Ok("Created");
         }
     }
 }

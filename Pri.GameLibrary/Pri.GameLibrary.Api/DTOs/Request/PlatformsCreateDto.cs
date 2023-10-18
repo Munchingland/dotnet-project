@@ -2,10 +2,10 @@
 
 namespace Pri.GameLibrary.Api.DTOs.Request
 {
-    public class DevelopersCreateDto
+    public class PlatformsCreateDto
     {
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
-        public DateTime CreationDate { get; set; }
+        public DateTime ReleaseDate { get; set; }
     }
 }
