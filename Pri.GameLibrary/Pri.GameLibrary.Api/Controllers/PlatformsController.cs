@@ -7,6 +7,8 @@ using Pri.GameLibrary.Core.Services;
 
 namespace Pri.GameLibrary.Api.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class PlatformsController : Controller
     {
         private readonly IPlatformService _platformService;
@@ -57,7 +59,7 @@ namespace Pri.GameLibrary.Api.Controllers
             {
                 return NotFound();
             }
-            var result = await _platformService.UpdateAsync(platformsUpdateDto.Id, platformsUpdateDto.Name, platformsUpdateDto.CreationDate);
+            var result = await _platformService.UpdateAsync(platformsUpdateDto.Id, platformsUpdateDto.Name, platformsUpdateDto.ReleaseDate);
             if (!result.IsSuccess)
             {
                 foreach (var error in result.Errors)
