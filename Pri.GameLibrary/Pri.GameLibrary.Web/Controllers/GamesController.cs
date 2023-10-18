@@ -42,7 +42,7 @@ namespace Pri.GameLibrary.Web.Controllers
             var gamesSearchViewModel = JsonConvert.DeserializeObject<GamesSearchViewModel>(content);
             return View(gamesSearchViewModel);
         }
-        public async Task<IActionResult> GetByPlatform(int id)
+        public async Task<IActionResult> GetByPlatform(int id, string platformName)
         {
             var url = new Uri($"{_baseUrl}/platform/{id}");
             var result = await _httpClient.GetAsync(url);
@@ -51,8 +51,9 @@ namespace Pri.GameLibrary.Web.Controllers
                 return BadRequest("Error");
             }
             var content = await result.Content.ReadAsStringAsync();
-            var gamesSearchViewModel = JsonConvert.DeserializeObject<GamesSearchViewModel>(content);
-            return View(gamesSearchViewModel);
+            var gamesGetByPlatformViewModel = JsonConvert.DeserializeObject<GamesGetByPlatformViewModel>(content);
+            gamesGetByPlatformViewModel.SearchTerm = platformName;
+            return View(gamesGetByPlatformViewModel);
         }
     }
 }

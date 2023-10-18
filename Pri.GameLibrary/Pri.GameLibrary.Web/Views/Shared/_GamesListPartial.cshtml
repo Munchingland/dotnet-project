@@ -1,0 +1,28 @@
+﻿@model GamesIndexViewModel
+
+<div class="row">
+    @foreach (var game in Model.Games)
+    {
+        <div class="col col-lg-3 mb-2">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">@game.Name</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">@game.AverageReview</h6>
+                    <p class="card-text">@game.Developer.Name</p>
+                    <h6 class=" card-text">available on these Platforms</h6>
+                    @foreach (var platform in game.Platforms)
+                    {
+                        <a asp-action="Get"
+                           asp-controller="Platforms"
+                           asp-route-id="@platform.Id"
+                           class="card-subtitle mb-2 text-muted">
+                            @platform.Name
+                        </a>
+                        <br />
+                    }
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
