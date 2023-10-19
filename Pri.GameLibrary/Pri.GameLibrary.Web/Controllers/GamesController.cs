@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
-using Pri.GameLibrary.Core.Interfaces.Services;
 using Pri.GameLibrary.Web.ViewModels;
 using System.Text;
 
@@ -13,14 +12,13 @@ namespace Pri.GameLibrary.Web.Controllers
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
         private readonly string _baseUrl;
-        private readonly IFormBuilderService _formBuilderService;
 
-        public GamesController(IConfiguration configuration, IFormBuilderService formBuilderService)
+
+        public GamesController(IConfiguration configuration)
         {
             _httpClient = new HttpClient();
             _configuration = configuration;
             _baseUrl = $"{_configuration.GetSection("ApiUrl:BaseUrl").Value}/Games";
-            _formBuilderService = formBuilderService;
         }
 
         public async Task<IActionResult> Index()
