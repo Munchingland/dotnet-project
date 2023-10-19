@@ -193,6 +193,27 @@ namespace Pri.GameLibrary.Web.Controllers
             var content = await result.Content.ReadAsStringAsync();
             var gamesUpdateViewModel =
                 JsonConvert.DeserializeObject<GamesUpdateViewModel>(content);
+            var newUrl = $"{_configuration.GetSection("ApiUrl:BaseUrl").Value}";
+            var platformUrl = new Uri($"{newUrl}/Platforms");
+            result = await _httpClient.GetAsync(platformUrl);
+            content = await result.Content.ReadAsStringAsync();
+            var platforms = JsonConvert.DeserializeObject<BaseItemsViewModel>(content);
+            var developerUrl = new Uri($"{newUrl}/Developers");
+            result = await _httpClient.GetAsync(developerUrl);
+            content = await result.Content.ReadAsStringAsync();
+            var developers = JsonConvert.DeserializeObject<BaseItemsViewModel>(content);
+            gamesUpdateViewModel.Platforms = platforms.Items.Select(p =>
+                new SelectListItem
+                {
+                    Text = p.Name,
+                    Value = p.Id.ToString()
+                });
+            gamesUpdateViewModel.Developers = developers.Items.Select(d =>
+                 new SelectListItem
+                 {
+                     Text = d.Name,
+                     Value = d.Id.ToString()
+                 });
             return View(gamesUpdateViewModel);
 
         }
