@@ -135,7 +135,7 @@ namespace Pri.GameLibrary.Core.Services
 
         public async Task<ResultModel<Game>> UpdateAsync(GameUpdateModel gameUpdateModel)
         {
-            if(!await _developerRepository.GetAll().AnyAsync(d=>d.Id == gameUpdateModel.Id))
+            if(!await _developerRepository.GetAll().AnyAsync(d=>d.Id == gameUpdateModel.DeveloperId))
             {
 
                 return new ResultModel<Game>

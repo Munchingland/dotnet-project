@@ -215,7 +215,68 @@ namespace Pri.GameLibrary.Web.Controllers
                      Value = d.Id.ToString()
                  });
             return View(gamesUpdateViewModel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(GamesUpdateViewModel gamesUpdateViewModel)
+        {
+            var url = $"{_configuration.GetSection("ApiUrl:BaseUrl").Value}";
+            var platformUrl = new Uri($"{url}/Platforms");
+            var result = await _httpClient.GetAsync(platformUrl);
+            var content = await result.Content.ReadAsStringAsync();
+            var platforms = JsonConvert.DeserializeObject<BaseItemsViewModel>(content);
+            var developerUrl = new Uri($"{url}/Developers");
+            result = await _httpClient.GetAsync(developerUrl);
+            content = await result.Content.ReadAsStringAsync();
+            var developers = JsonConvert.DeserializeObject<BaseItemsViewModel>(content);
+            if (!ModelState.IsValid)
+            {
+                gamesUpdateViewModel.Platforms = platforms.Items.Select(p =>
+                new SelectListItem
+                {
+                    Text = p.Name,
+                    Value = p.Id.ToString()
+                });
+                gamesUpdateViewModel.Developers = developers.Items.Select(d =>
+                new SelectListItem
+                {
+                    Text = d.Name,
+                    Value = d.Id.ToString()
+                });
+                return View(gamesUpdateViewModel);
+            }
+            MultipartFormDataContent multipartFormDataContent = new()
+            {
+                {new StringContent(gamesUpdateViewModel.Name, Encoding.UTF8), "Name"},
+                {new StringContent(gamesUpdateViewModel.Id.ToString(), Encoding.UTF8), "Id" },
+                {new StringContent(gamesUpdateViewModel.ReleaseDate.ToString(), Encoding.UTF8), "ReleaseDate" },
+                {new StringContent(gamesUpdateViewModel.DeveloperId.ToString(), Encoding.UTF8), "DeveloperId" }
+            };
+            foreach (var item in gamesUpdateViewModel.PlatformIds)
+            {
+                multipartFormDataContent.Add(new StringContent(item.ToString(), Encoding.UTF8), "PlatformIds[]");
+            }
 
+            var putResult = await _httpClient.PutAsync(_baseUrl, multipartFormDataContent);
+            var putContent = await putResult.Content.ReadAsStringAsync();
+            if (putResult.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            ModelState.AddModelError("", "Er ging iets mis, probeer later opnieuw...");
+            gamesUpdateViewModel.Platforms = platforms.Items.Select(p =>
+               new SelectListItem
+               {
+                   Text = p.Name,
+                   Value = p.Id.ToString()
+               });
+            gamesUpdateViewModel.Developers = developers.Items.Select(d =>
+            new SelectListItem
+            {
+                Text = d.Name,
+                Value = d.Id.ToString()
+            });
+            return View(gamesUpdateViewModel);
         }
     }
 }

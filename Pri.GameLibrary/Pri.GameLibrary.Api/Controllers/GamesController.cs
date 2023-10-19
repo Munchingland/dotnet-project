@@ -170,7 +170,7 @@ namespace Pri.GameLibrary.Api.Controllers
             return Ok("Created");
         }
         [HttpPut]
-        public async Task<IActionResult> Update(GamesUpdateDto gamesUpdateDto)
+        public async Task<IActionResult> Update([FromForm]GamesUpdateDto gamesUpdateDto)
         {
             if(!await _gameService.ExistsAsync(gamesUpdateDto.Id))
             {
