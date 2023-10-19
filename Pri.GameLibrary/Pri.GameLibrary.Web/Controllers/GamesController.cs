@@ -278,5 +278,19 @@ namespace Pri.GameLibrary.Web.Controllers
             });
             return View(gamesUpdateViewModel);
         }
+        public async Task<IActionResult> GetById(int id)
+        {
+            var url = new Uri($"{_baseUrl}/{id}");
+            var result = await _httpClient.GetAsync(url);
+            if (!result.IsSuccessStatusCode)
+            {
+                return NotFound();
+            }
+            //read the content to serialized string
+            var content = await result.Content.ReadAsStringAsync();
+            var gamesGetByIdViewModel =
+                JsonConvert.DeserializeObject<GamesGetByIdViewModel>(content);
+            return View(gamesGetByIdViewModel);
+        }
     }
 }

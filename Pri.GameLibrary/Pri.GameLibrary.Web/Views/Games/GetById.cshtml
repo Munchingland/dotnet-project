@@ -1,0 +1,36 @@
+﻿@model GamesGetByIdViewModel
+
+<div class="row">
+    <div class="col-6 mx-auto">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Name</h5>
+                <h6 class="card-subtitle mb-2 text-muted">@Model.AverageReview</h6>
+                <h6 class="card-subtitle mb-2 text-muted">@Model.ReleaseDate.ToShortDateString()</h6>
+                <a asp-route-id="@Model.Developer.Id"
+                   asp-controller="Developers"
+                   asp-action="Get"
+                   class="card-text">@Model.Developer.Name</a>
+                <h6 class=" card-text">beschikbaar op deze platforms</h6>
+                @foreach (var platform in Model.Platforms)
+                {
+                    <a asp-action="Get"
+                       asp-controller="Platforms"
+                       asp-route-id="@platform.Id"
+                       class="card-subtitle mb-2 text-muted">
+                        @platform.Name
+                    </a>
+                    <br />
+                }
+                <a asp-controller="Games"
+                   asp-action="ConfirmDelete"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-danger">Verwijder</a>
+                <a asp-controller="Games"
+                   asp-action="Update"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-primary">Update</a>
+            </div>
+        </div>
+    </div>
+</div>
