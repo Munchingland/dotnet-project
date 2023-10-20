@@ -28,7 +28,7 @@ namespace Pri.GameLibrary.Web
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Games}/{action=Index}");
 
             app.Run();
         }
