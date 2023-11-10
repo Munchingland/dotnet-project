@@ -42,7 +42,7 @@ namespace Pri.GameLibrary.Infrastructure.Repositories
         }
 
         //Maybe be better in a user Repo but waiting on identity for this
-        public async Task<IEnumerable<Game>> GetByUserAsync(int id)
+        public async Task<IEnumerable<Game>> GetByUserAsync(string id)
         {
             return await _applicationDbContext.GamesUsers.Include(gu=>gu.Game).ThenInclude(g => g.Developer).Include(g => g.Game).ThenInclude(g=>g.Platforms).Where(gu=>gu.UserId == id).Select(g=>g.Game).ToListAsync();
         }

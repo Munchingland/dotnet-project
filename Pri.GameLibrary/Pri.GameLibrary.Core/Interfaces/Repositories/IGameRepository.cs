@@ -11,6 +11,6 @@ namespace Pri.GameLibrary.Core.Interfaces.Repositories
     {
         Task<IEnumerable<Game>> GetByDeveloperAsync(int id);
         Task<IEnumerable<Game>> GetByPlatformAsync(int id);
-        Task<IEnumerable<Game>> GetByUserAsync(int id);
+        Task<IEnumerable<Game>> GetByUserAsync(string id);
     }
 }

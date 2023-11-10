@@ -34,7 +34,7 @@ namespace Pri.GameLibrary.Infrastructure.Migrations
 
                     b.HasIndex("PlatformsId");
 
-                    b.ToTable("GamePlatform");
+                    b.ToTable("GamePlatform", (string)null);
 
                     b.HasData(
                         new
@@ -140,7 +140,7 @@ namespace Pri.GameLibrary.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Developers");
+                    b.ToTable("Developers", (string)null);
 
                     b.HasData(
                         new
@@ -196,7 +196,7 @@ namespace Pri.GameLibrary.Infrastructure.Migrations
 
                     b.HasIndex("DeveloperId");
 
-                    b.ToTable("Games");
+                    b.ToTable("Games", (string)null);
 
                     b.HasData(
                         new
@@ -288,7 +288,7 @@ namespace Pri.GameLibrary.Infrastructure.Migrations
 
                     b.HasIndex("ReviewId");
 
-                    b.ToTable("GamesUsers");
+                    b.ToTable("GamesUsers", (string)null);
 
                     b.HasData(
                         new
@@ -339,7 +339,7 @@ namespace Pri.GameLibrary.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Platforms");
+                    b.ToTable("Platforms", (string)null);
 
                     b.HasData(
                         new
@@ -387,7 +387,7 @@ namespace Pri.GameLibrary.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
 
                     b.HasData(
                         new
@@ -442,7 +442,7 @@ namespace Pri.GameLibrary.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
 
                     b.HasData(
                         new
