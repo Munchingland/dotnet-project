@@ -10,6 +10,6 @@ namespace Pri.GameLibrary.Core.Interfaces.Services
 {
     public interface IAuthenticationService
     {
-        Task<LoginResultModel> LoginAsync(string email, string password, IConfiguration configuration);
+        Task<LoginResultModel> LoginAsync(string email, string password);
     }
 }

@@ -30,40 +30,12 @@ namespace Pri.GameLibrary.Api.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginRequestDto loginRequestDto)
         {
-            var user = await _userManager.FindByEmailAsync(loginRequestDto.Email);
-            if(user == null)
+            var result = await _authenticationService.LoginAsync(loginRequestDto.Email, loginRequestDto.Password);
+            if (!result.IsSuccess)
             {
                 return Unauthorized();
             }
-            var result = await _signInManager.PasswordSignInAsync(user.UserName, loginRequestDto.Password, false, false);
-            if (!result.Succeeded)
-            {
-                return Unauthorized();
-            }
-            //get the user roles
-            var userRoles = await _userManager.GetRolesAsync(user);
-            //get the claims
-            var claims = await _userManager.GetClaimsAsync(user);
-            //add userId to claims
-            claims.Add(new Claim(ClaimTypes.PrimarySid, user.Id));
-            //add user roles to claims
-            foreach (var role in userRoles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, role));
-            }
-            //generate token
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetValue<string>("JWTConfiguration:SigninKey")));
-
-            var token = new JwtSecurityToken(
-                    audience: _configuration.GetValue<string>("JWTConfiguration:Audience"),
-                    issuer: _configuration.GetValue<string>("JWTConfiguration:Issuer"),
-                    claims: claims,
-                    expires: DateTime.Now.AddDays(_configuration.GetValue<int>("JWTConfiguration:TokenExpiration")),
-                    signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
-                );
-            //serialize token
-            var serializedToken = new JwtSecurityTokenHandler().WriteToken(token);
-            return Ok(serializedToken);
+            return Ok(result.Token);
         }
     }
 }

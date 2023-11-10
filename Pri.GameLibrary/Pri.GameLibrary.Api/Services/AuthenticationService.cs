@@ -18,14 +18,16 @@ namespace Pri.GameLibrary.Core.Services
     {
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
+        private readonly IConfiguration _configuration;
 
-        public AuthenticationService(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AuthenticationService(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _configuration = configuration;
         }
 
-        public async Task<LoginResultModel> LoginAsync(string email, string password, IConfiguration configuration)
+        public async Task<LoginResultModel> LoginAsync(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
@@ -57,19 +59,22 @@ namespace Pri.GameLibrary.Core.Services
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
             //generate token
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("JWTConfiguration:SigninKey")));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetValue<string>("JWTConfiguration:SigninKey")));
 
             var token = new JwtSecurityToken(
-                    audience: configuration.GetValue<string>("JWTConfiguration:Audience"),
-                    issuer: configuration.GetValue<string>("JWTConfiguration:Issuer"),
+                    audience: _configuration.GetValue<string>("JWTConfiguration:Audience"),
+                    issuer: _configuration.GetValue<string>("JWTConfiguration:Issuer"),
                     claims: claims,
-                    expires: DateTime.Now.AddDays(configuration.GetValue<int>("JWTConfiguration:TokenExpiration")),
+                    expires: DateTime.Now.AddDays(_configuration.GetValue<int>("JWTConfiguration:TokenExpiration")),
                     signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
                 );
             //serialize token
             var serializedToken = new JwtSecurityTokenHandler().WriteToken(token);
-
-            throw new NotImplementedException();
+            return new LoginResultModel
+            {
+                IsSuccess = true,
+                Token = serializedToken
+            };
         }
     }
 }
