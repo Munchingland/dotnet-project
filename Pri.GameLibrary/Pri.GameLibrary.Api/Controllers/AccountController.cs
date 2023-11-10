@@ -37,5 +37,13 @@ namespace Pri.GameLibrary.Api.Controllers
             }
             return Ok(result.Token);
         }
+        [HttpPost("Logout")]
+        public async Task<IActionResult> Logout() 
+        {
+            await _signInManager.SignOutAsync();
+
+            return Ok();
+        }
+
     }
 }
