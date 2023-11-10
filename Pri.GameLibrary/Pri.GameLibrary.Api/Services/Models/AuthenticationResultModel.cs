@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pri.GameLibrary.Core.Interfaces.Services.Models
+namespace Pri.GameLibrary.Api.Services.Models
 {
-    public class LoginResultModel
+    public class AuthenticationResultModel
     {
         public bool IsSuccess { get; set; }
         public string Token { get; set; }

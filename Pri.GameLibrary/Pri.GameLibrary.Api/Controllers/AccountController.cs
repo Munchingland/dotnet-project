@@ -44,6 +44,16 @@ namespace Pri.GameLibrary.Api.Controllers
 
             return Ok();
         }
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register(RegisterRequestDto registerRequestDto)
+        {
+            var result = await _authenticationService.RegisterAsync(registerRequestDto);
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok("User created");
+        }
 
     }
 }

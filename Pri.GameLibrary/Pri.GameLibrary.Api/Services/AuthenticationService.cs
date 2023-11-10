@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Pri.GameLibrary.Api.DTOs.Account;
 using Pri.GameLibrary.Core.Entities;
 using Pri.GameLibrary.Core.Interfaces.Services;
-using Pri.GameLibrary.Core.Interfaces.Services.Models;
+using Pri.GameLibrary.Api.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,12 +29,12 @@ namespace Pri.GameLibrary.Core.Services
             _configuration = configuration;
         }
 
-        public async Task<LoginResultModel> LoginAsync(string email, string password)
+        public async Task<AuthenticationResultModel> LoginAsync(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
-                return new LoginResultModel
+                return new AuthenticationResultModel
                 {
                     Errors = new List<string>() { "not allowed" },
                     IsSuccess = false,
@@ -41,7 +43,7 @@ namespace Pri.GameLibrary.Core.Services
             var result = await _signInManager.PasswordSignInAsync(user.UserName, password, false, false);
             if (!result.Succeeded)
             {
-                return new LoginResultModel
+                return new AuthenticationResultModel
                 {
                     Errors = new List<string>() { "not allowed" },
                     IsSuccess = false,
@@ -70,11 +72,47 @@ namespace Pri.GameLibrary.Core.Services
                 );
             //serialize token
             var serializedToken = new JwtSecurityTokenHandler().WriteToken(token);
-            return new LoginResultModel
+            return new AuthenticationResultModel
             {
                 IsSuccess = true,
                 Token = serializedToken
             };
+        }
+
+        public async Task<AuthenticationResultModel> RegisterAsync(RegisterRequestDto registerRequestDto)
+        {
+            var user = new User
+            {
+                UserName = registerRequestDto.UserName,
+                Email = registerRequestDto.Email,
+                BirthDay = registerRequestDto.BirthDay,
+                HasApprovedTermsAndConditions = registerRequestDto.HasApprovedTermsAndConditions,
+            };
+            var result = await _userManager.CreateAsync(user, registerRequestDto.Password);
+            if (!result.Succeeded)
+            {
+                return new AuthenticationResultModel
+                {
+                    IsSuccess = false,
+                    Errors = new List<string>()
+                    {
+                        "Something went wrong"
+                    }
+                };
+            }
+            result = await _userManager.AddToRoleAsync(user, "User");
+            if(!result.Succeeded)
+            {
+                return new AuthenticationResultModel
+                {
+                    IsSuccess = false,
+                    Errors = new List<string>()
+                    {
+                        "Something went wrong"
+                    }
+                };
+            }
+            return new AuthenticationResultModel { IsSuccess = true };
         }
     }
 }
