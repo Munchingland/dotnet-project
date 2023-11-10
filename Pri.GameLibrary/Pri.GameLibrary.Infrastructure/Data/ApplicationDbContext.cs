@@ -11,7 +11,7 @@ namespace Pri.GameLibrary.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
+        //public DbSet<User> Users { get; set; }
         public DbSet<Game> Games { get; set; }
         public DbSet<GameUser> GamesUsers { get; set; }
         public DbSet<Review> Reviews { get; set; }
