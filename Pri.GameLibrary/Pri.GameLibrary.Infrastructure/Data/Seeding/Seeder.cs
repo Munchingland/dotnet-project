@@ -219,36 +219,36 @@ namespace Pri.GameLibrary.Infrastructure.Data.Seeding
                 {
                     GameId = 1,
                     ReviewId = 1,
-                    UserId = 1
+                    UserId = "1"
                 },
                 new GameUser
                 {
                     GameId = 7,
                     ReviewId = 2,
-                    UserId = 1
+                    UserId = "1"
                 },
                 new GameUser
                 {
                     GameId = 10,
                     ReviewId = 3,
-                    UserId = 2
+                    UserId = "2"
                 },
                 new GameUser
                 {
                     GameId = 4,
                     ReviewId = 4,
-                    UserId = 2
+                    UserId = "2"
                 },
                 new GameUser 
                 { 
                     GameId = 9,
-                    UserId = 2
+                    UserId = "2"
                 },
                 new GameUser
                 {
                     GameId = 5,
                     ReviewId = 5,
-                    UserId = 2
+                    UserId = "2"
                 });
             modelBuilder.Entity("GamePlatform").HasData(
                 new { GamesId = 1, PlatformsId = 1 },
