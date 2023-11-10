@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Pri.GameLibrary.Core.Entities;
 using Pri.GameLibrary.Infrastructure.Data.Seeding;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Pri.GameLibrary.Infrastructure.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         //public DbSet<User> Users { get; set; }
         public DbSet<Game> Games { get; set; }

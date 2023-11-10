@@ -1,15 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Pri.GameLibrary.Core.Entities;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
 namespace Pri.GameLibrary.Infrastructure.Data.Seeding
 {
-    public class Seeder
+    public static class Seeder
     {
         public static void Seed(ModelBuilder modelBuilder)
         {
@@ -145,7 +140,6 @@ namespace Pri.GameLibrary.Infrastructure.Data.Seeding
             IPasswordHasher<User> passwordHasher = new PasswordHasher<User>();
             var user = new User
             {
-                BirthDay = DateTime.Now,
                 Id = "1",
                 UserName = "PriUser",
                 NormalizedUserName = "PRIUSER",
@@ -154,10 +148,11 @@ namespace Pri.GameLibrary.Infrastructure.Data.Seeding
                 SecurityStamp = Guid.NewGuid().ToString(),
                 ConcurrencyStamp = Guid.NewGuid().ToString(),
                 HasApprovedTermsAndConditions = true,
+                BirthDay = DateTime.Now
             };
             var refuser = new User
             {
-                BirthDay = DateTime.Parse("2016-05-02"),
+                
                 Id = "2",
                 UserName = "PriRefuser",
                 NormalizedUserName ="PRIREFUSER",
@@ -165,11 +160,11 @@ namespace Pri.GameLibrary.Infrastructure.Data.Seeding
                 NormalizedEmail = "REFUSER@PRI.BE",
                 SecurityStamp = Guid.NewGuid().ToString(),
                 ConcurrencyStamp = Guid.NewGuid().ToString(),
-                HasApprovedTermsAndConditions = false
+                HasApprovedTermsAndConditions = false,
+                BirthDay = DateTime.Parse("2016-05-02"),
             };
             var admin = new User
-            {
-                BirthDay = DateTime.Parse("2016-05-02"),
+            { 
                 Id = "3",
                 UserName = "PriAdmin",
                 NormalizedUserName = "PRIADMIN",
@@ -177,24 +172,14 @@ namespace Pri.GameLibrary.Infrastructure.Data.Seeding
                 NormalizedEmail = "ADMIN@PRI.BE",
                 SecurityStamp = Guid.NewGuid().ToString(),
                 ConcurrencyStamp = Guid.NewGuid().ToString(),
+                BirthDay = DateTime.Parse("2016-05-02"),
             };
 
             admin.PasswordHash = passwordHasher.HashPassword(admin, "Test123?");
             refuser.PasswordHash = passwordHasher.HashPassword(refuser, "Test123?");
             user.PasswordHash = passwordHasher.HashPassword(user, "Test123?");
             modelBuilder.Entity<User>().HasData(new User[] {admin, refuser, user});
-            var roles = new IdentityRole<string>[]
-                {
-                    new IdentityRole<string>{Id = "1",Name = "Admin",NormalizedName = "ADMIN" },
-                    new IdentityRole<string>{Id = "2",Name = "User",NormalizedName = "USER" },
-                };
-            //link to users
-            var userRoles = new IdentityUserRole<string>[]
-            {
-                new IdentityUserRole<string>{UserId = "3",RoleId="1" },
-                new IdentityUserRole<string>{UserId = "2",RoleId="2" },
-                new IdentityUserRole<string>{UserId = "1",RoleId="2" },
-            };
+            
             modelBuilder.Entity<Review>().HasData(
                 new Review
                 {
@@ -287,6 +272,20 @@ namespace Pri.GameLibrary.Infrastructure.Data.Seeding
 
                 new { GamesId = 10, PlatformsId = 1 },
                 new { GamesId = 10, PlatformsId = 4 });
+            var roles = new IdentityRole<string>[]
+                {
+                    new IdentityRole<string>{Id = "1",Name = "Admin",NormalizedName = "ADMIN" },
+                    new IdentityRole<string>{Id = "2",Name = "User",NormalizedName = "USER" },
+                };
+            //link to users
+            var userRoles = new IdentityUserRole<string>[]
+            {
+                new IdentityUserRole<string>{UserId = "3",RoleId="1" },
+                new IdentityUserRole<string>{UserId = "2",RoleId="2" },
+                new IdentityUserRole<string>{UserId = "1",RoleId="2" },
+            };
+            modelBuilder.Entity<IdentityRole>().HasData(roles);
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(userRoles);
         }
     }
 }
