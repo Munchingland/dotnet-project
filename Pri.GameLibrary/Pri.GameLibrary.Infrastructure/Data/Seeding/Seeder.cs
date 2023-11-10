@@ -183,7 +183,18 @@ namespace Pri.GameLibrary.Infrastructure.Data.Seeding
             refuser.PasswordHash = passwordHasher.HashPassword(refuser, "Test123?");
             user.PasswordHash = passwordHasher.HashPassword(user, "Test123?");
             modelBuilder.Entity<User>().HasData(new User[] {admin, refuser, user});
-
+            var roles = new IdentityRole<string>[]
+                {
+                    new IdentityRole<string>{Id = "1",Name = "Admin",NormalizedName = "ADMIN" },
+                    new IdentityRole<string>{Id = "2",Name = "User",NormalizedName = "USER" },
+                };
+            //link to users
+            var userRoles = new IdentityUserRole<string>[]
+            {
+                new IdentityUserRole<string>{UserId = "3",RoleId="1" },
+                new IdentityUserRole<string>{UserId = "2",RoleId="2" },
+                new IdentityUserRole<string>{UserId = "1",RoleId="2" },
+            };
             modelBuilder.Entity<Review>().HasData(
                 new Review
                 {
