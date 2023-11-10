@@ -17,7 +17,7 @@ namespace Pri.GameLibrary.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.24")
+                .HasAnnotation("ProductVersion", "6.0.22")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -34,7 +34,7 @@ namespace Pri.GameLibrary.Infrastructure.Migrations
 
                     b.HasIndex("PlatformsId");
 
-                    b.ToTable("GamePlatform");
+                    b.ToTable("GamePlatform", (string)null);
 
                     b.HasData(
                         new
@@ -140,7 +140,7 @@ namespace Pri.GameLibrary.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Developers");
+                    b.ToTable("Developers", (string)null);
 
                     b.HasData(
                         new
@@ -196,7 +196,7 @@ namespace Pri.GameLibrary.Infrastructure.Migrations
 
                     b.HasIndex("DeveloperId");
 
-                    b.ToTable("Games");
+                    b.ToTable("Games", (string)null);
 
                     b.HasData(
                         new
@@ -273,8 +273,8 @@ namespace Pri.GameLibrary.Infrastructure.Migrations
 
             modelBuilder.Entity("Pri.GameLibrary.Core.Entities.GameUser", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<int>("GameId")
                         .HasColumnType("int");
@@ -288,43 +288,37 @@ namespace Pri.GameLibrary.Infrastructure.Migrations
 
                     b.HasIndex("ReviewId");
 
-                    b.ToTable("GamesUsers");
+                    b.ToTable("GamesUsers", (string)null);
 
                     b.HasData(
                         new
                         {
-                            UserId = "1",
+                            UserId = 1,
                             GameId = 1,
                             ReviewId = 1
                         },
                         new
                         {
-                            UserId = "1",
+                            UserId = 1,
                             GameId = 7,
                             ReviewId = 2
                         },
                         new
                         {
-                            UserId = "1",
+                            UserId = 2,
                             GameId = 10,
                             ReviewId = 3
                         },
                         new
                         {
-                            UserId = "1",
+                            UserId = 5,
                             GameId = 4,
                             ReviewId = 4
                         },
                         new
                         {
-                            UserId = "3",
-                            GameId = 9,
-                            ReviewId = 0
-                        },
-                        new
-                        {
-                            UserId = "1",
-                            GameId = 5,
+                            UserId = 4,
+                            GameId = 4,
                             ReviewId = 5
                         });
                 });
@@ -345,7 +339,7 @@ namespace Pri.GameLibrary.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Platforms");
+                    b.ToTable("Platforms", (string)null);
 
                     b.HasData(
                         new
@@ -393,98 +387,99 @@ namespace Pri.GameLibrary.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Created = new DateTime(2023, 11, 10, 14, 24, 8, 282, DateTimeKind.Local).AddTicks(8386),
+                            Created = new DateTime(2023, 10, 20, 0, 24, 1, 756, DateTimeKind.Local).AddTicks(9043),
                             Description = "Psychonauts 2 is everything I wanted a Psychonauts sequel to be. It delivers on a compelling new chapter of the story full of unique characters, tighter platforming, amazing combat for a platformer, and best of all: incredible new mind-themed worlds to explore. Unlike the original, Psychonauts 2 doesn’t suffer from inconsistent difficulty and flubbing level gimmicks. The worst I can say is that the pacing at the very end felt a little off and occasionally voice lines got interrupted, but if you’re a fan of collectathon platformers, or 3D platformers in general, I cannot recommend Psychonauts 2 enough.",
                             Rating = 9
                         },
                         new
                         {
                             Id = 2,
-                            Created = new DateTime(2023, 11, 10, 14, 24, 8, 282, DateTimeKind.Local).AddTicks(8389),
+                            Created = new DateTime(2023, 10, 20, 0, 24, 1, 756, DateTimeKind.Local).AddTicks(9045),
                             Rating = 3
                         },
                         new
                         {
                             Id = 3,
-                            Created = new DateTime(2023, 11, 10, 14, 24, 8, 282, DateTimeKind.Local).AddTicks(8391),
+                            Created = new DateTime(2023, 10, 20, 0, 24, 1, 756, DateTimeKind.Local).AddTicks(9046),
                             Rating = 8
                         },
                         new
                         {
                             Id = 4,
-                            Created = new DateTime(2023, 11, 10, 14, 24, 8, 282, DateTimeKind.Local).AddTicks(8392),
+                            Created = new DateTime(2023, 10, 20, 0, 24, 1, 756, DateTimeKind.Local).AddTicks(9048),
                             Rating = 7
                         },
                         new
                         {
                             Id = 5,
-                            Created = new DateTime(2023, 11, 10, 14, 24, 8, 282, DateTimeKind.Local).AddTicks(8394),
+                            Created = new DateTime(2023, 10, 20, 0, 24, 1, 756, DateTimeKind.Local).AddTicks(9049),
                             Rating = 6
                         });
                 });
 
             modelBuilder.Entity("Pri.GameLibrary.Core.Entities.User", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("BirthDay")
-                        .HasColumnType("datetime2");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("HasApprovedTermsAndConditions")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Created = new DateTime(2023, 10, 20, 0, 24, 1, 756, DateTimeKind.Local).AddTicks(8992),
+                            Email = "Jarno.Caenepeel@student.howest.com",
+                            Name = "Jarno Caenepeel"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Created = new DateTime(2023, 10, 20, 0, 24, 1, 756, DateTimeKind.Local).AddTicks(9023),
+                            Email = "lipsum@hotmail.com",
+                            Name = "lorem ipsum"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Created = new DateTime(2023, 10, 20, 0, 24, 1, 756, DateTimeKind.Local).AddTicks(9026),
+                            Email = "George@hotmail.com",
+                            Name = "George O. Estrada"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Created = new DateTime(2023, 10, 20, 0, 24, 1, 756, DateTimeKind.Local).AddTicks(9027),
+                            Email = "Enos@hotmail.com",
+                            Name = "Enos White"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Created = new DateTime(2023, 10, 20, 0, 24, 1, 756, DateTimeKind.Local).AddTicks(9029),
+                            Email = "Mable@gmail.com",
+                            Name = "Mable Parisian"
+                        });
                 });
 
             modelBuilder.Entity("GamePlatform", b =>
