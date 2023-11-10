@@ -39,6 +39,7 @@ namespace Pri.GameLibrary.Api
                 }
                 )
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+           
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -62,6 +63,7 @@ namespace Pri.GameLibrary.Api
             builder.Services.AddTransient<IReviewService, ReviewService>();
             builder.Services.AddTransient<IGameService, GameService>();
             builder.Services.AddTransient<IPlatformService, PlatformService>();
+            builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -78,7 +80,8 @@ namespace Pri.GameLibrary.Api
             }
 
             app.UseHttpsRedirection();
-
+            app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
