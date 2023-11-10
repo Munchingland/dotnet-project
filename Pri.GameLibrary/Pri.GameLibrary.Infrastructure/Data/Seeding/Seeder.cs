@@ -167,7 +167,6 @@ namespace Pri.GameLibrary.Infrastructure.Data.Seeding
                 ConcurrencyStamp = Guid.NewGuid().ToString(),
                 HasApprovedTermsAndConditions = false
             };
-
             var admin = new User
             {
                 BirthDay = DateTime.Parse("2016-05-02"),
@@ -180,7 +179,10 @@ namespace Pri.GameLibrary.Infrastructure.Data.Seeding
                 ConcurrencyStamp = Guid.NewGuid().ToString(),
             };
 
-
+            admin.PasswordHash = passwordHasher.HashPassword(admin, "Test123?");
+            refuser.PasswordHash = passwordHasher.HashPassword(refuser, "Test123?");
+            user.PasswordHash = passwordHasher.HashPassword(user, "Test123?");
+            modelBuilder.Entity<User>().HasData(new User[] {admin, refuser, user});
 
             modelBuilder.Entity<Review>().HasData(
                 new Review
