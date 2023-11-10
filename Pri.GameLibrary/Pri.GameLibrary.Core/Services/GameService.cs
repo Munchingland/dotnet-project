@@ -112,7 +112,7 @@ namespace Pri.GameLibrary.Core.Services
             };
         }
 
-        public async Task<ResultModel<Game>> GetByUserAsync(int id)
+        public async Task<ResultModel<Game>> GetByUserAsync(string id)
         {
             var games = await _gameRepository.GetByUserAsync(id);
             return new ResultModel<Game>

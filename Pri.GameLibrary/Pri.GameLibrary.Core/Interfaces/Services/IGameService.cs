@@ -14,7 +14,7 @@ namespace Pri.GameLibrary.Core.Interfaces.Services
         Task<ResultModel<Game>> CreateAsync(string name, int developerId, IEnumerable<int> platformIds, DateTime releaseDate);
         Task<ResultModel<Game>> UpdateAsync(GameUpdateModel gameUpdateModel);
         Task<ResultModel<Game>> SearchByNameAsync(string name);
-        Task<ResultModel<Game>> GetByUserAsync(int id);
+        Task<ResultModel<Game>> GetByUserAsync(string id);
         Task<ResultModel<Game>> GetByDeveloperAsync(int id);
         Task<ResultModel<Game>> GetByPlatformAsync(int id);
     }
