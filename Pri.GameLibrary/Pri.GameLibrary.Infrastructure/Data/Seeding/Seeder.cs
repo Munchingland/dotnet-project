@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Pri.GameLibrary.Core.Entities;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace Pri.GameLibrary.Infrastructure.Data.Seeding
 {
@@ -141,42 +142,46 @@ namespace Pri.GameLibrary.Infrastructure.Data.Seeding
                     Name = "Starfield",
                     DeveloperId = 1
                 });
-            modelBuilder.Entity<User>().HasData(
-                new User
-                {
-                    Created = DateTime.Now,
-                    Id = 1,
-                    Name = "Jarno Caenepeel",
-                    Email = "Jarno.Caenepeel@student.howest.com",
-                },
-                new User
-                {
-                    Created = DateTime.Now,
-                    Id = 2,
-                    Name = "lorem ipsum",
-                    Email = "lipsum@hotmail.com",
-                },
-                new User
-                {
-                    Created = DateTime.Now,
-                    Id = 3,
-                    Name = "George O. Estrada",
-                    Email = "George@hotmail.com",
-                },
-                new User
-                {
-                    Created = DateTime.Now,
-                    Id = 4,
-                    Name = "Enos White",
-                    Email = "Enos@hotmail.com",
-                },
-                new User
-                {
-                    Created = DateTime.Now,
-                    Id = 5,
-                    Name = "Mable Parisian",
-                    Email = "Mable@gmail.com",
-                });
+            IPasswordHasher<User> passwordHasher = new PasswordHasher<User>();
+            var user = new User
+            {
+                BirthDay = DateTime.Now,
+                Id = "1",
+                UserName = "PriUser",
+                NormalizedUserName = "PRIUSER",
+                Email = "user@pri.be",
+                NormalizedEmail = "USER@PRI.BE",
+                SecurityStamp = Guid.NewGuid().ToString(),
+                ConcurrencyStamp = Guid.NewGuid().ToString(),
+                HasApprovedTermsAndConditions = true,
+            };
+            var refuser = new User
+            {
+                BirthDay = DateTime.Parse("2016-05-02"),
+                Id = "2",
+                UserName = "PriRefuser",
+                NormalizedUserName ="PRIREFUSER",
+                Email = "refuser@pri.be",
+                NormalizedEmail = "REFUSER@PRI.BE",
+                SecurityStamp = Guid.NewGuid().ToString(),
+                ConcurrencyStamp = Guid.NewGuid().ToString(),
+                HasApprovedTermsAndConditions = false
+            };
+
+            var admin = new User
+            {
+                BirthDay = DateTime.Parse("2016-05-02"),
+                Id = "3",
+                UserName = "PriAdmin",
+                NormalizedUserName = "PRIADMIN",
+                Email = "admin@pri.be",
+                NormalizedEmail = "ADMIN@PRI.BE",
+                SecurityStamp = Guid.NewGuid().ToString(),
+                ConcurrencyStamp = Guid.NewGuid().ToString(),
+            };
+
+
+
             modelBuilder.Entity<Review>().HasData(
                 new Review
                 {
@@ -232,13 +237,18 @@ namespace Pri.GameLibrary.Infrastructure.Data.Seeding
                 {
                     GameId = 4,
                     ReviewId = 4,
-                    UserId = 5
+                    UserId = 2
+                },
+                new GameUser 
+                { 
+                    GameId = 9,
+                    UserId = 2
                 },
                 new GameUser
                 {
-                    GameId = 4,
+                    GameId = 5,
                     ReviewId = 5,
-                    UserId = 4
+                    UserId = 2
                 });
             modelBuilder.Entity("GamePlatform").HasData(
                 new { GamesId = 1, PlatformsId = 1 },

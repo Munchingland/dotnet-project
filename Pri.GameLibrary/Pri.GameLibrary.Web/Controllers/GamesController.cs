@@ -93,14 +93,17 @@ namespace Pri.GameLibrary.Web.Controllers
         public async Task<IActionResult> Add()
         {
             var url = $"{_configuration.GetSection("ApiUrl:BaseUrl").Value}";
+            //get platforms
             var platformUrl = new Uri($"{url}/Platforms");
             var result = await _httpClient.GetAsync(platformUrl);
             var content = await result.Content.ReadAsStringAsync();
             var platforms = JsonConvert.DeserializeObject<BaseItemsViewModel>(content);
+            //get developers
             var developerUrl = new Uri($"{url}/Developers");
             result = await _httpClient.GetAsync(developerUrl);
             content = await result.Content.ReadAsStringAsync();
             var developers = JsonConvert.DeserializeObject<BaseItemsViewModel>(content);
+            //fill select list items with platforms and developers
             var gamesAddViewModel = new GamesAddViewModel
             {
                 Platforms = platforms.Items.Select(p =>

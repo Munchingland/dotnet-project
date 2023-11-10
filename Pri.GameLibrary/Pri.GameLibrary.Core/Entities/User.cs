@@ -1,9 +1,13 @@
-﻿namespace Pri.GameLibrary.Core.Entities
+﻿
+
+using Microsoft.AspNetCore.Identity;
+
+namespace Pri.GameLibrary.Core.Entities
 {
-    public class User : BaseEntity
+    public class User : IdentityUser
     {
-        public string Name { get; set; }
+        public DateTime BirthDay { get; set; }
         public ICollection<GameUser> Games { get; set; }
-        public string Email { get; set; }
+        public bool? HasApprovedTermsAndConditions { get; set; }
     }
 }
