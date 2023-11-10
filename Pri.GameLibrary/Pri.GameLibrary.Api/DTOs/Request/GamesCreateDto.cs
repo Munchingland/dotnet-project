@@ -8,6 +8,7 @@ namespace Pri.GameLibrary.Api.DTOs.Request
         public string Name { get; set; }
         [Required(ErrorMessage ="Must have a developer")]
         public int DeveloperId { get; set; }
+        [Required(ErrorMessage ="Must have a platform")]
         public IEnumerable<int> PlatformIds { get; set; }
         public DateTime ReleaseDate { get; set; }
     }
