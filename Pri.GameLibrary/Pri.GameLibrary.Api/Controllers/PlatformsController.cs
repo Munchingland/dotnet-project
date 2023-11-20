@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Pri.GameLibrary.Api.DTOs.Request;
 using Pri.GameLibrary.Api.DTOs.Response;
 using Pri.GameLibrary.Api.Extensions;
@@ -40,6 +41,7 @@ namespace Pri.GameLibrary.Api.Controllers
             return Ok(platformsGetByIdDto);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(PlatformsCreateDto platformsCreateDto)
         {
             var result = await _platformService.CreateAsync(platformsCreateDto.Name, platformsCreateDto.ReleaseDate);
@@ -54,6 +56,7 @@ namespace Pri.GameLibrary.Api.Controllers
             return Ok("Created");
         }
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(PlatformsUpdateDto platformsUpdateDto)
         {
             if (!await _platformService.ExistsAsync(platformsUpdateDto.Id))
@@ -73,6 +76,7 @@ namespace Pri.GameLibrary.Api.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             if (!await _platformService.ExistsAsync(id))

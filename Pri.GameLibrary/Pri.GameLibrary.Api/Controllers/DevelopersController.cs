@@ -6,6 +6,7 @@ using Pri.GameLibrary.Core.Interfaces.Services.Models;
 using Pri.GameLibrary.Core.Interfaces.Services;
 using Pri.GameLibrary.Api.Extensions;
 using Pri.GameLibrary.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Pri.GameLibrary.Api.Controllers
 {
@@ -51,6 +52,7 @@ namespace Pri.GameLibrary.Api.Controllers
             return Ok(developersSearchByNameDto);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(DevelopersCreateDto developersCreateDto)
         {
             var result = await _developerService.CreateAsync(developersCreateDto.Name, developersCreateDto.CreationDate);
@@ -65,6 +67,7 @@ namespace Pri.GameLibrary.Api.Controllers
             return Ok("Created");
         }
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(DevelopersUpdateDto developersUpdateDto)
         {
             if (!await _developerService.ExistsAsync(developersUpdateDto.Id))
@@ -83,6 +86,7 @@ namespace Pri.GameLibrary.Api.Controllers
             return Ok("updated");
         }
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             if(!await _developerService.ExistsAsync(id))

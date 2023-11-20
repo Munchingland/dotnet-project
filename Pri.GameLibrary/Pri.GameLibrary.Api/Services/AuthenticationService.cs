@@ -60,6 +60,9 @@ namespace Pri.GameLibrary.Core.Services
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
+            claims.Add(new Claim("HasApprovedTermsAndConditions", user.HasApprovedTermsAndConditions.ToString())); 
+            claims.Add(new Claim(ClaimTypes.Name, user.UserName));
+            claims.Add(new Claim(ClaimTypes.Email, user.Email));
             //generate token
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetValue<string>("JWTConfiguration:SigninKey")));
 

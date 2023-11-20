@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using System;
 using Pri.GameLibrary.Api.DTOs.Request;
 using Pri.GameLibrary.Core.Interfaces.Services.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Pri.GameLibrary.Api.Controllers
 {
@@ -154,8 +155,8 @@ namespace Pri.GameLibrary.Api.Controllers
             return Ok(gamesGetByDeveloperIdDto);
         }
 
-
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromForm]GamesCreateDto gamesCreateDto)
         {
             var result = await _gameService.CreateAsync(gamesCreateDto.Name, gamesCreateDto.DeveloperId, gamesCreateDto.PlatformIds, gamesCreateDto.ReleaseDate);
@@ -170,6 +171,7 @@ namespace Pri.GameLibrary.Api.Controllers
             return Ok("Created");
         }
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update([FromForm]GamesUpdateDto gamesUpdateDto)
         {
             if(!await _gameService.ExistsAsync(gamesUpdateDto.Id))
@@ -196,6 +198,7 @@ namespace Pri.GameLibrary.Api.Controllers
             return Ok("updated");
         }
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             if (!await _gameService.ExistsAsync(id))
