@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pri.GameLibrary.Api", "Pri.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pri.GameLibrary.Web", "Pri.GameLibrary.Web\Pri.GameLibrary.Web.csproj", "{AEB47346-5D31-47E8-B78E-A868E9574768}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pri.GameLibrary.Vue.Web", "Pri.GameLibrary.Vue.Web\Pri.GameLibrary.Vue.Web.csproj", "{DB09EFCD-D0F6-43B6-8163-CC5B8FD7106C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,10 +33,6 @@ Global
 		{AEB47346-5D31-47E8-B78E-A868E9574768}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEB47346-5D31-47E8-B78E-A868E9574768}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEB47346-5D31-47E8-B78E-A868E9574768}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DB09EFCD-D0F6-43B6-8163-CC5B8FD7106C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DB09EFCD-D0F6-43B6-8163-CC5B8FD7106C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DB09EFCD-D0F6-43B6-8163-CC5B8FD7106C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DB09EFCD-D0F6-43B6-8163-CC5B8FD7106C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

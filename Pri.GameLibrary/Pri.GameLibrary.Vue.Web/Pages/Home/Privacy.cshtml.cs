@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Pri.GameLibrary.Vue.Web.Pages
+namespace Pri.GameLibrary.Vue.Web.Pages.Home
 {
     public class PrivacyModel : PageModel
     {
