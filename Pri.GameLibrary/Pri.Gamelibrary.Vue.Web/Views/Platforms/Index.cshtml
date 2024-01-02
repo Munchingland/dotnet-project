@@ -1,0 +1,56 @@
+﻿
+<div id="platform">
+    <div class="row">
+        <div class="col col-lg-2 mx-auto">
+            <button v-on:click="showPlatforms" class="btn btn-outline-info">Show all Platforms</button>
+        </div>
+    </div>
+    <div v-if="platformsVisible" class="row">
+        <h5>platforms</h5>
+        <div class="row">
+            <div v-for="platform in platforms" class="col col-lg-4 mb-2 text-center">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{platform.name}}</h5>
+                        <h6 class="card-subtitle mb-2">Has {{platform.amountOfGames}} game(s)</h6>
+                        <div class="card-footer text-center">
+                            <a v-on:click="showGamesOnPlatform(platform)" href="#" class="btn btn-primary">Show Games</a>
+                            <a v-on:click="deleteProduct(product.id)" class="btn btn-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div v-if="gamesVisible" class="row">
+        <h5>games</h5>
+        <div class="row">
+            <div v-for="game in games" class="col col-lg-4 mb-2 text-center">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{game.name}}</h5>
+                        <h6 class="card-subtitle mb-2">{{game.developer.name}}</h6>
+                        <h6 class="card-subtitle mb-2">{{game.averageReview}}</h6>
+                        <span v-for="platform in game.platforms" class="card-text text-muted">
+                            {{platform.name}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="hasError" class="d-flex justify-content-center">
+        <span class="sr-only">ERROR</span>
+    </div>
+
+    <div v-if="loading" class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only"></span>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/js/platform.js"></script>
