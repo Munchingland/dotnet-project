@@ -13,6 +13,7 @@
     methods: {
         showPlatforms: async function () {
             this.loading = true;
+            this.gamesVisible = false;
             this.platforms = await axios.get(`${this.baseUrl}/Platforms`)
                 .then(response => response.data.items)
                 .catch(error => {
