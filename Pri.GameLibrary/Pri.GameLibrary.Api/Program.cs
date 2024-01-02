@@ -40,6 +40,7 @@ namespace Pri.GameLibrary.Api
                 )
                 .AddEntityFrameworkStores<ApplicationDbContext>();
            
+
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -53,6 +54,16 @@ namespace Pri.GameLibrary.Api
                 ValidIssuer = builder.Configuration["JWTConfiguration:Issuer"],
                 RequireExpirationTime = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTConfiguration:SigninKey"]))
+            });
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.AllowAnyHeader();
+                    policy.AllowAnyMethod();
+                    policy.AllowAnyOrigin();
+                });
             });
 
             builder.Services.AddTransient<IGameRepository, GameRepository>();
@@ -83,7 +94,7 @@ namespace Pri.GameLibrary.Api
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseCors();
 
             app.MapControllers();
 

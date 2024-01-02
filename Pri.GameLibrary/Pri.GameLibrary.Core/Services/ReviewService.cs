@@ -24,6 +24,13 @@ namespace Pri.GameLibrary.Core.Services
             {
                 return 0;
             }
+            foreach(var review in reviews)
+            {
+                if (review == null)
+                {
+                    return 0;
+                }
+            }
             return reviews.Average(r => r.Rating);
         }
     }
