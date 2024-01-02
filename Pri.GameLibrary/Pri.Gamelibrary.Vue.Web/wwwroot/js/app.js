@@ -2,5 +2,5 @@
     el: "#app",
     data: {
         pageTitle: "Vue in Mvx",
-    }
+    },
 });

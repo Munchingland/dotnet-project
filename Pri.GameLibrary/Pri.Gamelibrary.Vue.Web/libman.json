@@ -2,16 +2,19 @@
   "version": "1.0",
   "defaultProvider": "cdnjs",
   "libraries": [
+
     {
-      "library": "vue@2.6.12",
-      "destination": "wwwroot/lib/vue/",
+      "provider": "cdnjs",
+      "library": "vue@2.7.15",
+      "destination": "wwwroot/vue/",
       "files": [
         "vue.js"
       ]
     },
     {
-      "library": "axios@1.6.3",
-      "destination": "wwwroot/lib/axios/",
+      "provider": "cdnjs",
+      "library": "axios@1.6.2",
+      "destination": "wwwroot/axios/",
       "files": [
         "axios.min.js"
       ]
