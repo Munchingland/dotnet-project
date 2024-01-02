@@ -1,0 +1,38 @@
+﻿
+<div id="developer">
+    <div class="row">
+        <div class="col col-lg-2 mx-auto">
+            <button v-on:click="showDevelopers" class="btn btn-outline-info">Developers</button>
+        </div>
+    </div>
+    <div v-if="developersVisible" class="row">
+        <h5>developers</h5>
+        <div class="row">
+            <div v-for="developer in developers" class="col col-lg-4 mb-2 text-center">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{developer.name}}</h5>
+                        <h6 class="card-subtitle mb-2">founded : {{developer.founded}}</h6>
+                        <h6 class="card-subtitle mb-2">Created {{developer.amountOfGames}} game(s)</h6>
+                        <div class="card-footer text-center">
+                            <a href="#" class="btn btn-primary">Info</a>
+                            <a v-on:click="deleteProduct(product.id)" class="btn btn-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="hasError" class="d-flex justify-content-center">
+        <span class="sr-only">ERROR</span>
+    </div>
+
+    <div v-if="loading" class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only"></span>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/developer.js"></script>
