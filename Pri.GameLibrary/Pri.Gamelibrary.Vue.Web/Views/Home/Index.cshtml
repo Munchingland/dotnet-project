@@ -16,9 +16,23 @@
                         <h6 class="card-subtitle mb-2">{{game.averageReview}}</h6>
                         <span v-for="platform in game.platforms" class="card-text text-muted">{{platform.name}}</span>
                         <div class="card-footer text-center">
-                            <a href="#" class="btn btn-primary">Info</a>
+                            <a v-on:click="showReviews(game)" href="#" class="btn btn-primary">See all reviews</a>
                             <a v-on:click="deleteProduct(product.id)" class="btn btn-danger">Delete</a>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div v-if="reviewsVisible" class="row">
+        <h5>reviews for {{gameName}}</h5>
+        <div class="row">
+            <div v-for="review in reviews" class="col col-lg-4 mb-2 text-center">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{review.rating}}</h5>
+                        <h6 class="card-subtitle mb-2">{{review.created}}</h6>
+                        <h6 class="card-subtitle mb-2">{{review.description}}</h6>
                     </div>
                 </div>
             </div>

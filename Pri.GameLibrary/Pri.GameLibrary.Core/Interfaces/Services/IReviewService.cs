@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Pri.GameLibrary.Core.Entities;
+using Pri.GameLibrary.Core.Interfaces.Services.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,5 +11,6 @@ namespace Pri.GameLibrary.Core.Interfaces.Services
     public interface IReviewService
     {
         public Task<double> GetAverageScoreAsync(int id);
+        public Task<ResultModel<Review>> GetByGameIdAsync(int id);
     }
 }
