@@ -19,7 +19,7 @@ namespace Pri.GameLibrary.Infrastructure.Repositories
             _context = applicationDbContext;
         }
 
-        public async Task<IEnumerable<Review>> GetByGame(int id)
+        public async Task<IEnumerable<Review>> GetByGameAsync(int id)
         {
             return await _context.GamesUsers.Include(r=>r.Review).Where(r=>r.GameId == id).Select(r=>r.Review).ToListAsync();
         }

@@ -9,6 +9,6 @@ namespace Pri.GameLibrary.Core.Interfaces.Repositories
 {
     public interface IReviewRepository : IBaseRepository<Review>
     {
-        Task<IEnumerable<Review>> GetByGame(int id);
+        Task<IEnumerable<Review>> GetByGameAsync(int id);
     }
 }
