@@ -4,7 +4,7 @@ using Pri.GameLibrary.Core.Interfaces.Services;
 
 namespace Pri.GameLibrary.Api.Controllers
 {
-    [Route("Api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ReviewsController : Controller
     {
@@ -21,9 +21,9 @@ namespace Pri.GameLibrary.Api.Controllers
             var result = await _reviewService.GetByGameIdAsync(id);
             var reviewGetByGameIdDto = new ReviewGetByGameIdDto
             {
-                Reviews = result.Items.Select(r => new ReviewGetByIdDto
+                Items = result.Items.Select(r => new ReviewGetByIdDto
                 {
-                    Created = r.Created,
+                    Created = r.Created.ToShortDateString(),
                     Description = r.Description,
                     Id = r.Id,
                     Rating = r.Rating,

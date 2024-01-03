@@ -2,6 +2,6 @@
 {
     public class ReviewGetByGameIdDto
     {
-        public IEnumerable<ReviewGetByIdDto> Reviews { get; set; }
+        public IEnumerable<ReviewGetByIdDto> Items { get; set; }
     }
 }
