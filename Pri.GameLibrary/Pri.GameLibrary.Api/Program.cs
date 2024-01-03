@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Pri.GameLibrary.Core.Entities;
 using Pri.GameLibrary.Core.Interfaces.Repositories;
 using Pri.GameLibrary.Core.Interfaces.Services;
@@ -48,22 +49,13 @@ namespace Pri.GameLibrary.Api
             }).AddJwtBearer(options => options.TokenValidationParameters = new
                 TokenValidationParameters
             {
+                ValidateActor = true,
                 ValidateAudience = true,
                 ValidateIssuer = true,
                 ValidAudience = builder.Configuration["JWTConfiguration:Audience"],
                 ValidIssuer = builder.Configuration["JWTConfiguration:Issuer"],
                 RequireExpirationTime = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTConfiguration:SigninKey"]))
-            });
-
-            builder.Services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(policy =>
-                {
-                    policy.AllowAnyHeader();
-                    policy.AllowAnyMethod();
-                    policy.AllowAnyOrigin();
-                });
             });
 
             builder.Services.AddTransient<IGameRepository, GameRepository>();
@@ -79,7 +71,39 @@ namespace Pri.GameLibrary.Api
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
+
+            builder.Services.AddSwaggerGen(option =>
+            {
+                option.SwaggerDoc("v1", new OpenApiInfo { Title = "GameLibrary API", Version = "v1" });
+                option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please enter a valid token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "Bearer"
+                });
+                option.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type=ReferenceType.SecurityScheme,
+                                Id="Bearer"
+                            }
+                        },
+                        new string[]{}
+                    }
+                });
+            });
+
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddCors();
 
             var app = builder.Build();
 
@@ -88,13 +112,16 @@ namespace Pri.GameLibrary.Api
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                app.UseCors(builder => builder.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
             }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseCors();
+            
 
             app.MapControllers();
 
