@@ -14,6 +14,14 @@
       "provider": "cdnjs",
       "library": "axios@1.6.3",
       "destination": "wwwroot/axios/"
+    },
+    {
+      "provider": "unpkg",
+      "library": "jwt-decode@3.1.2",
+      "destination": "wwwroot/lib/jwt-decode/",
+      "files": [
+        "build/jwt-decode.js"
+      ]
     }
   ]
 }
