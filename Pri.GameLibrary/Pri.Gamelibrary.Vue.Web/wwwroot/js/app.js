@@ -39,7 +39,7 @@
                         this.errorMessage = "endpoint not found";
                     }
                     this.hasError = true;
-                })
+                });
             this.reviewsVisible = true;
             this.loading = false;
         }
