@@ -1,5 +1,5 @@
-﻿let app = new Vue({
-    el: "#app",
+﻿let gamesVue = new Vue({
+    el: "#games",
     data: {
         baseUrl: "https://localhost:7056/api",
         loading: false,
