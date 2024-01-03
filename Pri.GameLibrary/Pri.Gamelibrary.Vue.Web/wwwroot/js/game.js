@@ -1,7 +1,6 @@
-﻿let gamesVue = new Vue({
+﻿let game = new Vue({
     el: "#games",
     data: {
-        baseUrl: "https://localhost:7056/api",
         loading: false,
         games: [],
         errorMessage: "",
@@ -15,7 +14,7 @@
         showGames: async function () {
             this.loading = true;
             this.reviewsVisible = false;
-            this.games = await axios.get(`${this.baseUrl}/Games`)
+            this.games = await axios.get(`${baseUrl}/Games`)
                 .then(response => response.data.items)
                 .catch(error => {
                     if (error.response.status == 404) {
@@ -32,7 +31,7 @@
             this.games = [];
             this.gameName = game.name;
             this.games.push(game);
-            this.reviews = await axios.get(`${this.baseUrl}/Reviews/${game.id}`)
+            this.reviews = await axios.get(`${baseUrl}/Reviews/${game.id}`)
                 .then(response => response.data.items)
                 .catch(error => {
                     if (error.response.status == 404) {

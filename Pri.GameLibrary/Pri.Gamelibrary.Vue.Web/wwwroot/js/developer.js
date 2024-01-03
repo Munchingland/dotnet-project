@@ -1,7 +1,6 @@
 ﻿let app = new Vue({
     el: "#developer",
     data: {
-        baseUrl: "https://localhost:7056/api",
         loading: false,
         developers: [],
         errorMessage: "",
@@ -14,7 +13,7 @@
         showDevelopers: async function () {
             this.loading = true;
             this.gamesVisible = false;
-            this.developers = await axios.get(`${this.baseUrl}/Developers`)
+            this.developers = await axios.get(`${baseUrl}/Developers`)
                 .then(response => response.data.items)
                 .catch(error => {
                     if (error.response.status == 404) {
@@ -29,7 +28,7 @@
             this.loading = true;
             this.developers = [];
             this.developers.push(developer);
-            this.games = await axios.get(`${this.baseUrl}/Games/developer/${developer.id}`)
+            this.games = await axios.get(`${baseUrl}/Games/developer/${developer.id}`)
                 .then(response => response.data.items)
                 .catch(error => {
                     if (error.response.status == 404) {
