@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Pri.GameLibrary.Api.Controllers
 {
-    [Route("Api/auth")]
+    [Route("api/auth")]
     [ApiController]
     public class AccountController : Controller
     {
@@ -35,7 +35,8 @@ namespace Pri.GameLibrary.Api.Controllers
             {
                 return Unauthorized();
             }
-            return Ok(result.Token);
+
+            return Ok(new TokenDto { BearerToken = result.Token });
         }
         [HttpPost("Logout")]
         public async Task<IActionResult> Logout() 
