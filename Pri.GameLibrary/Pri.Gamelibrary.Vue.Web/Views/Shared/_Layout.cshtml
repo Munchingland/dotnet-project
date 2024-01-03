@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="~/Pri.Gamelibrary.Vue.Web.styles.css" asp-append-version="true" />
     <script src="~/axios/axios.js"></script>
     <script src="~/vue/vue.js"></script>
+    <script src="~/lib/jwt-decode/build/jwt-decode.js"></script>
 </head>
 <body>
     <header>
@@ -31,6 +32,20 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Platforms" asp-action="Index">Platform</a>
                         </li>
                     </ul>
+                    <div id="loginForm" class="d-flex flex-column">
+                        <form v-on:submit.prevent="submitLogin" v-if="loggedIn == false" class="d-flex" role="login">
+                            <input v-model="loginModel.email" class="form-control me-2" type="email" placeholder="e-mail" aria-label="E-mail">
+                            <input v-model="loginModel.password" class="form-control me-2" type="password" placeholder="password" aria-label="Password">
+                            <button v-on:click="submitLogin" class="btn btn-outline-primary" type="submit">Login</button>
+                        </form>
+                        <div v-else class="d-inline-flex">
+                            <div class="me-2">
+                                <p class="d-inline">Welkom {{userName}}</p>
+                            </div>
+                            <button v-on:click="submitLogout" class="btn btn-danger align-self-center" type="submit">Logout</button>
+                        </div>
+                        <div v-if="error" class="alert alert-danger p-2 my-2">{{errorMessage}}</div>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -43,12 +58,15 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2024 - Pri.Gamelibrary.Vue.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2024 - gameLibrary<a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/axios/axios.js"></script>
+    <script src="~/vue/vue.js"></script>
+    <script src="~/js/navbarVue.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
