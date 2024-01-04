@@ -44,11 +44,18 @@
                     this.loginModel.password = ""
                 });
         },
+
         submitLogout: function () {
             window.sessionStorage.removeItem("token");
             this.loggedIn = false;
             userName = "";
             isAdmin = false;
+
+            this.goToHomePage();
+        },
+
+        goToHomePage: function () {
+            window.location.href = "/";
         }
     }
 });
