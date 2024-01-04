@@ -22,23 +22,29 @@ namespace Pri.GameLibrary.Core.Services
         public async Task<double> GetAverageScoreAsync(int id)
         {
             var reviews = await _reviewRepository.GetByGameAsync(id);
-            if(reviews.Count() == 0)
+            reviews = reviews.Where(r => r != null);
+            if (reviews.Count() == 0)
             {
                 return 0;
-            }
-            foreach(var review in reviews)
-            {
-                if (review == null)
-                {
-                    return 0;
-                }
             }
             return reviews.Average(r => r.Rating);
         }
 
+        public async Task<double> GetGivenScoreAsync(int gameId, string userId)
+        {
+            var review = await _reviewRepository.GetByUserAsync(gameId, userId);
+            if(review == null)
+            {
+                return 0;
+            }
+            return review.Rating;
+        }
+
+
         public async Task<ResultModel<Review>> GetByGameIdAsync(int id)
         {
             var result = await _reviewRepository.GetByGameAsync(id);
+            result = result.Where(r => r != null);
             return new ResultModel<Review>
             {
                 IsSuccess = true,

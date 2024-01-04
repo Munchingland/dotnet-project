@@ -23,5 +23,11 @@ namespace Pri.GameLibrary.Infrastructure.Repositories
         {
             return await _context.GamesUsers.Include(r=>r.Review).Where(r=>r.GameId == id).Select(r=>r.Review).ToListAsync();
         }
+
+        public async Task<Review> GetByUserAsync(int gameId, string userId)
+        {
+            var reviews =  await _context.GamesUsers.Include(r => r.Review).Where(r => r.GameId == gameId).ToListAsync();
+            return reviews.Where(r=> r.UserId == userId).Select(r=>r.Review).FirstOrDefault();
+        }
     }
 }
