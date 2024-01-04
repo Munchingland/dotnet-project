@@ -67,6 +67,8 @@ namespace Pri.GameLibrary.Api
             builder.Services.AddTransient<IGameService, GameService>();
             builder.Services.AddTransient<IPlatformService, PlatformService>();
             builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
+            builder.Services.AddTransient<IUserService, UserService>();
+            builder.Services.AddTransient<IUserRepository, UserRepository>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
