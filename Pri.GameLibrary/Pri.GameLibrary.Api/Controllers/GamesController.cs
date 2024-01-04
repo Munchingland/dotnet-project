@@ -25,6 +25,7 @@ namespace Pri.GameLibrary.Api.Controllers
             _gameService = gameService;
             _reviewService = reviewService;
         }
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -49,6 +50,34 @@ namespace Pri.GameLibrary.Api.Controllers
                     Id = g.Id,
                     AverageReview = _reviewService.GetAverageScoreAsync(g.Id).Result
                 });
+            return Ok(gamesGetAllDto);
+        }
+
+        [HttpGet("NotUser/{id:int}")]
+        public async Task<IActionResult> GetNotOwnedByUserId(string id)
+        {
+            var result = await _gameService.GetByNotOwnedByUserAsync(id);
+            var gamesGetAllDto = new GamesGetAllDto();
+            gamesGetAllDto.Items = result.Items
+                .Select(g => new GamesGetByIdDto
+                {
+                    Name = g.Name,
+
+                    Developer = new BaseDto
+                    {
+                        Id = g.Developer.Id,
+                        Name = g.Developer.Name,
+                    },
+                    ReleaseDate = g.Created.Date,
+                    Platforms = g.Platforms.Select(p => new BaseDto
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                    }),
+                    Id = g.Id,
+                    AverageReview = _reviewService.GetAverageScoreAsync(g.Id).Result
+                });
+
             return Ok(gamesGetAllDto);
         }
 
@@ -80,8 +109,6 @@ namespace Pri.GameLibrary.Api.Controllers
             return Ok(gamesGetAllDto);
         }
 
-
-
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -96,6 +123,7 @@ namespace Pri.GameLibrary.Api.Controllers
 
             return Ok(gamesGetByIdDto);
         }
+
         [HttpGet("{name}")]
         public async Task<IActionResult> SearchByName(string name)
         {
@@ -123,6 +151,7 @@ namespace Pri.GameLibrary.Api.Controllers
             };
             return Ok(searchByNameDto);
         }
+
         [HttpGet("platform/{id:int}")]
         public async Task<IActionResult> GetByPlatformId(int id)
         {
@@ -154,6 +183,7 @@ namespace Pri.GameLibrary.Api.Controllers
 
             return Ok(gamesGetByPlatformIdDto);
         }
+
         [HttpGet("developer/{id:int}")]
         public async Task<IActionResult> GetByDeveloperId(int id)
         {
@@ -201,6 +231,7 @@ namespace Pri.GameLibrary.Api.Controllers
             }
             return Ok("Created");
         }
+
         [HttpPut]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update([FromForm]GamesUpdateDto gamesUpdateDto)
@@ -228,6 +259,7 @@ namespace Pri.GameLibrary.Api.Controllers
             }
             return Ok("updated");
         }
+
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)

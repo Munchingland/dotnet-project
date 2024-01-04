@@ -94,6 +94,17 @@ namespace Pri.GameLibrary.Core.Services
                 Items = games
             };
         }
+
+        public async Task<ResultModel<Game>> GetByNotOwnedByUserAsync(string id)
+        {
+            var games = await _gameRepository.GetNotOwnedByUserAsync(id);
+            return new ResultModel<Game>
+            {
+                IsSuccess = true,
+                Items = games
+            };
+        }
+
         public async Task<ResultModel<Game>> GetByPlatformAsync(int id)
         {
             if(!await _platformService.ExistsAsync(id))

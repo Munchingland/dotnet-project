@@ -17,5 +17,6 @@ namespace Pri.GameLibrary.Core.Interfaces.Services
         Task<ResultModel<Game>> GetByUserAsync(string id);
         Task<ResultModel<Game>> GetByDeveloperAsync(int id);
         Task<ResultModel<Game>> GetByPlatformAsync(int id);
+        Task<ResultModel<Game>> GetByNotOwnedByUserAsync(string id);
     }
 }
