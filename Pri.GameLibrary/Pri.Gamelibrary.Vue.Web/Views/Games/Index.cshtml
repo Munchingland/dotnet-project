@@ -2,7 +2,8 @@
 <div id="games">
     <div class="row">
         <div class="col col-lg-2 mx-auto">
-            <button v-on:click="showGames" class="btn btn-outline-info">Games</button>
+            <button v-on:click="showGamesNotOwnedByUser" v-if="userGamesLoaded" class="btn btn-outline-info">Show Games not owned by user</button>
+            <button v-on:click="showGamesOwnedByUser" v-if="userGamesLoaded == false" class="btn btn-outline-info">Show Games owned by user</button>
         </div>
     </div>
     <div v-if="gamesVisible" class="row">
@@ -25,3 +26,4 @@
     </div>
 </div>
 
+<script src="~/js/gameLibrary.js"></script>
