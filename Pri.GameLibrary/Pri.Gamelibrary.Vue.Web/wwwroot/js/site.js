@@ -2,7 +2,7 @@
 
 //Keys of ClaimTypes
 const roleClaimTypeKey = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
-const userIdClaimTypeKey = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/primarysid";
+const userIdClaimTypeKey = "http://schemas.microsoft.com/ws/2008/06/identity/claims/primarysid";
 const nameClaimTypeKey = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
 const dateOfBirthClaimTypeKey = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/dateofbirth";
 const emailClaimTypeKey = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";
@@ -34,7 +34,8 @@ function readUserNameFromToken() {
 
 function readUserIdFromToken() {
     const decodedToken = getDecodedToken();
-    return decodedToken[userIdClaimTypeKey];
+    var id = decodedToken[userIdClaimTypeKey];
+    return id;
 }
 
 function readUserBirthDayFromToken() {
