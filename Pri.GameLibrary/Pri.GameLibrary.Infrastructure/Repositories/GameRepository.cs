@@ -46,5 +46,15 @@ namespace Pri.GameLibrary.Infrastructure.Repositories
         {
             return await _applicationDbContext.GamesUsers.Include(gu=>gu.Game).ThenInclude(g => g.Developer).Include(g => g.Game).ThenInclude(g=>g.Platforms).Where(gu=>gu.UserId == id).Select(g=>g.Game).ToListAsync();
         }
+
+        public async Task<IEnumerable<Game>> GetNotOwnedByUserAsync(string id)
+        {
+            var allGame = GetAll();
+            var ownedGames = await GetByUserAsync(id);
+
+            var notOwned = allGame.Where(g => !ownedGames.Select(o => o.Id).Contains(g.Id));
+            return notOwned.ToList();
+
+        }
     }
 }
