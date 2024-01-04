@@ -6,8 +6,13 @@
         errorMessage: "",
         hasError: false,
         developersVisible: false,
+
         games: [],
         gamesVisible: false,
+    },
+    mounted: async function () {
+        await this.showDevelopers();
+        consol.log("hi");
     },
     methods: {
         showDevelopers: async function () {

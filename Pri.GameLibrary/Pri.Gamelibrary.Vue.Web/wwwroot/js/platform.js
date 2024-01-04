@@ -6,8 +6,12 @@
         errorMessage: "",
         hasError: false,
         platformsVisible: false,
+
         gamesVisible: false,
         games : [],
+    },
+    mounted: async function () {
+        await this.showPlatforms();
     },
     methods: {
         showPlatforms: async function () {

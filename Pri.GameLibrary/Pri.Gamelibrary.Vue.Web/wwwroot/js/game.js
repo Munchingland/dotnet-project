@@ -8,23 +8,37 @@
         gamesVisible: false,
         reviews: [],
         reviewsVisible: false,
-        gameName: ""
+        gameName: "",
+        userId: "",
     },
+
+    mounted: async function () {
+        await this.showGames();
+    },
+
     methods: {
         showGames: async function () {
             this.loading = true;
             this.reviewsVisible = false;
-            this.games = await axios.get(`${baseUrl}/Games`)
-                .then(response => response.data.items)
-                .catch(error => {
-                    if (error.response.status == 404) {
-                        this.errorMessage = "endpoint not found";
-                    }
-                    this.hasError = true;
-                });
+            if (sessionStorage.getItem("token")) {
+                this.userId = readUserIdFromToken();
+
+
+
+            }
+            else {
+                this.games = await axios.get(`${baseUrl}/games`)
+                    .then(response => response.data.items)
+                    .catch(error => {
+                        if (error.response.status == 404) {
+                            this.errorMessage = "endpoint not found";
+                        }
+                        this.hasError = true;
+                    });
+            }
+            
             this.gamesVisible = true;
             this.loading = false;
-            
         },
         showReviews: async function (game) {
             this.loading = true;
