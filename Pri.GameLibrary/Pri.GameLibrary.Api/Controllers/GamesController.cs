@@ -51,6 +51,37 @@ namespace Pri.GameLibrary.Api.Controllers
                 });
             return Ok(gamesGetAllDto);
         }
+
+        [HttpGet("user/{id:int}")]
+        public async Task<IActionResult> GetByUserId(string id)
+        {
+            var result = await _gameService.GetByUserAsync(id);
+            var gamesGetAllDto = new GamesGetAllDto();
+            gamesGetAllDto.Items = result.Items
+                .Select(g => new GamesGetByIdDto
+                {
+                    Name = g.Name,
+
+                    Developer = new BaseDto
+                    {
+                        Id = g.Developer.Id,
+                        Name = g.Developer.Name,
+                    },
+                    ReleaseDate = g.Created.Date,
+                    Platforms = g.Platforms.Select(p => new BaseDto
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                    }),
+                    Id = g.Id,
+                    AverageReview = _reviewService.GetAverageScoreAsync(g.Id).Result
+                });
+
+            return Ok(gamesGetAllDto);
+        }
+
+
+
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
