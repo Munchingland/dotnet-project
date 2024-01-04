@@ -20,22 +20,15 @@
         showGames: async function () {
             this.loading = true;
             this.reviewsVisible = false;
-            if (sessionStorage.getItem("token")) {
-                this.userId = readUserIdFromToken();
 
-
-
-            }
-            else {
-                this.games = await axios.get(`${baseUrl}/games`)
-                    .then(response => response.data.items)
-                    .catch(error => {
-                        if (error.response.status == 404) {
-                            this.errorMessage = "endpoint not found";
-                        }
-                        this.hasError = true;
-                    });
-            }
+            this.games = await axios.get(`${baseUrl}/games`)
+                .then(response => response.data.items)
+                .catch(error => {
+                    if (error.response.status == 404) {
+                        this.errorMessage = "endpoint not found";
+                    }
+                    this.hasError = true;
+                });
             
             this.gamesVisible = true;
             this.loading = false;
