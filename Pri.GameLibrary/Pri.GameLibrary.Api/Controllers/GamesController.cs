@@ -48,7 +48,8 @@ namespace Pri.GameLibrary.Api.Controllers
                         Name = p.Name,
                     }),
                     Id = g.Id,
-                    AverageReview = _reviewService.GetAverageScoreAsync(g.Id).Result
+                    AverageReview = _reviewService.GetAverageScoreAsync(g.Id).Result,
+                    AmountOfReviews = _reviewService.GetAmountOfReviewsAsync(g.Id).Result
                 });
             return Ok(gamesGetAllDto);
         }
@@ -64,6 +65,7 @@ namespace Pri.GameLibrary.Api.Controllers
             var gamesGetByIdDto = new GamesGetByIdDto();
             gamesGetByIdDto.MapToDto(result.Items.First());
             gamesGetByIdDto.AverageReview = await _reviewService.GetAverageScoreAsync(id);
+            gamesGetByIdDto.AmountOfReviews = await _reviewService.GetAmountOfReviewsAsync(id);
 
             return Ok(gamesGetByIdDto);
         }
@@ -90,7 +92,8 @@ namespace Pri.GameLibrary.Api.Controllers
                         Name = p.Name,
                     }),
                     Id = g.Id,
-                    AverageReview = _reviewService.GetAverageScoreAsync(g.Id).Result
+                    AverageReview = _reviewService.GetAverageScoreAsync(g.Id).Result,
+                    AmountOfReviews = _reviewService.GetAmountOfReviewsAsync(g.Id).Result,
                 })
             };
             return Ok(searchByNameDto);
@@ -122,7 +125,8 @@ namespace Pri.GameLibrary.Api.Controllers
                         Name = p.Name,
                     }),
                     Id = g.Id,
-                    AverageReview = _reviewService.GetAverageScoreAsync(g.Id).Result
+                    AverageReview = _reviewService.GetAverageScoreAsync(g.Id).Result,
+                    AmountOfReviews = _reviewService.GetAmountOfReviewsAsync(g.Id).Result
                 });
 
             return Ok(gamesGetByPlatformIdDto);
@@ -154,7 +158,8 @@ namespace Pri.GameLibrary.Api.Controllers
                         Name = p.Name,
                     }),
                     Id = g.Id,
-                    AverageReview = _reviewService.GetAverageScoreAsync(g.Id).Result
+                    AverageReview = _reviewService.GetAverageScoreAsync(g.Id).Result,
+                    AmountOfReviews = _reviewService.GetAmountOfReviewsAsync(g.Id).Result,
                 });
 
             return Ok(gamesGetByDeveloperIdDto);

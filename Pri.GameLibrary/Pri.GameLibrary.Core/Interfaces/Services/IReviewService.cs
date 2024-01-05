@@ -13,5 +13,6 @@ namespace Pri.GameLibrary.Core.Interfaces.Services
         public Task<double> GetAverageScoreAsync(int id);
         public Task<ResultModel<Review>> GetByGameIdAsync(int id);
         public Task<double> GetGivenScoreAsync(int gameId, string userId);
+        public Task<int> GetAmountOfReviewsAsync(int gameId);
     }
 }

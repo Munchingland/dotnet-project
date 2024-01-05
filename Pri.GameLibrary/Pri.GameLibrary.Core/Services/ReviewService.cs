@@ -51,5 +51,13 @@ namespace Pri.GameLibrary.Core.Services
                 Items = result
             };
         }
+
+        public async Task<int> GetAmountOfReviewsAsync(int gameId)
+        {
+            var result = await _reviewRepository.GetByGameAsync(gameId);
+            result = result.Where(r=> r != null);
+            return result.Count();
+
+        }
     }
 }

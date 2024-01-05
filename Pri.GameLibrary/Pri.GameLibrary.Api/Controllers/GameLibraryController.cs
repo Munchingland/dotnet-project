@@ -45,6 +45,7 @@ namespace Pri.GameLibrary.Api.Controllers
                     }),
                     Id = g.Id,
                     AverageReview = _reviewService.GetGivenScoreAsync(g.Id, id).Result,
+                    
                 });
 
             return Ok(gamesGetAllDto);
@@ -72,7 +73,8 @@ namespace Pri.GameLibrary.Api.Controllers
                         Name = p.Name,
                     }),
                     Id = g.Id,
-                    AverageReview = _reviewService.GetAverageScoreAsync(g.Id).Result
+                    AverageReview = _reviewService.GetAverageScoreAsync(g.Id).Result,
+                    AmountOfReviews = _reviewService.GetAmountOfReviewsAsync(g.Id).Result,
                 });
 
             return Ok(gamesGetAllDto);

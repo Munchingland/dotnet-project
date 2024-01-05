@@ -2,7 +2,7 @@
 
 namespace Pri.Gamelibrary.Vue.Web.Controllers
 {
-    public class GamesController : Controller
+    public class GameLibraryController : Controller
     {
         public IActionResult Index()
         {
