@@ -13,6 +13,7 @@ namespace Pri.GameLibrary.Core.Interfaces.Repositories
         Task<bool> RemoveFromLibraryAsync(GameUser toRemove);
         IQueryable<User> GetUsers();
 
-        Task<GameUser> GetGameUser(string userId, int gameId);
+        Task<GameUser> GetGameUserAsync(string userId, int gameId);
+        Task<bool> UpdateGameUserAsync(GameUser gameUser);
     }
 }

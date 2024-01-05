@@ -14,7 +14,7 @@ namespace Pri.GameLibrary.Core.Interfaces.Services
         public Task<ResultModel<Review>> GetByGameIdAsync(int id);
         public Task<double> GetGivenScoreAsync(int gameId, string userId);
         public Task<int> GetAmountOfReviewsAsync(int gameId);
-
         public Task<bool> HasReviewedAsync(int gameId, string userId);
+        public Task<ResultModel<Review>> CreateAsync(string description, int score, string userId, int gameId);
     }
 }

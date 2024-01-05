@@ -13,10 +13,16 @@ namespace Pri.GameLibrary.Core.Services
     public class ReviewService : IReviewService
     {
         private readonly IReviewRepository _reviewRepository;
+        private readonly IGameService _gameService;
+        private IUserService _userService;
+        private IUserRepository _userRepository;
 
-        public ReviewService(IReviewRepository reviewRepository)
+        public ReviewService(IReviewRepository reviewRepository, IGameService gameService, IUserService userService, IUserRepository userRepository)
         {
             _reviewRepository = reviewRepository;
+            _gameService = gameService;
+            _userService = userService;
+            _userRepository = userRepository;
         }
 
         public async Task<double> GetAverageScoreAsync(int id)
@@ -67,6 +73,54 @@ namespace Pri.GameLibrary.Core.Services
                 return false;
             }
             return true;
+        }
+
+        public async Task<ResultModel<Review>> CreateAsync(string description, int score, string userId, int gameId)
+        {
+            if(!await _userService.ComboExistsAsync(userId, gameId))
+            {
+                return new ResultModel<Review>
+                {
+                    IsSuccess = false,
+                    Errors = new List<string>() { "User does not have game" }
+                };
+            }
+            var review = new Review
+            {
+                Description = description,
+                Created = DateTime.Now,
+                Rating = score,
+            };
+
+            if (!await _reviewRepository.CreateAsync(review))
+            {
+                return new ResultModel<Review>
+                {
+                    IsSuccess = false,
+                    Errors = new List<string>() { "Unknown error, please try again later..." }
+                };
+            }
+            else
+            {
+                var reviews = _reviewRepository.GetAll();
+                var reviewOfUser = reviews.OrderBy(r=>r.Created).Last();
+                var gameUser = await _userRepository.GetGameUserAsync(userId, gameId);
+                gameUser.ReviewId = reviewOfUser.Id;
+                if(!await _userRepository.UpdateGameUserAsync(gameUser))
+                {
+                    return new ResultModel<Review>
+                    {
+                        IsSuccess = false,
+                        Errors = new List<string>() { "Unknown error, please try again later..." }
+                    };
+                }
+
+                return new ResultModel<Review>
+                {
+                    IsSuccess = true,
+                };
+            }
+
         }
     }
 }

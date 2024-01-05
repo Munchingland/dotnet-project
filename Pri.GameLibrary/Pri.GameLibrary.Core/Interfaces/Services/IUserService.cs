@@ -10,9 +10,10 @@ namespace Pri.GameLibrary.Core.Interfaces.Services
 {
     public interface IUserService
     {
-        Task<bool> ExistsAsync(string userId,int gameId);
+        Task<bool> BothExistAsync(string userId,int gameId);
         Task<LibraryResultModel> DeleteAsync(string userId, int gameId);
         Task<LibraryResultModel> AddToLibraryAsync(string userId, int gameId);
+        Task<bool> ComboExistsAsync(string userId, int gameId);
 
     }
 }

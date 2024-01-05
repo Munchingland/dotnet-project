@@ -24,7 +24,7 @@ namespace Pri.GameLibrary.Core.Services
 
         public async Task<LibraryResultModel> AddToLibraryAsync(string userId, int gameId)
         {
-            if(await ExistsAsync(userId, gameId))
+            if(await BothExistAsync(userId, gameId))
             {
                 var userGame = new GameUser
                 {
@@ -50,9 +50,9 @@ namespace Pri.GameLibrary.Core.Services
 
         public async Task<LibraryResultModel> DeleteAsync(string userId, int gameId)
         {
-            if (await ExistsAsync(userId, gameId))
+            if (await ComboExistsAsync(userId, gameId))
             {
-                var userGame = await _userRepository.GetGameUser(userId, gameId);
+                var userGame = await _userRepository.GetGameUserAsync(userId, gameId);
                 if (!await _userRepository.RemoveFromLibraryAsync(userGame))
                 {
                     return new LibraryResultModel
@@ -70,11 +70,27 @@ namespace Pri.GameLibrary.Core.Services
             };
         }
 
-        public async Task<bool> ExistsAsync(string userId, int gameId)
+        public async Task<bool> BothExistAsync(string userId, int gameId)
         {
             var users = _userRepository.GetUsers();
             var games = _gameRepository.GetAll();
+
+
             if(await users.AnyAsync(u=> u.Id == userId) && await games.AnyAsync(g=>g.Id == gameId))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public async Task<bool> ComboExistsAsync(string userId, int gameId)
+        {
+            var user = await _userRepository.GetGameUserAsync(userId, gameId);
+
+
+            if (user != null)
             {
                 return true;
             }

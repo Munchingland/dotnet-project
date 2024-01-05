@@ -27,7 +27,7 @@ namespace Pri.GameLibrary.Infrastructure.Repositories
             return  await _gameRepository.SaveChangesAsync();
         }
 
-        public async Task<GameUser> GetGameUser(string userId, int gameId)
+        public async Task<GameUser> GetGameUserAsync(string userId, int gameId)
         {
             var result = _applicationDbContext.GamesUsers.AsQueryable();
             var gameUser = result.FirstOrDefault(g=> g.UserId == userId && g.GameId == gameId);
@@ -56,6 +56,12 @@ namespace Pri.GameLibrary.Infrastructure.Repositories
             {
                 return false;
             }
+        }
+        public async Task<bool> UpdateGameUserAsync(GameUser toUpdate)
+        {
+            var entity = await GetGameUserAsync(toUpdate.UserId, toUpdate.GameId);
+            entity = toUpdate;
+            return await SaveChangesAsync();
         }
 
     }
