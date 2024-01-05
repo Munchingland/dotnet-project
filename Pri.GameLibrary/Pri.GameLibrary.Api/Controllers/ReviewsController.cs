@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Pri.GameLibrary.Api.DTOs.Request;
 using Pri.GameLibrary.Api.DTOs.Response;
 using Pri.GameLibrary.Core.Interfaces.Services;
 
@@ -30,6 +31,21 @@ namespace Pri.GameLibrary.Api.Controllers
                 })
             };
             return Ok(reviewGetByGameIdDto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(ReviewsCreateDto reviewsCreateDto)
+        {
+            var result = await _reviewService.CreateAsync(reviewsCreateDto.Description, reviewsCreateDto.Score, reviewsCreateDto.UserId, reviewsCreateDto.GameId);
+            if (!result.IsSuccess)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error);
+                }
+                return BadRequest(ModelState.Values);
+            }
+            return Ok("Created");
         }
     }
 }
