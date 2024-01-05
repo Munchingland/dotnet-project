@@ -45,7 +45,7 @@
                         <option v-for="score in scores" v-bind:value="score">{{score}}/10</option>
                     </select>
                     <label>Write a review here :</label>
-                    <textarea class="form-control" placeholder="Write review here" v-modal="newReviewModel.description"></textarea>
+                    <textarea class="form-control" placeholder="Write review here" v-model="newReviewModel.description"></textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="cancelReviewAction">Cancel</button>

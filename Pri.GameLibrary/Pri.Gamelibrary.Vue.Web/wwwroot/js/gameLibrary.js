@@ -180,6 +180,7 @@
             this.errorMessage = "Please login before seeing library";
         },
         showCreateModal: function (game) {
+            this.resetReviewModels();
             $('#createReviewModal').modal('show');
             this.newReviewModel.gameId = game.id;
             this.selectedGame = game;
