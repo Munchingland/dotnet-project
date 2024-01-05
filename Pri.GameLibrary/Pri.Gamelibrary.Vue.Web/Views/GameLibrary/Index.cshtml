@@ -14,11 +14,12 @@
                     <div class="card-body">
                         <h5 class="card-title">{{game.name}}</h5>
                         <h6 class="card-subtitle mb-2">{{game.developer.name}}</h6>
-                        <h6 class="card-subtitle mb-2" v-if="userGamesLoaded">Given score : {{game.averageReview}}</h6>
+                        <h6 class="card-subtitle mb-2" v-if="userGamesLoaded&&game.hasReviewed">Given score : {{game.averageReview}}</h6>
+                        <h6 class="card-subtitle mb-2" v-if="userGamesLoaded&&!game.hasReviewed">Yet to review</h6>
                         <h6 class="card-subtitle mb-2" v-if="userGamesLoaded==false && game.amountOfReviews != 0">Average score : {{game.averageReview}}</h6>
                         <span v-for="platform in game.platforms" class="card-text text-muted">{{platform.name}} </span>
                         <div class="card-footer text-center">
-                            <a v-on:click="showReviews(game)" href="#" class="btn btn-primary">See all reviews</a>
+                            <a v-on:click="showReviews(game)" v-if="game.amountOfReviews != 0" href="#" class="btn btn-primary">See all reviews</a>
                             <a v-on:click="removeFromLibrary(game)" v-if="userGamesLoaded" class="btn btn-danger">Remove from library</a>
                             <a v-on:click="addToLibrary(game)" v-if="userGamesLoaded== false" class="btn btn-primary">Add to library</a>
                         </div>
@@ -27,6 +28,7 @@
             </div>
         </div>
     </div>
+    <partial name="_reviewsList" />
 </div>
 
 <script src="~/js/gameLibrary.js"></script>
