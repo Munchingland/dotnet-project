@@ -26,9 +26,9 @@ namespace Pri.GameLibrary.Api.Controllers
         public async Task<IActionResult> GetByUserId(string id)
         {
             var result = await _gameService.GetByUserAsync(id);
-            var gamesGetAllDto = new GamesGetAllDto();
-            gamesGetAllDto.Items = result.Items
-                .Select(g => new GamesGetByIdDto
+            var gameLibraryGetByIdDto = new GameLibraryGetByUserIdDto();
+            gameLibraryGetByIdDto.Items = result.Items
+                .Select(g => new GameLibraryGetOwnedGamesInfoDto
                 {
                     Name = g.Name,
 
@@ -45,10 +45,10 @@ namespace Pri.GameLibrary.Api.Controllers
                     }),
                     Id = g.Id,
                     AverageReview = _reviewService.GetGivenScoreAsync(g.Id, id).Result,
-                    
+                    HasReviewed = _reviewService.HasReviewedAsync(g.Id, id).Result,
                 });
 
-            return Ok(gamesGetAllDto);
+            return Ok(gameLibraryGetByIdDto);
         }
 
         [HttpGet("NotUser/{id:int}")]

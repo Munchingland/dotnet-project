@@ -57,7 +57,16 @@ namespace Pri.GameLibrary.Core.Services
             var result = await _reviewRepository.GetByGameAsync(gameId);
             result = result.Where(r=> r != null);
             return result.Count();
+        }
 
+        public async Task<bool> HasReviewedAsync(int gameId, string userId)
+        {
+            var review = await _reviewRepository.GetByUserAsync(gameId, userId);
+            if (review == null)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
