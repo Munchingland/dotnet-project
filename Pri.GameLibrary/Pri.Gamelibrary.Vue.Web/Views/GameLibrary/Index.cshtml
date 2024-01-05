@@ -20,6 +20,7 @@
                         <span v-for="platform in game.platforms" class="card-text text-muted">{{platform.name}} </span>
                         <div class="card-footer text-center">
                             <a v-on:click="showReviews(game)" v-if="game.amountOfReviews != 0" href="#" class="btn btn-primary">See all reviews</a>
+                            <a v-on:click="showCreateModal(game)" data-bs-target="#createReviewModal" v-if="userGamesLoaded && !game.hasReviewed" class="btn btn-primary">Write review</a>
                             <a v-on:click="removeFromLibrary(game)" v-if="userGamesLoaded" class="btn btn-danger">Remove from library</a>
                             <a v-on:click="addToLibrary(game)" v-if="userGamesLoaded== false" class="btn btn-primary">Add to library</a>
                         </div>
@@ -29,6 +30,38 @@
         </div>
     </div>
     <partial name="_reviewsList" />
+    <!--Modals-->
+    <!--Create review-->
+    <div class="modal fade" id="createReviewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true"> >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Write review for {{selectedGame.name}}</h5>
+                    <button type="button" class="btn-close" v-on:click="cancelReviewAction" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label>Choose a score to give to the game</label>
+                    <select v-model="newReviewModel.score" class="form-select">
+                        <option v-for="score in scores" v-bind:value="score">{{score}}/10</option>
+                    </select>
+                    <label>Write a review here :</label>
+                    <textarea class="form-control" placeholder="Write review here" v-modal="newReviewModel.description"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="cancelReviewAction">Cancel</button>
+                    <button type="button" class="btn btn-primary" v-on:click="createReview" >Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
 </div>
 
 <script src="~/js/gameLibrary.js"></script>
