@@ -2,6 +2,7 @@
 using Pri.GameLibrary.Api.DTOs.Request;
 using Pri.GameLibrary.Api.DTOs.Response;
 using Pri.GameLibrary.Core.Interfaces.Services;
+using Pri.GameLibrary.Core.Services;
 
 namespace Pri.GameLibrary.Api.Controllers
 {
@@ -46,6 +47,40 @@ namespace Pri.GameLibrary.Api.Controllers
                 return BadRequest(ModelState.Values);
             }
             return Ok("Created");
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(ReviewsUpdateDto reviewsUpdateDto)
+        {
+            if(!await _reviewService.ExistsAsync(reviewsUpdateDto.ReviewId))
+            {
+                return NotFound();
+            }
+            var result = await _reviewService.UpdateAsync(reviewsUpdateDto.Description, reviewsUpdateDto.Score, reviewsUpdateDto.ReviewId);
+            if( !result.IsSuccess)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error);
+                }
+                return BadRequest(ModelState.Values);
+            }
+            return Ok("Updated");
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (!await _reviewService.ExistsAsync(id))
+            {
+                return NotFound();
+            }
+            var result = await _reviewService.DeleteAsync(id);
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok("Deleted");
         }
     }
 }
