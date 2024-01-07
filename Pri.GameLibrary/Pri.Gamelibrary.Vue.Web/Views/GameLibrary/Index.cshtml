@@ -22,7 +22,8 @@
                             <a v-on:click="showReviews(game)" v-if="game.amountOfReviews != 0" href="#" class="btn btn-primary">See all reviews</a>
                             <a v-on:click="showCreateModal(game)" data-bs-target="#createReviewModal" v-if="userGamesLoaded && !game.hasReviewed" class="btn btn-primary">Write review</a>
                             <a v-on:click="showUpdateModal(game)" data-bs-target="#updateReviewModal" v-if="userGamesLoaded && game.hasReviewed" class="btn btn-primary">Update review</a>
-                            <a v-on:click="removeFromLibrary(game)" v-if="userGamesLoaded" class="btn btn-danger">Remove from library</a>
+                            <a v-on:click="showDeleteModal(game)" data-bs-target="#deleteReviewConfirmModal" v-if="userGamesLoaded && game.hasReviewed" class="btn btn-danger">Delete review</a>
+                            <a v-on:click="removeFromLibrary(game)" v-if="userGamesLoaded" class="btn btn-outline-danger">Remove from library</a>
                             <a v-on:click="addToLibrary(game)" v-if="userGamesLoaded== false" class="btn btn-primary">Add to library</a>
                         </div>
                     </div>
@@ -60,7 +61,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Write review for {{selectedGame.name}}</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Update review for {{selectedGame.name}}</h5>
                     <button type="button" class="btn-close" v-on:click="cancelReviewAction" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -79,7 +80,24 @@
         </div>
     </div>
 
-
+    <!-- Delete category confirm -->
+    <div class="modal fade" id="deleteReviewConfirmModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Delete review for {{selectedGame.name}}?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you wish to delete your review for {{selectedGame.name}} ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" v-on:click="deleteReview(selectedReviewId)">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 

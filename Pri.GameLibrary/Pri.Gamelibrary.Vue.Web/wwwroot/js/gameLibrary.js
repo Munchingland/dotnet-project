@@ -33,7 +33,7 @@
         },
 
         selectedGame: {},
-
+        selectedReviewId : 0,
 
         scores: [
             0,
@@ -191,6 +191,23 @@
             this.loading = false;
         },
 
+        deleteReview: async function (selectedReviewId) {
+            this.isLoading = true;
+            await axios.delete(`${baseUrl}/Reviews/${selectedReviewId}`, axiosConfig).catch((e) => {
+                if (e.response.status === 400) {
+                    console.log(e.response.data[0].errorMessage);
+                    this.errorMessage = e.response.data[0].errorMessage;
+                }
+                else {
+                    this.errorMessage = e.message;
+                }
+            });
+            $('#deleteReviewConfirmModal').modal('hide');
+            this.selectedGame = {};
+            this.selectedReviewId = 0;
+            this.showGamesOwnedByUser();
+        },
+
         setDataWhenStartingFunction: function () {
             this.userId = readUserIdFromToken();
             this.loading = true;
@@ -218,6 +235,12 @@
             this.updateReviewModel.reviewId = game.reviewId;
             this.updateReviewModel.description = game.description;
             this.updateReviewModel.score = game.averageReview;
+        },
+
+        showDeleteModal: function (game) {
+            $('#deleteReviewConfirmModal').modal('show');
+            this.selectedGame = game;
+            this.selectedReviewId = game.reviewId;
         },
 
         cancelReviewAction: function () {
