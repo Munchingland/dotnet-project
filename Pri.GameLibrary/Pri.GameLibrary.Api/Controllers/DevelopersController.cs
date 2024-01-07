@@ -85,7 +85,7 @@ namespace Pri.GameLibrary.Api.Controllers
             }
             return Ok("updated");
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {

@@ -3,6 +3,7 @@
     <div class="row">
         <div class="col col-lg-2 mx-auto">
             <button v-on:click="showDevelopers" class="btn btn-outline-info">Developers</button>
+            <a v-on:click="showCreateModal" data-bs-target="#createDeveloperModal" class="btn btn-primary">Create Developer</a>
         </div>
     </div>
     <div v-if="developersVisible" class="row">
@@ -16,15 +17,60 @@
                         <h6 class="card-subtitle mb-2">Created {{developer.amountOfGames}} game(s)</h6>
                         <div class="card-footer text-center">
                             <a v-on:click="showGamesByDeveloper(developer)" href="#" class="btn btn-primary">Info</a>
-                            <a v-on:click="deleteProduct(product.id)" class="btn btn-danger">Delete</a>
+
+                            <a v-on:click="showDeleteModal(developer)" data-bs-target="#deleteDeveloperConfirmModal"  href="#" class="btn btn-danger">Delete</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <partial name="_GamesList" />
+
+    <div class="modal fade" id="createDeveloperModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Create developer</h5>
+                    <button type="button" class="btn-close" v-on:click="cancelDeveloperAction" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label>Developer name :</label>
+                    <textarea class="form-control" placeholder="Developer name here" v-model="newDeveloperModel.name"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="cancelDeveloperAction">Cancel</button>
+                    <button type="button" class="btn btn-primary" v-on:click="createDeveloper">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="deleteDeveloperConfirmModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Delete {{selectedDeveloper.name}}?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you wish to delete {{selectedDeveloper.name}} ? This will delete all games released by this studio.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" v-on:click="deleteDeveloper(selectedDeveloper.id)">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
 
     <div v-if="hasError" class="d-flex justify-content-center">
         <span class="sr-only">ERROR</span>
