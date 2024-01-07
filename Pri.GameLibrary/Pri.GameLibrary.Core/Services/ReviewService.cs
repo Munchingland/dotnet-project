@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace Pri.GameLibrary.Core.Services
 {
-    public class ReviewService : IReviewService
+    public class ReviewService : BaseService<IReviewRepository, Review>, IReviewService
     {
         private readonly IReviewRepository _reviewRepository;
         private readonly IGameService _gameService;
         private IUserService _userService;
         private IUserRepository _userRepository;
 
-        public ReviewService(IReviewRepository reviewRepository, IGameService gameService, IUserService userService, IUserRepository userRepository)
+        public ReviewService(IReviewRepository reviewRepository, IGameService gameService, IUserService userService, IUserRepository userRepository) : base(reviewRepository)
         {
             _reviewRepository = reviewRepository;
             _gameService = gameService;
@@ -39,7 +39,7 @@ namespace Pri.GameLibrary.Core.Services
         public async Task<double> GetGivenScoreAsync(int gameId, string userId)
         {
             var review = await _reviewRepository.GetByUserAsync(gameId, userId);
-            if(review == null)
+            if (review == null)
             {
                 return 0;
             }
@@ -61,7 +61,7 @@ namespace Pri.GameLibrary.Core.Services
         public async Task<int> GetAmountOfReviewsAsync(int gameId)
         {
             var result = await _reviewRepository.GetByGameAsync(gameId);
-            result = result.Where(r=> r != null);
+            result = result.Where(r => r != null);
             return result.Count();
         }
 
@@ -77,7 +77,7 @@ namespace Pri.GameLibrary.Core.Services
 
         public async Task<ResultModel<Review>> CreateAsync(string description, int score, string userId, int gameId)
         {
-            if(!await _userService.ComboExistsAsync(userId, gameId))
+            if (!await _userService.ComboExistsAsync(userId, gameId))
             {
                 return new ResultModel<Review>
                 {
@@ -103,10 +103,10 @@ namespace Pri.GameLibrary.Core.Services
             else
             {
                 var reviews = _reviewRepository.GetAll();
-                var reviewOfUser = reviews.OrderBy(r=>r.Created).Last();
+                var reviewOfUser = reviews.OrderBy(r => r.Created).Last();
                 var gameUser = await _userRepository.GetGameUserAsync(userId, gameId);
                 gameUser.ReviewId = reviewOfUser.Id;
-                if(!await _userRepository.UpdateGameUserAsync(gameUser))
+                if (!await _userRepository.UpdateGameUserAsync(gameUser))
                 {
                     return new ResultModel<Review>
                     {
@@ -121,6 +121,35 @@ namespace Pri.GameLibrary.Core.Services
                 };
             }
 
+        }
+        public async Task<ResultModel<Review>> UpdateAsync(string description, int score, int reviewId)
+        {
+            var toUpdate = await _reviewRepository.GetByIdAsync(reviewId);
+            toUpdate.Created = DateTime.Now;
+            toUpdate.Description = description;
+            toUpdate.Rating = score;
+            if (await _reviewRepository.UpdateAsync(toUpdate))
+            {
+                return new ResultModel<Review>
+                {
+                    IsSuccess = true,
+                };
+            }
+            return new ResultModel<Review> 
+            { 
+                IsSuccess = false,
+                Errors = new List<string> { "Something went wrong, please try again later..." }
+            };
+        }
+
+        public async Task<int> GetReviewIdAsync(int gameId, string userId)
+        {
+            var review = await _reviewRepository.GetByUserAsync(gameId, userId);
+            if (review == null)
+            {
+                return 0;
+            }
+            return review.Id;
         }
     }
 }
