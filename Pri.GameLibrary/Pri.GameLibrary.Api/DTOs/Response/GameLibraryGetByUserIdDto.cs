@@ -2,6 +2,6 @@
 {
     public class GameLibraryGetByUserIdDto
     {
-        public IEnumerable<GameLibraryGetOwnedGamesInfoDto> Items { get; set; }
+        public List<GameLibraryGetOwnedGamesInfoDto> Items { get; set; } = new List<GameLibraryGetOwnedGamesInfoDto>();
     }
 }
