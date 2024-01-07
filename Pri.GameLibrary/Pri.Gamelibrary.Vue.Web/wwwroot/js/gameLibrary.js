@@ -26,6 +26,12 @@
             description: "",
         },
 
+        updateReviewModel: {
+            reviewId: 0,
+            score: 0,
+            description: "",
+        },
+
         selectedGame: {},
 
 
@@ -130,6 +136,25 @@
             }
 
         },
+
+        updateReview: async function () {
+            this.updateReviewModel.description.trim();
+            this.loading = true;
+            await axios.put(`${baseUrl}/Reviews`, this.updateReviewModel, axiosConfig)
+                .then(response => response.data)
+                .catch(error => {
+                    this.error = true;
+                    this.errorMessage = error.message;
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
+            $('#updateReviewModal').modal('hide');
+            this.resetReviewModels();
+            this.selectedGame = {};
+            this.showGamesOwnedByUser();
+        },
+
         createReview: async function () {
             this.newReviewModel.description.trim();
             this.fillReviewModelWithUserId();
@@ -171,6 +196,7 @@
             this.loading = true;
             this.reviewsVisible = false;
         },
+
         setDataWhenFinishingFunction: function () {
             this.gamesVisible = true;
             this.loading = false;
@@ -179,22 +205,39 @@
         setErrorMessageNotLoggedIn: function () {
             this.errorMessage = "Please login before seeing library";
         },
+
         showCreateModal: function (game) {
             $('#createReviewModal').modal('show');
             this.newReviewModel.gameId = game.id;
             this.selectedGame = game;
         },
+
+        showUpdateModal: function (game) {
+            $('#updateReviewModal').modal('show');
+            this.selectedGame = game;
+            this.updateReviewModel.reviewId = game.reviewId;
+            this.updateReviewModel.description = game.description;
+            this.updateReviewModel.score = game.averageReview;
+        },
+
         cancelReviewAction: function () {
             this.resetReviewModels();
         },
+
         resetReviewModels: function () {
             this.newReviewModel = {
                 gameId: "",
                 userId: "",
                 score: 0,
                 description: "",
+            };
+            this.updateReviewModel = { 
+                    reviewId: 0,
+                    score: 0,
+                    description: "",
             }
         },
+
         fillReviewModelWithUserId: function () {
             this.newReviewModel.userId = this.userId;
         }
