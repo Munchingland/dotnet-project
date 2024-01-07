@@ -27,26 +27,37 @@ namespace Pri.GameLibrary.Api.Controllers
         {
             var result = await _gameService.GetByUserAsync(id);
             var gameLibraryGetByIdDto = new GameLibraryGetByUserIdDto();
-            gameLibraryGetByIdDto.Items = result.Items
-                .Select(g => new GameLibraryGetOwnedGamesInfoDto
-                {
-                    Name = g.Name,
 
-                    Developer = new BaseDto
-                    {
-                        Id = g.Developer.Id,
-                        Name = g.Developer.Name,
-                    },
-                    ReleaseDate = g.Created.Date,
-                    Platforms = g.Platforms.Select(p => new BaseDto
-                    {
-                        Id = p.Id,
-                        Name = p.Name,
-                    }),
-                    Id = g.Id,
-                    AverageReview = _reviewService.GetGivenScoreAsync(g.Id, id).Result,
-                    HasReviewed = _reviewService.HasReviewedAsync(g.Id, id).Result,
+            foreach (var game in result.Items){
+                var gameLibraryGetOwnedGamesInfoDto = new GameLibraryGetOwnedGamesInfoDto();
+                gameLibraryGetOwnedGamesInfoDto.Name = game.Name;
+                gameLibraryGetOwnedGamesInfoDto.Developer = new BaseDto
+                {
+                    Id = game.Developer.Id,
+                    Name = game.Developer.Name,
+                };
+                gameLibraryGetOwnedGamesInfoDto.ReleaseDate = game.Created.Date;
+                gameLibraryGetOwnedGamesInfoDto.Platforms = game.Platforms.Select(p => new BaseDto
+                {
+                    Id = p.Id,
+                    Name = p.Name,
                 });
+                gameLibraryGetOwnedGamesInfoDto.Id = game.Id;
+                var reviewId = await _reviewService.GetReviewIdAsync(game.Id, id);
+                var reviews = await _reviewService.GetByIdAsync(reviewId);
+                gameLibraryGetOwnedGamesInfoDto.AverageReview = await _reviewService.GetGivenScoreAsync(game.Id, id);
+                if (reviews.IsSuccess)
+                {
+                    foreach(var review in reviews.Items)
+                    {
+                        gameLibraryGetOwnedGamesInfoDto.AverageReview = review.Rating;
+                        gameLibraryGetOwnedGamesInfoDto.Description = review.Description;
+                        gameLibraryGetOwnedGamesInfoDto.ReviewId = review.Id;
+                        gameLibraryGetOwnedGamesInfoDto.HasReviewed = true;
+                    } 
+                }
+                gameLibraryGetByIdDto.Items.Add(gameLibraryGetOwnedGamesInfoDto);
+            }
 
             return Ok(gameLibraryGetByIdDto);
         }
