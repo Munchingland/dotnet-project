@@ -10,5 +10,7 @@ namespace Pri.GameLibrary.Core.Entities
     {
         public string Description { get; set; }
         public int Rating { get; set; }
+
+        public GameUser User { get; set; }
     }
 }

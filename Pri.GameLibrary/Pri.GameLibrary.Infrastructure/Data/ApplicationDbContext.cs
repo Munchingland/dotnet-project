@@ -27,6 +27,7 @@ namespace Pri.GameLibrary.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<GameUser>().HasKey(t => new { t.UserId, t.GameId });
+            builder.Entity<Review>().HasOne(r => r.User).WithOne(u => u.Review).OnDelete(DeleteBehavior.SetNull);
 
             Seeder.Seed(builder);
             base.OnModelCreating(builder);
