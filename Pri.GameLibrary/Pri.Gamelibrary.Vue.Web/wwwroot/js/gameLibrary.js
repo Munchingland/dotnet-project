@@ -254,11 +254,11 @@
                 score: 0,
                 description: "",
             };
-            this.updateReviewModel = { 
-                    reviewId: 0,
-                    score: 0,
-                    description: "",
-            }
+            this.updateReviewModel = {
+                reviewId: 0,
+                score: 0,
+                description: "",
+            };
         },
 
         fillReviewModelWithUserId: function () {
