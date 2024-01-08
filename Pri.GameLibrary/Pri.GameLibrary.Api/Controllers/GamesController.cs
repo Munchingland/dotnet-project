@@ -167,7 +167,7 @@ namespace Pri.GameLibrary.Api.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([FromForm]GamesCreateDto gamesCreateDto)
+        public async Task<IActionResult> Create(GamesCreateDto gamesCreateDto)
         {
             var result = await _gameService.CreateAsync(gamesCreateDto.Name, gamesCreateDto.DeveloperId, gamesCreateDto.PlatformIds, gamesCreateDto.ReleaseDate);
             if (!result.IsSuccess)
@@ -183,7 +183,7 @@ namespace Pri.GameLibrary.Api.Controllers
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Update([FromForm]GamesUpdateDto gamesUpdateDto)
+        public async Task<IActionResult> Update(GamesUpdateDto gamesUpdateDto)
         {
             if(!await _gameService.ExistsAsync(gamesUpdateDto.Id))
             {

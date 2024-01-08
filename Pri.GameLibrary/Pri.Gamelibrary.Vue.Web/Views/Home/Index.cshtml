@@ -2,21 +2,48 @@
 <div id="games">
     <div class="row">
         <div class="col col-lg-2 mx-auto">
-            <button v-on:click="showGames" class="btn btn-outline-info">Games</button>
+            <button v-on:click="showCreateModal" class="btn btn-outline-info">Add Game</button>
+            <span class="sr-only">{{errorMessage}}</span>
         </div>
     </div>
-    <partial name="_GamesList"/>
-    <partial name="_ReviewsList"/>
-
-    <div v-if="hasError" class="d-flex justify-content-center">
-        <span class="sr-only">ERROR</span>
-    </div>
+    <partial name="_GamesList" />
+    <partial name="_ReviewsList" />
 
     <div v-if="loading" class="d-flex justify-content-center">
         <div class="spinner-border" role="status">
             <span class="sr-only"></span>
         </div>
     </div>
+
+
+    <div class="modal fade" id="createGameModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Create new game</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" v-on:click="cancelGameAction" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label>Game name:</label>
+                    <input class="form-control" placeholder="Game name here" v-model="newGameModel.name" />
+                    <label>Developer:</label>
+                    <select v-model="newGameModel.developerId" class="form-select">
+                        <option v-for="developer in developers" v-bind:value="developer.id">{{developer.name}}</option>
+                    </select>
+                    <label>Platforms</label>
+                    <select multiple v-model="newGameModel.platformIds" class="form-select">
+                        <option v-for="platform in platforms" v-bind:value="platform.id">{{platform.name}}</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="cancelGameAction">Cancel</button>
+                    <button type="button" class="btn btn-primary" v-on:click="createGame" >Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 
 
