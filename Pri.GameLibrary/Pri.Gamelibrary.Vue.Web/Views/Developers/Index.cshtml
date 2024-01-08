@@ -2,8 +2,8 @@
 <div id="developer">
     <div class="row">
         <div class="col col-lg-2 mx-auto">
-            <button v-on:click="showDevelopers" class="btn btn-outline-info">Developers</button>
-            <a v-on:click="showCreateModal" data-bs-target="#createDeveloperModal" class="btn btn-primary">Create Developer</a>
+            <a v-on:click="showCreateModal" data-bs-target="#createDeveloperModal" v-if="isAdmin" class="btn btn-primary">Create Developer</a>
+            <a v-on:click="showDevelopers" class="btn btn-outline-info">Show all developers</a>
             <p v-if="hasError">{{errorMessage}}</p>
         </div>
     </div>
@@ -18,8 +18,8 @@
                         <h6 class="card-subtitle mb-2">Created {{developer.amountOfGames}} game(s)</h6>
                         <div class="card-footer text-center">
                             <a v-on:click="showGamesByDeveloper(developer)" href="#" class="btn btn-primary">Show games made by them</a>
-                            <a v-on:click="showUpdateModal(developer)" data-bs-target="#updateDeveloperConfirmModal" href="#" class="btn btn-danger">Update</a>
-                            <a v-on:click="showDeleteModal(developer)" data-bs-target="#deleteDeveloperConfirmModal" href="#" class="btn btn-danger">Delete</a>
+                            <a v-on:click="showUpdateModal(developer)" v-if="isAdmin" href="#" class="btn btn-secondary">Update</a>
+                            <a v-on:click="showDeleteModal(developer)" v-if="isAdmin" href="#" class="btn btn-danger">Delete</a>
                         </div>
                     </div>
                 </div>
