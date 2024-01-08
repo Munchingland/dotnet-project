@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using static Pri.GameLibrary.Api.DTOs.Request.DevelopersCreateDto;
 
 namespace Pri.GameLibrary.Api.DTOs.Account
 {
@@ -13,18 +14,9 @@ namespace Pri.GameLibrary.Api.DTOs.Account
         [Required]
         public string UserName { get; set; }
 
-        [MyDate(ErrorMessage ="Invalid date")]
+        [Required(ErrorMessage = "Please select a date")]
+        [DateValid(ErrorMessage = "Date must be in the past")]
         public DateTime BirthDay { get; set; }
         public bool HasApprovedTermsAndConditions { get; set; }
-    }
-
-    public class MyDateAttribute : ValidationAttribute
-    {
-        public override bool IsValid(object value)
-        {
-            DateTime d = Convert.ToDateTime(value);
-            return d >= DateTime.Now;
-
-        }
     }
 }

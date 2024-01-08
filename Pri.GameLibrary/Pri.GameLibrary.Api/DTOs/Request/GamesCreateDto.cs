@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using static Pri.GameLibrary.Api.DTOs.Request.DevelopersCreateDto;
 
 namespace Pri.GameLibrary.Api.DTOs.Request
 {
@@ -10,6 +11,9 @@ namespace Pri.GameLibrary.Api.DTOs.Request
         public int DeveloperId { get; set; }
         [Required(ErrorMessage ="Must have a platform")]
         public IEnumerable<int> PlatformIds { get; set; }
+
+        [Required(ErrorMessage = "Please select a date")]
+        [DateValid(ErrorMessage = "Date must be in the past")]
         public DateTime ReleaseDate { get; set; }
     }
 }
