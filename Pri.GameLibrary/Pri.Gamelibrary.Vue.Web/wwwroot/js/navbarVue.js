@@ -42,7 +42,9 @@
                 .finally(() => {
                     this.loginModel.email = "";
                     this.loginModel.password = ""
+                    window.location.reload();
                 });
+            
         },
 
         submitLogout: function () {
