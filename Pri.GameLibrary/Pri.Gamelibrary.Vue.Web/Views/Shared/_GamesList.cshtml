@@ -9,9 +9,6 @@
                     <h6 class="card-subtitle mb-2">{{game.developer.name}}</h6>
                     <h6 class="card-subtitle mb-2" v-if="game.amountOfReviews != 0">Average score : {{game.averageReview}} <span class="card-text text-muted">({{game.amountOfReviews}})</span> </h6>
                     <span v-for="platform in game.platforms" class="card-text text-muted">|{{platform.name}}|</span>
-                    <div class="card-footer text-center">
-                        <a v-on:click="showReviews(game)" v-if="game.amountOfReviews != 0" href="#" class="btn btn-primary">See all reviews</a>
-                    </div>
                 </div>
             </div>
         </div>
