@@ -2,11 +2,32 @@
 <div id="games">
     <div class="row">
         <div class="col col-lg-2 mx-auto">
-            <button v-on:click="showCreateModal" class="btn btn-outline-info">Add Game</button>
+            <button v-on:click="showCreateModal" class="btn btn-primary" v-if="isAdmin">Add Game</button>
+            <a v-on:click="showGames" class="btn btn-outline-info">Show all games</a>
             <span class="sr-only">{{errorMessage}}</span>
         </div>
     </div>
-    <partial name="_GamesList" />
+    <div v-if="gamesVisible" class="row">
+        <h5>games</h5>
+        <div class="row">
+            <div v-for="game in games" class="col col-lg-4 mb-2 text-center">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{game.name}}</h5>
+                        <h6 class="card-subtitle mb-2">{{game.developer.name}}</h6>
+                        <h6 class="card-subtitle mb-2" v-if="game.amountOfReviews != 0">Average score : {{game.averageReview}} <span class="card-text text-muted">({{game.amountOfReviews}})</span> </h6>
+                        <span v-for="platform in game.platforms" class="card-text text-muted">|{{platform.name}}|</span>
+                        <div class="card-footer text-center">
+                            <a v-on:click="showReviews(game)" v-if="gamePage && game.amountOfReviews != 0" href="#" class="btn btn-primary">See all reviews</a>
+                            <a v-on:click="showUpdateModal(game)" v-if="isAdmin" data-bs-target="#updateGameConfirmModal" href="#" class="btn btn-secondary">Update</a>
+                            <a v-on:click="showDeleteModal(game)" v-if="gamePage&&isAdmin" class="btn btn-danger">Delete game</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <partial name="_ReviewsList" />
 
     <div v-if="loading" class="d-flex justify-content-center">
@@ -37,12 +58,57 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="cancelGameAction">Cancel</button>
-                    <button type="button" class="btn btn-primary" v-on:click="createGame" >Save</button>
+                    <button type="button" class="btn btn-primary" v-on:click="createGame">Save</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="modal fade" id="updateGameModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Update {{selectedGame.name}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" v-on:click="cancelGameAction" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label>Game name:</label>
+                    <input class="form-control" placeholder="Game name here" v-model="updateGameModel.name" />
+                    <label>Developer:</label>
+                    <select v-model="updateGameModel.developerId" class="form-select">
+                        <option v-for="developer in developers" v-bind:value="developer.id">{{developer.name}}</option>
+                    </select>
+                    <label>Platforms</label>
+                    <select multiple v-model="updateGameModel.platformIds" class="form-select">
+                        <option v-for="platform in platforms" v-bind:value="platform.id">{{platform.name}}</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="cancelGameAction">Cancel</button>
+                    <button type="button" class="btn btn-primary" v-on:click="updateGame">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="deleteGameConfirmModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Delete {{selectedGame.name}}?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you wish to delete {{selectedGame.name}} ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" v-on:click="deleteGame(selectedGame.id)">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 
