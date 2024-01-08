@@ -4,6 +4,7 @@
         <div class="col col-lg-2 mx-auto">
             <button v-on:click="showDevelopers" class="btn btn-outline-info">Developers</button>
             <a v-on:click="showCreateModal" data-bs-target="#createDeveloperModal" class="btn btn-primary">Create Developer</a>
+            <p v-if="hasError">{{errorMessage}}</p>
         </div>
     </div>
     <div v-if="developersVisible" class="row">
@@ -13,12 +14,12 @@
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">{{developer.name}}</h5>
-                        <h6 class="card-subtitle mb-2">founded : {{developer.founded}}</h6>
+                        <h6 class="card-subtitle mb-2">Founded : {{developer.founded}}</h6>
                         <h6 class="card-subtitle mb-2">Created {{developer.amountOfGames}} game(s)</h6>
                         <div class="card-footer text-center">
-                            <a v-on:click="showGamesByDeveloper(developer)" href="#" class="btn btn-primary">Info</a>
-
-                            <a v-on:click="showDeleteModal(developer)" data-bs-target="#deleteDeveloperConfirmModal"  href="#" class="btn btn-danger">Delete</a>
+                            <a v-on:click="showGamesByDeveloper(developer)" href="#" class="btn btn-primary">Show games made by them</a>
+                            <a v-on:click="showUpdateModal(developer)" data-bs-target="#updateDeveloperConfirmModal" href="#" class="btn btn-danger">Update</a>
+                            <a v-on:click="showDeleteModal(developer)" data-bs-target="#deleteDeveloperConfirmModal" href="#" class="btn btn-danger">Delete</a>
                         </div>
                     </div>
                 </div>
@@ -33,15 +34,38 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="staticBackdropLabel">Create developer</h5>
-                    <button type="button" class="btn-close" v-on:click="cancelDeveloperAction" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" v-on:click="cancelDeveloperAction" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <label>Developer name :</label>
-                    <textarea class="form-control" placeholder="Developer name here" v-model="newDeveloperModel.name"></textarea>
+                    <input class="form-control" placeholder="Developer name here" v-model="newDeveloperModel.name" />
+                    <label>Founding date :</label>
+                    <input type="date" v-model="newDeveloperModel.creationDate" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="cancelDeveloperAction">Cancel</button>
                     <button type="button" class="btn btn-primary" v-on:click="createDeveloper">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateDeveloperModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">update {{selectedDeveloper.name}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" v-on:click="cancelDeveloperAction" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label>Developer name :</label>
+                    <input class="form-control" placeholder="update Developer name here" v-model="updateDeveloperModel.name" />
+                    <label>Founding date :</label>
+                    <input type="date" id="datePicker" v-model="updateDeveloperModel.creationDate" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="cancelDeveloperAction">Cancel</button>
+                    <button type="button" class="btn btn-primary" v-on:click="updateDeveloper">Save</button>
                 </div>
             </div>
         </div>
