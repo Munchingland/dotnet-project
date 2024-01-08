@@ -11,6 +11,10 @@
         gameName: "",
         userId: "",
 
+        gamePage: true,
+
+        isAdmin: false,
+
         developers: [],
         platforms: [],
 
@@ -22,13 +26,13 @@
         },
 
         updateGameModel: {
-            gameId : 0,
+            id : 0,
             name: "",
             developerId: 0,
             platformIds: [],
             releaseDate: new Date(),
         },
-
+        selectedGame: {},
     },
 
     mounted: async function () {
@@ -39,7 +43,7 @@
         showGames: async function () {
             this.loading = true;
             this.reviewsVisible = false;
-
+            this.isAdmin = hasUserAdminRole();
             this.games = await axios.get(`${baseUrl}/games`)
                 .then(response => response.data.items)
                 .catch(error => {
@@ -91,13 +95,68 @@
             this.showGames();
         },
 
+        updateGame: async function () {
+            this.updateGameModel.name.trim();
+            this.loading = true;
+            this.loading = true;
+            await axios.put(`${baseUrl}/games`, this.updateGameModel, axiosConfig)
+                .then(response => response.data)
+                .catch(error => {
+                    this.errorMessage = error.message;
+                    if (error.response.status == 401) {
+                        this.errorMessage = "You do not have the rights to update an item";
+                    }
+                    this.error = true;
+
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
+            $('#updateGameModal').modal('hide');
+            this.resetModels();
+            this.showGames();
+        },
+
         showCreateModal : async function () {
             $('#createGameModal').modal('show');
 
             await this.loadDevelopersAndPlatforms();
         },
+        showUpdateModal: async function (game) {
+            $('#updateGameModal').modal('show');
+            this.selectedGame = game;
+            await this.loadDevelopersAndPlatforms();
+            this.setUpdateModelWithGameInfo(game);
+        },
+        showDeleteModal: function (game) {
+            $('#deleteGameConfirmModal').modal('show');
+            this.selectedGame = game;
 
+        },
 
+        deleteGame: async function (selectedGameId) {
+            this.isLoading = true;
+            await axios.delete(`${baseUrl}/Games/${selectedGameId}`, axiosConfig).catch((e) => {
+                if (e.response.status === 400) {
+                    console.log(e.response.data[0].errorMessage);
+                    this.errorMessage = e.response.data[0].errorMessage;
+                }
+                else {
+                    this.errorMessage = e.message;
+                }
+            });
+            $('#deleteGameConfirmModal').modal('hide');
+            this.selectedGame = {};
+            this.showGames();
+        },
+
+        setUpdateModelWithGameInfo: function (game) {
+            this.updateGameModel.id = game.id;
+            this.updateGameModel.name = game.name;
+            this.updateGameModel.developerId = game.developer.id;
+            this.updateGameModel.platformIds = game.platforms.map(platform=>platform.id);
+            this.updateGameModel.releaseDate = game.releaseDate;
+        },
         loadDevelopersAndPlatforms: async function () {
             this.developers = await axios.get(`${baseUrl}/Developers`)
                 .then(response => response.data.items)
