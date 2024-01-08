@@ -149,13 +149,13 @@
 
             this.newDeveloperModel = {
                 name: "",
-                creationDate: new Date,
+                creationDate: new Date(),
             };
 
             this.updateDeveloperModel = {
                 name: "",
                 id: 0,
-                creationDate: new Date,
+                creationDate: new Date(),
             };
         },
     },

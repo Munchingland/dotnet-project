@@ -11,8 +11,16 @@
         token: null,
         isAdmin: false,
         userName : "",
-        
-       
+
+        registerModel: {
+            email: null,
+            password: null,
+            userName: null,
+            birthday: null,
+            hasApproved: false,
+        },
+
+        registerRequest: false,
         errorMessage: "",
     },
     created: function () {
@@ -46,6 +54,22 @@
                 });
             
         },
+        submitRegister: async function () {
+
+            await axios.post(`${baseUrl}/auth/register`, this.registerModel)
+                .then((response) => {
+                    if (response.data == "User created") {
+                        this.resetRegister();
+                    }
+                })
+                .catch(e => {
+                    if (e.response.status == 400) {
+                        this.errorMessage = "Missing required info";
+                    }
+                })
+
+            
+        },
 
         submitLogout: function () {
             window.sessionStorage.removeItem("token");
@@ -58,6 +82,21 @@
 
         goToHomePage: function () {
             window.location.href = "/";
+        },
+
+        AskForRegister: function () {
+            this.registerRequest = true;
+        },
+
+        resetRegister: function () {
+            this.registerRequest = false;
+            this.registerModel = {
+                email: null,
+                password: null,
+                userName: null,
+                birthday: null,
+                hasApproved: false,
+            };
         }
     }
 });

@@ -37,17 +37,32 @@
                         </li>
                     </ul>
                     <div id="loginForm" class="d-flex flex-column">
-                        <form v-on:submit.prevent="submitLogin" v-if="loggedIn == false" class="d-flex" role="login">
+                        <form v-on:submit.prevent="submitLogin" v-if="loggedIn == false&&registerRequest==false" class="d-flex" role="login">
                             <input v-model="loginModel.email" class="form-control me-2" type="email" placeholder="e-mail" aria-label="E-mail">
                             <input v-model="loginModel.password" class="form-control me-2" type="password" placeholder="password" aria-label="Password">
                             <button v-on:click="submitLogin" class="btn btn-outline-primary" type="submit">Login</button>
+                            <button v-on:click="AskForRegister" class="btn btn-outline-primary" type="submit">Register</button>
                         </form>
-                        <div v-else class="d-inline-flex">
+                        <div v-if="loggedIn" class="d-inline-flex">
                             <div class="me-2">
                                 <p class="d-inline">Welkom {{userName}}</p>
                             </div>
                             <button v-on:click="submitLogout" class="btn btn-danger align-self-center" type="submit">Logout</button>
                         </div>
+                        <form v-on:submit.prevent="submitRegister" v-if="loggedIn == false &&registerRequest">
+                            <label>email</label>
+                            <input v-model="registerModel.email" class="form-control me-2" type="email" placeholder="e-mail" aria-label="E-mail">
+                            <label>password :</label>
+                            <input v-model="registerModel.password" class="form-control me-2" type="password" placeholder="password" aria-label="Password">
+                            <label>username :</label>
+                            <input v-model="registerModel.userName" class="form-control me-2" placeholder="user name" aria-label="E-mail">
+                            <label>birthday :</label>
+                            <input type="date" id="datePicker" v-model="registerModel.creationDate" />
+                            <label>Do you approve of Terms and Conditions ?</label>
+                            <input type="checkbox" v-model="registerModel.hasApproved"/>
+                            <button v-on:click="submitRegister" class="btn btn-outline-primary" type="submit">Submit</button>
+                            <a V-on:click="resetRegister" class="btn btn-outline-primary">Login</a>
+                        </form>
                         <div v-if="error" class="alert alert-danger p-2 my-2">{{errorMessage}}</div>
                     </div>
                 </div>
