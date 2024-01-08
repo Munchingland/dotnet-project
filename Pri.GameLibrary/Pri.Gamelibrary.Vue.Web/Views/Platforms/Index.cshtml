@@ -2,7 +2,9 @@
 <div id="platform">
     <div class="row">
         <div class="col col-lg-2 mx-auto">
-            <button v-on:click="showPlatforms" class="btn btn-outline-info">Show all Platforms</button>
+            <a v-on:click="showCreateModal" v-if="isAdmin" class="btn btn-primary">Add Platform</a>
+            <a v-on:click="showPlatforms" class="btn btn-outline-info">Show all platforms</a>
+
         </div>
     </div>
     <div v-if="platformsVisible" class="row">
@@ -15,7 +17,8 @@
                         <h6 class="card-subtitle mb-2">Has {{platform.amountOfGames}} game(s)</h6>
                         <div class="card-footer text-center">
                             <a v-on:click="showGamesOnPlatform(platform)" href="#" class="btn btn-primary">Show Games</a>
-                            <a v-on:click="deleteProduct(product.id)" class="btn btn-danger">Delete</a>
+                            <a v-on:click="showUpdateModal(platform)" v-if="isAdmin" href="#" class="btn btn-secondary">Update</a>
+                            <a v-on:click="showDeleteModal(platform)" v-if="isAdmin" class="btn btn-danger">Delete Platform</a>
                         </div>
                     </div>
                 </div>
@@ -23,7 +26,7 @@
         </div>
     </div>
 
-    <partial name="_GamesList"/>
+    <partial name="_GamesList" />
 
     <div v-if="hasError" class="d-flex justify-content-center">
         <span class="sr-only">ERROR</span>
@@ -34,6 +37,62 @@
             <span class="sr-only"></span>
         </div>
     </div>
+    <div class="modal fade" id="createPlatformModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Create Platform</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" v-on:click="cancelPlatformAction" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label>Platform name :</label>
+                    <input class="form-control" placeholder="Platform name here" v-model="newPlatformModel.name" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="cancelPlatformAction">Cancel</button>
+                    <button type="button" class="btn btn-primary" v-on:click="createPlatform">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="updatePlatformModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">update {{selectedPlatform.name}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" v-on:click="cancelPlatformAction" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label>Platform name :</label>
+                    <input class="form-control" placeholder="Platform name here" v-model="updatePlatformModel.name" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="cancelPlatformAction">Cancel</button>
+                    <button type="button" class="btn btn-primary" v-on:click="updatePlatform">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deletePlatformConfirmModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Delete {{selectedPlatform.name}}?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you wish to delete {{selectedPlatform.name}} ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" v-on:click="deletePlatform(selectedPlatform.id)">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 
 
