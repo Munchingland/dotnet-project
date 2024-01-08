@@ -4,8 +4,6 @@
 const roleClaimTypeKey = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
 const userIdClaimTypeKey = "http://schemas.microsoft.com/ws/2008/06/identity/claims/primarysid";
 const nameClaimTypeKey = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
-const dateOfBirthClaimTypeKey = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/dateofbirth";
-const emailClaimTypeKey = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";
 
 //Values of ClaimTypes
 const adminRoleClaimTypeValue = "Admin";
@@ -38,10 +36,6 @@ function readUserIdFromToken() {
     return id;
 }
 
-function readUserBirthDayFromToken() {
-    const decodedToken = getDecodedToken();
-    return decodedToken[dateOfBirthClaimTypeKey];
-}
 
 function readUserRoleFromToken() {
     const decodedToken = getDecodedToken();

@@ -20,8 +20,10 @@
             id: 0,
             creationDate: new Date(),
         },
-
+        gamePage : false,
         selectedDeveloper: {},
+
+        isAdmin : false,
 
     },
     mounted: async function () {
@@ -30,6 +32,7 @@
 
     methods: {
         showDevelopers: async function () {
+            this.isAdmin = hasUserAdminRole();
             this.loading = true;
             this.gamesVisible = false;
             this.developers = await axios.get(`${baseUrl}/Developers`)
@@ -63,9 +66,6 @@
             this.newDeveloperModel.name.trim();
             this.loading = true;
             await axios.post(`${baseUrl}/Developers`, this.newDeveloperModel, axiosConfig)
-                .then((response) => {
-                    this.developers.push(response.data);
-                })
                 .catch(e => {
                     hasError = true;
                     if (e.response.status === 401) {
@@ -132,6 +132,7 @@
         showCreateModal: function () {
             $('#createDeveloperModal').modal('show');
         },
+
         showUpdateModal: function (developer) {
             $('#updateDeveloperModal').modal('show');
             this.selectedDeveloper = developer;
