@@ -49,6 +49,7 @@
                     <input class="form-control" placeholder="Platform name here" v-model="newPlatformModel.name" />
                 </div>
                 <div class="modal-footer">
+                    <div v-if="hasError">{{errorMessage}}</div>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="cancelPlatformAction">Cancel</button>
                     <button type="button" class="btn btn-primary" v-on:click="createPlatform">Save</button>
                 </div>
@@ -67,6 +68,7 @@
                     <input class="form-control" placeholder="Platform name here" v-model="updatePlatformModel.name" />
                 </div>
                 <div class="modal-footer">
+                    <div v-if="hasError">{{errorMessage}}</div>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="cancelPlatformAction">Cancel</button>
                     <button type="button" class="btn btn-primary" v-on:click="updatePlatform">Save</button>
                 </div>

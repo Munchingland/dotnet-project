@@ -57,6 +57,7 @@
                     </select>
                 </div>
                 <div class="modal-footer">
+                    <div v-if="hasError">{{createGameError}}</div>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="cancelGameAction">Cancel</button>
                     <button type="button" class="btn btn-primary" v-on:click="createGame">Save</button>
                 </div>
@@ -84,6 +85,7 @@
                     </select>
                 </div>
                 <div class="modal-footer">
+                    <div v-if="hasError">{{updateGameError}}</div>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="cancelGameAction">Cancel</button>
                     <button type="button" class="btn btn-primary" v-on:click="updateGame">Save</button>
                 </div>

@@ -43,6 +43,7 @@
                     <input type="date" v-model="newDeveloperModel.creationDate" />
                 </div>
                 <div class="modal-footer">
+                    <div v-if="hasError">{{errorMessage}}</div>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="cancelDeveloperAction">Cancel</button>
                     <button type="button" class="btn btn-primary" v-on:click="createDeveloper">Save</button>
                 </div>
@@ -64,6 +65,7 @@
                     <input type="date" id="datePicker" v-model="updateDeveloperModel.creationDate" />
                 </div>
                 <div class="modal-footer">
+                    <div v-if="hasError">{{errorMessage}}</div>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="cancelDeveloperAction">Cancel</button>
                     <button type="button" class="btn btn-primary" v-on:click="updateDeveloper">Save</button>
                 </div>

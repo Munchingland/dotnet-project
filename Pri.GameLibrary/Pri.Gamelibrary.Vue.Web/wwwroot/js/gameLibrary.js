@@ -195,7 +195,6 @@
             this.isLoading = true;
             await axios.delete(`${baseUrl}/Reviews/${selectedReviewId}`, axiosConfig).catch((e) => {
                 if (e.response.status === 400) {
-                    console.log(e.response.data[0].errorMessage);
                     this.errorMessage = e.response.data[0].errorMessage;
                 }
                 else {

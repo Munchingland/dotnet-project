@@ -33,6 +33,11 @@
             releaseDate: new Date(),
         },
         selectedGame: {},
+
+
+        createGameError: "",
+        updateGameError: "",
+
     },
 
     mounted: async function () {
@@ -76,45 +81,65 @@
 
         createGame: async function () {
             this.newGameModel.name.trim();
+            this.error = false;
             this.loading = true;
             await axios.post(`${baseUrl}/games`, this.newGameModel, axiosConfig)
-                .then(response => response.data)
+                .then(response => {
+                    response.data;
+                    $('#createGameModal').modal('hide');
+                    this.resetModels();
+                    this.showGames();
+                })
                 .catch(error => {
-                    this.errorMessage = error.message;
+                    this.createGameError = "";
                     if (error.response.status == 401) {
                         this.errorMessage = "You do not have the rights to add an item";
+                        $('#createGameModal').modal('hide');
+                        this.resetModels();
                     }
-                    this.error = true;
+                    else {
+                        for (let key in error.response.data.errors) {
+                            this.createGameError += `${error.response.data.errors[key]} \n `
+                        }
+                    }
+                    this.hasError = true;
                     
                 })
                 .finally(() => {
                     this.loading = false;
                 });
-            $('#createGameModal').modal('hide');
-            this.resetModels();
-            this.showGames();
+            
         },
 
         updateGame: async function () {
             this.updateGameModel.name.trim();
-            this.loading = true;
+            this.error = false;
             this.loading = true;
             await axios.put(`${baseUrl}/games`, this.updateGameModel, axiosConfig)
-                .then(response => response.data)
+                .then(response => {
+                    $('#updateGameModal').modal('hide');
+                    this.resetModels();
+                    this.showGames();
+                })
                 .catch(error => {
-                    this.errorMessage = error.message;
+                    this.updateGameError = "";
                     if (error.response.status == 401) {
                         this.errorMessage = "You do not have the rights to update an item";
+                        $('#updateGameModal').modal('hide');
+                        this.resetModels();
                     }
-                    this.error = true;
+                    else {
+                        for (let key in error.response.data.errors) {
+                            this.updateGameError += `${error.response.data.errors[key]} \n `
+                        }
+                    }
+                    this.hasError = true;
 
                 })
                 .finally(() => {
                     this.loading = false;
                 });
-            $('#updateGameModal').modal('hide');
-            this.resetModels();
-            this.showGames();
+            
         },
 
         showCreateModal : async function () {
