@@ -19,12 +19,13 @@
                         <h6 class="card-subtitle mb-2" v-if="userGamesLoaded==false && game.amountOfReviews != 0">Average score : {{game.averageReview}}</h6>
                         <span v-for="platform in game.platforms" class="card-text text-muted">|{{platform.name}}|</span>
                         <div class="card-footer text-center">
+                            <a v-on:click="addToLibrary(game)" v-if="userGamesLoaded== false" class="btn btn-primary">Add to library</a>
                             <a v-on:click="showReviews(game)" v-if="game.amountOfReviews != 0" href="#" class="btn btn-primary">See all reviews</a>
                             <a v-on:click="showCreateModal(game)" data-bs-target="#createReviewModal" v-if="userGamesLoaded && !game.hasReviewed" class="btn btn-primary">Write review</a>
                             <a v-on:click="showUpdateModal(game)" data-bs-target="#updateReviewModal" v-if="userGamesLoaded && game.hasReviewed" class="btn btn-primary">Update review</a>
                             <a v-on:click="showDeleteModal(game)" data-bs-target="#deleteReviewConfirmModal" v-if="userGamesLoaded && game.hasReviewed" class="btn btn-danger">Delete review</a>
                             <a v-on:click="removeFromLibrary(game)" v-if="userGamesLoaded" class="btn btn-outline-danger">Remove from library</a>
-                            <a v-on:click="addToLibrary(game)" v-if="userGamesLoaded== false" class="btn btn-primary">Add to library</a>
+
                         </div>
                     </div>
                 </div>
@@ -50,6 +51,7 @@
                     <textarea class="form-control" placeholder="Write review here" v-model="newReviewModel.description"></textarea>
                 </div>
                 <div class="modal-footer">
+                    <div v-if="hasError">{{errorMessage}}</div>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="cancelReviewAction">Cancel</button>
                     <button type="button" class="btn btn-primary" v-on:click="createReview">Save</button>
                 </div>
@@ -73,6 +75,7 @@
                     <textarea class="form-control" placeholder="Write review here" v-model="updateReviewModel.description"></textarea>
                 </div>
                 <div class="modal-footer">
+                    <div v-if="hasError">{{errorMessage}}</div>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="cancelReviewAction">Cancel</button>
                     <button type="button" class="btn btn-primary" v-on:click="updateReview">Save</button>
                 </div>

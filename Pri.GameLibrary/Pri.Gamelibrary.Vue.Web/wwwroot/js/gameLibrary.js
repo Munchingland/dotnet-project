@@ -140,11 +140,14 @@
         updateReview: async function () {
             this.updateReviewModel.description.trim();
             this.loading = true;
+            this.resetError();
             await axios.put(`${baseUrl}/Reviews`, this.updateReviewModel, axiosConfig)
                 .then(response => response.data)
                 .catch(error => {
                     this.error = true;
-                    this.errorMessage = error.message;
+                    for (let key in e.response.data.errors) {
+                        this.errorMessage += `${e.response.data.errors[key]} \n `
+                    }
                 })
                 .finally(() => {
                     this.loading = false;
@@ -158,12 +161,15 @@
         createReview: async function () {
             this.newReviewModel.description.trim();
             this.fillReviewModelWithUserId();
+            this.resetError();
             this.loading = true;
             await axios.post(`${baseUrl}/Reviews`, this.newReviewModel, axiosConfig)
                 .then(response => response.data)
                 .catch(error => {
                     this.error = true;
-                    this.errorMessage = error.message;
+                    for (let key in e.response.data.errors) {
+                        this.errorMessage += `${e.response.data.errors[key]} \n `
+                    }
                 })
                 .finally(() => {
                     this.loading = false;
@@ -243,6 +249,7 @@
         },
 
         cancelReviewAction: function () {
+            this.resetError();
             this.resetReviewModels();
         },
 
@@ -262,7 +269,11 @@
 
         fillReviewModelWithUserId: function () {
             this.newReviewModel.userId = this.userId;
-        }
+        },
+        resetError: function () {
+            this.errorMessage = "";
+            this.hasError = false;
+        },
 
     },
 });

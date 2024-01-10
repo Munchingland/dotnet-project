@@ -180,7 +180,6 @@
             this.updateGameModel.name = game.name;
             this.updateGameModel.developerId = game.developer.id;
             this.updateGameModel.platformIds = game.platforms.map(platform=>platform.id);
-            this.updateGameModel.releaseDate = game.releaseDate;
         },
         loadDevelopersAndPlatforms: async function () {
             this.developers = await axios.get(`${baseUrl}/Developers`)
