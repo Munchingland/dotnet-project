@@ -7,7 +7,7 @@
             email: null,
             password: null,
         },
-        error: false,
+        hasError: false,
         token: null,
         isAdmin: false,
         userName : "",
@@ -23,7 +23,6 @@
         registerError: false,
         registerErrorInfo: "",
 
-        registerRequest: false,
         errorMessage: "",
     },
     created: function () {
@@ -45,20 +44,18 @@
                     this.userName = readUserNameFromToken();
                     this.isAdmin = hasUserAdminRole();
                     this.errorMessage = null;
+                    this.loginModel.email = "";
+                    this.loginModel.password = ""
+                    window.location.reload();
                 }).
                 catch((e) => {
                     this.errorMessage = "Login failed!";
                     this.loggedIn = false;
+                    this.hasError = true;
                 })
-                .finally(() => {
-                    this.loginModel.email = "";
-                    this.loginModel.password = ""
-                    window.location.reload();
-                });
             
         },
         submitRegister: async function () {
-
             await axios.post(`${baseUrl}/auth/register`, this.registerModel)
                 .then((response) => {
                     if (response.data == "User created") {
@@ -69,7 +66,6 @@
                 })
                 .catch(e => {
                     if (e.response.status == 400) {
-                        console.log(e);
                         this.registerErrorInfo = "";
                         for (let key in e.response.data.errors) {
                             this.registerErrorInfo += `${e.response.data.errors[key]} \n `
@@ -99,7 +95,6 @@
             this.resetRegister();
         },
         resetRegister: function () {
-            this.registerRequest = false;
             this.registerModel = {
                 email: null,
                 password: null,
