@@ -85,11 +85,14 @@
             await axios.post(`${baseUrl}/Platforms`, this.newPlatformModel, axiosConfig)
                 .catch(e => {
                     hasError = true;
+                    console.log(e);
                     if (e.response.status === 401) {
                         this.errorMessage = "Does not posses the required rights to perform this action";
                     }
                     else if (e.response.status == 400) {
-                        this.errorMessage = e.response.data[0].errorMessage;
+                        this.errorMessage = e.response.data.errors;
+                        console.log(this.errorMessage);
+                        
                     }
                     else {
                         this.errorMessage = e.message;

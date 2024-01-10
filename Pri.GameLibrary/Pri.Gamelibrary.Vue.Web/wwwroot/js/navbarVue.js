@@ -16,9 +16,12 @@
             email: null,
             password: null,
             userName: null,
-            birthday: null,
+            birthday: '',
             hasApproved: false,
         },
+
+        registerError: false,
+        registerErrorInfo: "",
 
         registerRequest: false,
         errorMessage: "",
@@ -60,15 +63,20 @@
                 .then((response) => {
                     if (response.data == "User created") {
                         this.resetRegister();
+                        $('#registerModal').modal('hide');
                     }
+
                 })
                 .catch(e => {
                     if (e.response.status == 400) {
-                        this.errorMessage = "Missing required info";
+                        console.log(e);
+                        this.registerErrorInfo = "";
+                        for (let key in e.response.data.errors) {
+                            this.registerErrorInfo += `${e.response.data.errors[key]} \n `
+                        }
+                        this.registerError = true; 
                     }
                 })
-
-            
         },
 
         submitLogout: function () {
@@ -85,16 +93,18 @@
         },
 
         AskForRegister: function () {
-            this.registerRequest = true;
+            $('#registerModal').modal('show');
         },
-
+        cancelAction: function () {
+            this.resetRegister();
+        },
         resetRegister: function () {
             this.registerRequest = false;
             this.registerModel = {
                 email: null,
                 password: null,
                 userName: null,
-                birthday: null,
+                birthday: '',
                 hasApproved: false,
             };
         }

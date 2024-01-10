@@ -5,13 +5,13 @@ namespace Pri.GameLibrary.Api.DTOs.Account
 {
     public class RegisterRequestDto
     {
-        [Required]
+        [Required(ErrorMessage = "Email is required")]
         [EmailAddress]
         public string Email { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        [Required]
+        [Required(ErrorMessage ="Username is required")]
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "Please select a date")]
