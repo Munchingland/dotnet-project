@@ -123,7 +123,6 @@ namespace Pri.GameLibrary.Api
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseAuthorization();
-            
 
             app.MapControllers();
 
